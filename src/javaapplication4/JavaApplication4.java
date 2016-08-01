@@ -18,7 +18,7 @@ import sun.rmi.transport.Transport;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.mail.*;
+import javax.mail.Message;
 import javax.mail.internet.*;
 import javax.activation.*;
 
@@ -49,7 +49,7 @@ public class JavaApplication4 {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(isValidEmailAddress(txt.getText())){
-                    sendCatalog();
+                    //sendCatalog();
                     JOptionPane.showMessageDialog(frm, "catalog sent");
                 }
                 else{
@@ -68,64 +68,53 @@ public class JavaApplication4 {
            return m.matches();
     }
      
-//    public static void sendCatalog() {
-//        //////////////////////////////////////////////////
-//        // Recipient's email ID needs to be mentioned.
-//      String to = "abcd@gmail.com";
-//
-//      // Sender's email ID needs to be mentioned
-//      String from = "web@gmail.com";
-//
-//      // Assuming you are sending email from localhost
-//      String host = "localhost";
-//
-//      // Get system properties
-//      Properties properties = System.getProperties();
-//
-//      // Setup mail server
-//      properties.setProperty("mail.smtp.host", host);
-//
-//      // Get the default Session object.
-//      Session session = Session.getDefaultInstance(properties);
-//
-//      try{
-//         // Create a default MimeMessage object.
-//         MimeMessage message = new MimeMessage(session);
-//
-//          try {
-//              message.setFrom(new InternetAddress(from));
-//          } catch (AddressException ex) {
-//              Logger.getLogger(JavaApplication4.class.getName()).log(Level.SEVERE, null, ex);
-//          }
-//
-//         // Set To: header field of the header.
-//         message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-//
-//         // Set Subject: header field
-//         message.setSubject("This is the Subject Line!");
-//
-//         // Now set the actual message
-//         message.setText("This is actual message");
-//
-//         // Send message
-//         Transport.send(message);
-//         System.out.println("Sent message successfully....");
-//      }catch (MessagingException mex) {
-//         mex.printStackTrace();
-//      } catch (MessagingException ex) {
-//            Logger.getLogger(JavaApplication4.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-      ////////////////////////////
- 
- 
-        
-        
-        
-        
-        
-        
-        
-        
+    public static void sendCatalog() {
+        //////////////////////////////////////////////////
+        // Recipient's email ID needs to be mentioned.
+      String to = "abcd@gmail.com";
 
-    }
+      // Sender's email ID needs to be mentioned
+      String from = "web@gmail.com";
+
+      // Assuming you are sending email from localhost
+      String host = "localhost";
+
+      // Get system properties
+      Properties properties = System.getProperties();
+
+      // Setup mail server
+      properties.setProperty("mail.smtp.host", host);
+
+      // Get the default Session object.
+      Session session = Session.getDefaultInstance(properties);
+
+      try{
+         // Create a default MimeMessage object.
+         MimeMessage message = new MimeMessage(session);
+
+          try {
+              message.setFrom(new InternetAddress(from));
+          } catch ( Exception ex) {
+              Logger.getLogger(JavaApplication4.class.getName()).log(Level.SEVERE, null, ex);
+          }
+
+         // Set To: header field of the header.
+         message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+
+         // Set Subject: header field
+         message.setSubject("This is the Subject Line!");
+
+         // Now set the actual message
+         message.setText("This is actual message");
+
+         // Send message
+         Transport.send(message);
+         System.out.println("Sent message successfully....");
+      }catch (MessagingException mex) {
+         mex.printStackTrace();
+      } catch (MessagingException ex) {
+            Logger.getLogger(JavaApplication4.class.getName()).log(Level.SEVERE, null, ex);
+        }
+      ////////////////////////////
+  }
 }
