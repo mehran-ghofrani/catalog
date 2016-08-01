@@ -5,59 +5,109 @@
  */
 package javaapplication4;
 
-import java.awt.Toolkit;
+import Utilities.WordExporter;
+import com.sun.deploy.panel.JavaPanel;
+import db.DBManager;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 
+import static java.awt.GridBagConstraints.BOTH;
+import static java.awt.GridBagConstraints.CENTER;
 
 
 /**
- *
  * @author Mactabi
  */
-public class JavaApplication4 {
+public class JavaApplication4
+{
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        JFrame frm=new JFrame();
-        
+
+    public static void main(String[] args)
+    {
+
+
+        final DBManager dbManager;
+        dbManager = new DBManager();
+        JFrame frm = new JFrame();
         frm.setSize((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight());
+        frm.setLocationRelativeTo(null);
         frm.setUndecorated(true);
-        frm.setVisible(true);
-        frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frm.setLayout(null);
-        JTextField txt=new JTextField();
+        frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JPanel mainPanel = new JPanel();
+        mainPanel.setBackground(Color.WHITE);
+        mainPanel.setSize(frm.getSize());
+        mainPanel.setLocation(0,0);
+
+
+        GridBagLayout layout = new GridBagLayout();
+        mainPanel.setLayout(layout);
+        GridBagConstraints c = new GridBagConstraints();
+
+        c.ipadx = 500;
+        c.ipady = 20;
+        c.insets = new Insets(10,0,0,0);
+        c.weighty = 0;
+        c.weightx = 0;
+        c.gridx = 0;
+        c.gridy = 0;
+
+        JTextField txt = new JTextField();
         txt.setText("d_alihosseiny@yahoo.com");
-        frm.add(txt);
-        txt.setSize(frm.getWidth(), frm.getHeight()/3);
-        KeyBoard kb=new KeyBoard(frm);
-        JButton btn=new JButton("submit");
-        frm.add(btn);
-        btn.setSize(frm.getWidth(), frm.getHeight()/3);
-        btn.setLocation(0, frm.getHeight()/3);
-        btn.addActionListener(new ActionListener() {
+        mainPanel.add(txt, c);
+//        KeyBoard kb = new KeyBoard(frm);
+
+        JButton btn = new JButton("submit");
+        c.ipadx = 100;
+        c.gridx = 0;
+        c.gridy = 1;
+        mainPanel.add(btn, c);
+
+        JButton reportBtn = new JButton("Get report");
+        c.gridx = 0;
+        c.gridy = 2;
+        mainPanel.add(reportBtn, c);
+        btn.addActionListener(new ActionListener()
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                if(EmailSend.isValidEmailAddress(txt.getText())){
-                    EmailSend.send(txt.getText());
+            public void actionPerformed(ActionEvent e)
+            {
+                if (EmailSend.isValidEmailAddress(txt.getText()))
+                {
+                    new Thread(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            dbManager.addEmail(txt.getText());
+                            EmailSend.send(txt.getText());
+                        }
+                    }).start();
                     JOptionPane.showMessageDialog(frm, "catalog sent");
-                }
-                else{
+                } else
+                {
                     JOptionPane.showMessageDialog(frm, "input again");
-                    
+
                 }
-                            
+
 
             }
         });
+        reportBtn.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                WordExporter.exportToWord(dbManager.getEmailEntities());
+            }
+        });
+        frm.add(mainPanel);
+        frm.setVisible(true);
     }
-     
-     
-    
+
+
 }
