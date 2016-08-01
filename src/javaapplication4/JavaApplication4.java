@@ -5,6 +5,7 @@
  */
 package javaapplication4;
 
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -25,8 +26,10 @@ public class JavaApplication4 {
      */
     public static void main(String[] args) {
         JFrame frm=new JFrame();
+        
+        frm.setSize((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight());
+        frm.setUndecorated(true);
         frm.setVisible(true);
-        frm.setSize(700,300);
         frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frm.setLayout(null);
         JTextField txt=new JTextField();

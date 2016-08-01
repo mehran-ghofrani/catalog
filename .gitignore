@@ -8,3 +8,4 @@ out/
 *.mf
 *.docx
 *.pdf
+/dist/
