@@ -26,12 +26,14 @@ public class JavaApplication4 {
     public static void main(String[] args) {
         JFrame frm=new JFrame();
         frm.setVisible(true);
-        frm.setSize(300,100);
+        frm.setSize(700,300);
         frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frm.setLayout(null);
         JTextField txt=new JTextField();
+        txt.setText("d_alihosseiny@yahoo.com");
         frm.add(txt);
         txt.setSize(frm.getWidth(), frm.getHeight()/3);
+        KeyBoard kb=new KeyBoard(frm);
         JButton btn=new JButton("submit");
         frm.add(btn);
         btn.setSize(frm.getWidth(), frm.getHeight()/3);
@@ -40,7 +42,7 @@ public class JavaApplication4 {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(EmailSend.isValidEmailAddress(txt.getText())){
-                    EmailSend.send();
+                    EmailSend.send(txt.getText());
                     JOptionPane.showMessageDialog(frm, "catalog sent");
                 }
                 else{
