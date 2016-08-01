@@ -24,7 +24,7 @@ public class KeyBoard {
     final int keysHeight=60;
     final int keysWidth=50;
     
-    Point currentLocation=new Point(frm.getHeight()-keysHeight,0);
+    Point currentLocation=new Point(0,frm.getHeight()-keysHeight*4);
     String[][] charactericKeys = {
         {"`","1","2","3","4","5","6","7","8","9","0","-","=","\\"},
         {"Q","W","E","R","T","Y","U","I","O","P","[","]"},
