@@ -26,9 +26,10 @@ public class JavaApplication4 {
      */
     public static void main(String[] args) {
         JFrame frm=new JFrame();
-        frm.setVisible(true);
+        
         frm.setSize((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight());
-        frm.setUndecorated(true);   
+        frm.setUndecorated(true);
+        frm.setVisible(true);
         frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frm.setLayout(null);
         JTextField txt=new JTextField();
