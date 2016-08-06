@@ -129,7 +129,6 @@ public class JavaApplication4
         emailInputField = new TouchJTextField(this);
         ghostText = new GhostText(emailInputField, "example@host.com");
         mainPanel.add(emailInputField, c);
-//        KeyBoard kb = new KeyBoard(frm);
 
 
         submitBtn = new JButton("ارسال");
@@ -211,6 +210,12 @@ public class JavaApplication4
 
             }
         });
+
+        KeyBoard kb = new KeyBoard(keyboardPanel.getSize(), emailInputField);
+        kb.setLocation(0, 0);
+        keyboardPanel.setLayout(null);
+        keyboardPanel.add(kb);
+
         lp.add(mainPanel, new Integer(1));
         lp.add(keyboardPanel, new Integer(2));
         frm.setVisible(true);
