@@ -1,28 +1,24 @@
 package javaapplication4;
 
-import java.awt.Color;
-import java.awt.Dimension;
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-
-public class GhostText implements FocusListener, DocumentListener, PropertyChangeListener {
+public class GhostText implements FocusListener, DocumentListener, PropertyChangeListener
+{
     private final JTextField textfield;
+    private final String ghostText;
     private boolean isEmpty;
     private Color ghostColor;
     private Color foregroundColor;
-    private final String ghostText;
 
-    protected GhostText(final JTextField textfield, String ghostText) {
+    protected GhostText(final JTextField textfield, String ghostText)
+    {
         super();
         this.textfield = textfield;
         this.ghostText = ghostText;
@@ -30,47 +26,58 @@ public class GhostText implements FocusListener, DocumentListener, PropertyChang
         textfield.addFocusListener(this);
         registerListeners();
         updateState();
-        if (!this.textfield.hasFocus()) {
+        if (!this.textfield.hasFocus())
+        {
             focusLost(null);
         }
     }
 
-    public void delete() {
+    public void delete()
+    {
         unregisterListeners();
         textfield.removeFocusListener(this);
     }
 
-    private void registerListeners() {
+    private void registerListeners()
+    {
         textfield.getDocument().addDocumentListener(this);
         textfield.addPropertyChangeListener("foreground", this);
     }
 
-    private void unregisterListeners() {
+    private void unregisterListeners()
+    {
         textfield.getDocument().removeDocumentListener(this);
         textfield.removePropertyChangeListener("foreground", this);
     }
 
-    public Color getGhostColor() {
+    public Color getGhostColor()
+    {
         return ghostColor;
     }
 
-    public void setGhostColor(Color ghostColor) {
+    public void setGhostColor(Color ghostColor)
+    {
         this.ghostColor = ghostColor;
     }
 
-    private void updateState() {
+    private void updateState()
+    {
         isEmpty = textfield.getText().length() == 0;
         foregroundColor = textfield.getForeground();
     }
 
     @Override
-    public void focusGained(FocusEvent e) {
-        if (isEmpty) {
+    public void focusGained(FocusEvent e)
+    {
+        if (isEmpty)
+        {
             unregisterListeners();
-            try {
+            try
+            {
                 textfield.setText("");
                 textfield.setForeground(foregroundColor);
-            } finally {
+            } finally
+            {
                 registerListeners();
             }
         }
@@ -78,35 +85,43 @@ public class GhostText implements FocusListener, DocumentListener, PropertyChang
     }
 
     @Override
-    public void focusLost(FocusEvent e) {
-        if (isEmpty) {
+    public void focusLost(FocusEvent e)
+    {
+        if (isEmpty)
+        {
             unregisterListeners();
-            try {
+            try
+            {
                 textfield.setText(ghostText);
                 textfield.setForeground(ghostColor);
-            } finally {
+            } finally
+            {
                 registerListeners();
             }
         }
     }
 
     @Override
-    public void propertyChange(PropertyChangeEvent evt) {
+    public void propertyChange(PropertyChangeEvent evt)
+    {
         updateState();
     }
 
     @Override
-    public void changedUpdate(DocumentEvent e) {
+    public void changedUpdate(DocumentEvent e)
+    {
         updateState();
     }
 
     @Override
-    public void insertUpdate(DocumentEvent e) {
+    public void insertUpdate(DocumentEvent e)
+    {
         updateState();
     }
 
     @Override
-    public void removeUpdate(DocumentEvent e) {
+    public void removeUpdate(DocumentEvent e)
+    {
         updateState();
     }
 

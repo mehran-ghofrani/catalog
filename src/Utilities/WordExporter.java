@@ -19,7 +19,7 @@ public class WordExporter
     public static void exportToWord(List emails)
     {
         //Blank Document
-        XWPFDocument document= new XWPFDocument();
+        XWPFDocument document = new XWPFDocument();
         //Write the Document in file system
         FileOutputStream out = null;
         try

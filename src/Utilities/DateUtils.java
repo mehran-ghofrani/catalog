@@ -1,6 +1,5 @@
 package Utilities;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -18,7 +17,7 @@ public class DateUtils
 
     public static Timestamp getCurrentDate()
     {
-        java.util.Date date= new java.util.Date();
+        java.util.Date date = new java.util.Date();
         return new Timestamp(date.getTime());
     }
 }

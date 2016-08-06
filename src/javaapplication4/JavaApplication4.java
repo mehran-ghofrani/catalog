@@ -31,10 +31,47 @@ public class JavaApplication4
 
     private JPanel keyboardPanel;
     private JPanel mainPanel;
+    private boolean listenToKeyboardShow;
 
     public JavaApplication4()
     {
+        listenToKeyboardShow = true;
         initComponents();
+    }
+
+    public static void main(String[] args)
+    {
+
+        JavaApplication4 javaApplication4 = new JavaApplication4();
+    }
+
+    private static void listLookAndFeels()
+    {
+        UIManager.LookAndFeelInfo[] plafs = UIManager.getInstalledLookAndFeels();
+        for (UIManager.LookAndFeelInfo info : plafs)
+        {
+            System.out.println(info.getClassName());
+        }
+    }
+
+    private static void initializeLayout(JPanel layout)
+    {
+        GridBagConstraints c = new GridBagConstraints();
+        c.gridy = 0;
+        for (int i = 0; i < 4; i++)
+        {
+            c.gridx = i;
+            JLabel temp = new JLabel("");
+            layout.add(temp, c);
+        }
+
+        c.gridx = 0;
+        for (int i = 0; i < 3; i++)
+        {
+            c.gridy = i;
+            JLabel temp = new JLabel("");
+            layout.add(temp, c);
+        }
     }
 
     private void initComponents()
@@ -85,8 +122,8 @@ public class JavaApplication4
         mainPanel.setLocation(0, 0);
 
         keyboardPanel = new JPanel();
-        keyboardPanel.setSize(mainPanel.getWidth(), mainPanel.getHeight() / 2);
-        keyboardPanel.setLocation(0, mainPanel.getHeight() / 2);
+        keyboardPanel.setSize(mainPanel.getWidth(), mainPanel.getHeight() / 3);
+        keyboardPanel.setLocation(0, 2 * mainPanel.getHeight() / 3);
         keyboardPanel.setBackground(Color.BLUE);
         keyboardPanel.setVisible(false);
 
@@ -96,7 +133,7 @@ public class JavaApplication4
         initializeLayout(mainPanel);
         GridBagConstraints c = new GridBagConstraints();
         Font headingFont = new Font("B Nazanin", Font.CENTER_BASELINE, 20);
-        Font bodyFont = headingFont.deriveFont(14.0f);
+        Font bodyFont = headingFont.deriveFont(18.0f);
 
         c.ipady = 20;
         c.insets = new Insets(10, 0, 30, 0);
@@ -147,7 +184,7 @@ public class JavaApplication4
         c.gridy = 3;
         c.gridwidth = 1;
         statusLabel = new JLabel(" ");
-        statusLabel.setFont(bodyFont.deriveFont(18.0f));
+        statusLabel.setFont(bodyFont);
         mainPanel.add(statusLabel, c);
 
         submitBtn.addActionListener(new ActionListener()
@@ -211,7 +248,7 @@ public class JavaApplication4
             }
         });
 
-        KeyBoard kb = new KeyBoard(keyboardPanel.getSize(), emailInputField);
+        KeyBoard kb = new KeyBoard(this, keyboardPanel.getSize(), emailInputField);
         kb.setLocation(0, 0);
         keyboardPanel.setLayout(null);
         keyboardPanel.add(kb);
@@ -220,12 +257,6 @@ public class JavaApplication4
         lp.add(keyboardPanel, new Integer(2));
         frm.setVisible(true);
         submitBtn.requestFocus();
-    }
-
-    public static void main(String[] args)
-    {
-
-        JavaApplication4 javaApplication4 = new JavaApplication4();
     }
 
     private void resetStatusLabel()
@@ -241,55 +272,41 @@ public class JavaApplication4
         submitBtn.setVisible(b);
     }
 
-    private static void listLookAndFeels()
-    {
-        UIManager.LookAndFeelInfo[] plafs = UIManager.getInstalledLookAndFeels();
-        for (UIManager.LookAndFeelInfo info : plafs)
-        {
-            System.out.println(info.getClassName());
-        }
-    }
-
-    private static void initializeLayout(JPanel layout)
-    {
-        GridBagConstraints c = new GridBagConstraints();
-        c.gridy = 0;
-        for (int i = 0; i < 4; i++)
-        {
-            c.gridx = i;
-            JLabel temp = new JLabel("");
-            layout.add(temp, c);
-        }
-
-        c.gridx = 0;
-        for (int i = 0; i < 3; i++)
-        {
-            c.gridy = i;
-            JLabel temp = new JLabel("");
-            layout.add(temp, c);
-        }
-    }
-
-
     public void showKeyBoard()
     {
-        keyboardPanel.setVisible(true);
-        int freeSpace = (mainPanel.getHeight() - keyboardPanel.getHeight());
-        int offset = freeSpace / 2 - emailInputField.getY();
-        System.out.println("offset: " + offset);
-        if (offset > 0)
+        if (listenToKeyboardShow)
         {
-            mainPanel.setLocation(0, 0);
-        } else if (abs(offset) + freeSpace > mainPanel.getHeight())
-        {
-            mainPanel.setLocation(0, freeSpace - mainPanel.getHeight());
-        } else
-            mainPanel.setLocation(0, offset);
+            keyboardPanel.setVisible(true);
+            int freeSpace = (mainPanel.getHeight() - keyboardPanel.getHeight());
+            int offset = freeSpace / 2 - emailInputField.getY();
+//            System.out.println("offset: " + offset);
+            if (offset > 0)
+            {
+                mainPanel.setLocation(0, 0);
+            } else if (abs(offset) + freeSpace > mainPanel.getHeight())
+            {
+                mainPanel.setLocation(0, freeSpace - mainPanel.getHeight());
+            } else
+                mainPanel.setLocation(0, offset);
+        }
     }
 
     public void hideKeyBoard()
     {
-        keyboardPanel.setVisible(false);
-        mainPanel.setLocation(0, 0);
+        if (listenToKeyboardShow)
+        {
+            keyboardPanel.setVisible(false);
+            mainPanel.setLocation(0, 0);
+        }
+    }
+
+    public boolean isListenToKeyboardShow()
+    {
+        return listenToKeyboardShow;
+    }
+
+    public void setListenToKeyboardShow(boolean listenToKeyboardShow)
+    {
+        this.listenToKeyboardShow = listenToKeyboardShow;
     }
 }

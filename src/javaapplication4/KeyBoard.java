@@ -19,15 +19,16 @@ import java.util.logging.Logger;
 public class KeyBoard extends JPanel
 {
 
+    JavaApplication4 parent;
 
-    public KeyBoard(Dimension size, final JTextField txt)
+    public KeyBoard(JavaApplication4 javaApplication4, Dimension size, final JTextField txt)
     {
-
+        parent = javaApplication4;
         JPanel frm = this;
         setLayout(null);
         frm.setSize(size);
-        final int keysHeight = (int)size.getHeight();
-        final int keysWidth = (int)size.getWidth();
+        final int keysHeight = (int) size.getHeight() / 4;
+        final int keysWidth = (int) size.getWidth() / 14;
 
 
         Point currentLocation = new Point(0, frm.getHeight() - keysHeight * 5 - 10);
@@ -48,12 +49,17 @@ public class KeyBoard extends JPanel
         JButton backSpace = new JButton("Delete");
         JButton enter = new JButton("Enter");
 
+        shift.setFocusable(false);
+        backSpace.setFocusable(false);
+        enter.setFocusable(false);
+
         for (int i = 0; i <= lowerKeys.length - 1; i++)
         {
-            currentLocation.setLocation(13 * keysWidth + i * keysWidth / 3, currentLocation.getY() + keysHeight);
+            currentLocation.setLocation(i * keysWidth / 3, currentLocation.getY() + keysHeight);
             for (int j = 0; j <= lowerKeys[i].length - 1; j++)
             {
                 MButton btn = btns[i][j] = new MButton(i, j);
+                btn.setFocusable(false);
                 String s = lowerKeys[i][j] + "";
                 btn.setText(s);
                 btn.setSize(keysWidth, keysHeight);
@@ -65,7 +71,10 @@ public class KeyBoard extends JPanel
                     @Override
                     public void actionPerformed(ActionEvent e)
                     {
+                        parent.setListenToKeyboardShow(false);
                         txt.requestFocusInWindow();
+                        parent.setListenToKeyboardShow(true);
+
                         MButton b = ((MButton) e.getSource());
 //                    char a;
 //                    char[] b=new char[1];
@@ -168,7 +177,10 @@ public class KeyBoard extends JPanel
             @Override
             public void actionPerformed(ActionEvent e)
             {
+                parent.setListenToKeyboardShow(false);
                 txt.requestFocusInWindow();
+                parent.setListenToKeyboardShow(true);
+
                 try
                 {
                     Robot robot = new Robot();

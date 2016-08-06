@@ -7,7 +7,6 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import primitives.EmailEntity;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Iterator;
 import java.util.List;
@@ -37,7 +36,7 @@ public class DBManager
     {
 
         List<EmailEntity> searchRes = getEmail(email);
-        if(searchRes.size() != 0)
+        if (searchRes.size() != 0)
         {
             System.out.println("email: " + email + " has been added previously");
             return -1;
