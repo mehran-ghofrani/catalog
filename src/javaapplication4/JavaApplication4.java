@@ -6,7 +6,6 @@
 package javaapplication4;
 
 import Utilities.WordExporter;
-import com.sun.deploy.panel.JavaPanel;
 import db.DBManager;
 
 import javax.swing.*;
@@ -28,9 +27,9 @@ public class JavaApplication4
     public static void main(String[] args)
     {
 
-
-        final DBManager dbManager;
-        dbManager = new DBManager();
+        
+        final DBManager dbManager=null;
+        //dbManager = new DBManager();
         JFrame frm = new JFrame();
         frm.setSize((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight());
         frm.setLocationRelativeTo(null);

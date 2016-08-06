@@ -5,9 +5,11 @@
  */
 package javaapplication4;
 
+import com.sun.glass.ui.Size;
 import java.awt.AWTException;
 import java.awt.AWTKeyStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.Robot;
@@ -19,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
@@ -26,12 +29,13 @@ import javax.swing.KeyStroke;
  *
  * @author Mactabi
  */
-public class KeyBoard {
+public class KeyBoard extends JPanel{
     
     
-    public KeyBoard(JFrame frm,final JTextField txt){
+    public KeyBoard (Dimension size,final JTextField txt){
     
-    
+    JPanel frm=this;
+    frm.setSize(size);
     final int keysHeight=60;
     final int keysWidth=50;
    
@@ -220,3 +224,28 @@ class MButton extends JButton {
     
     
 }
+class bListener implements ActionListener{
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
+    
+    
+}
+
+
+class backSpaceListener implements ActionListener{
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
+    
+    
+}
+
