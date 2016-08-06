@@ -76,8 +76,8 @@ public class JavaApplication4
 
     private void initComponents()
     {
-        final DBManager dbManager = null;
-//        dbManager = new DBManager();
+        final DBManager dbManager;
+        dbManager = new DBManager();
         JFrame frm = new JFrame();
 
 
