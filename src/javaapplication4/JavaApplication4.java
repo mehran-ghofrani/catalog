@@ -8,6 +8,8 @@ package javaapplication4;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -36,7 +38,24 @@ public class JavaApplication4 {
         txt.setText("d_alihosseiny@yahoo.com");
         frm.add(txt);
         txt.setSize(frm.getWidth(), frm.getHeight()/3);
-        KeyBoard kb=new KeyBoard(frm);
+        
+        txt.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                System.out.println(e.getKeyCode());
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                
+            }
+        });
+        KeyBoard kb=new KeyBoard(frm,txt);
         JButton btn=new JButton("submit");
         frm.add(btn);
         btn.setSize(frm.getWidth(), frm.getHeight()/3);
