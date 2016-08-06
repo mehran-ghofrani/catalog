@@ -5,17 +5,16 @@
  */
 package javaapplication4;
 
-import Utilities.WordExporter;
-import com.sun.deploy.panel.JavaPanel;
 import db.DBManager;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
-import static java.awt.GridBagConstraints.BOTH;
-import static java.awt.GridBagConstraints.CENTER;
+import static Utilities.EmailUtils.isValidEmailAddress;
 
 
 /**
@@ -25,6 +24,13 @@ public class JavaApplication4
 {
 
 
+    private static JLabel infoLable;
+    private static JButton submitBtn;
+    private static JLabel statusLabel;
+    private static GhostText ghostText;
+    private static JTextField emailInputField;
+    private static JLabel emailLabel;
+
     public static void main(String[] args)
     {
 
@@ -32,6 +38,34 @@ public class JavaApplication4
         final DBManager dbManager;
         dbManager = new DBManager();
         JFrame frm = new JFrame();
+
+
+        listLookAndFeels();
+        String nameSnippet = "NimbusLookAndFeel".toLowerCase();
+        UIManager.LookAndFeelInfo[] plafs = UIManager.getInstalledLookAndFeels();
+        for (UIManager.LookAndFeelInfo info : plafs) {
+            if (info.getClassName().toLowerCase().contains(nameSnippet)) {
+                try
+                {
+                    UIManager.setLookAndFeel(info.getClassName());
+                } catch (ClassNotFoundException e)
+                {
+                    e.printStackTrace();
+                } catch (InstantiationException e)
+                {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e)
+                {
+                    e.printStackTrace();
+                } catch (UnsupportedLookAndFeelException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+
+
         frm.setSize((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight());
         frm.setLocationRelativeTo(null);
         frm.setUndecorated(true);
@@ -46,67 +80,170 @@ public class JavaApplication4
 
         GridBagLayout layout = new GridBagLayout();
         mainPanel.setLayout(layout);
+        initializeLayout(mainPanel);
         GridBagConstraints c = new GridBagConstraints();
+        Font headingFont = new Font("B Nazanin", Font.CENTER_BASELINE, 20);
+        Font bodyFont = headingFont.deriveFont(14.0f);
 
-        c.ipadx = 500;
+//        c.ipadx = 500;
         c.ipady = 20;
-        c.insets = new Insets(10,0,0,0);
+        c.insets = new Insets(10,0,30,0);
         c.weighty = 0;
         c.weightx = 0;
-        c.gridx = 0;
+        c.gridx = 1;
         c.gridy = 0;
+        c.gridwidth = 1;
+        c.fill = GridBagConstraints.HORIZONTAL;
 
-        JTextField txt = new JTextField();
-        txt.setText("d_alihosseiny@yahoo.com");
-        mainPanel.add(txt, c);
-//        KeyBoard kb = new KeyBoard(frm);
+        String infoMsg = "در صورت تمایل، ایمیل خود را برای دریافت کاتالوگ وارد نمایید";
+        infoLable = new JLabel(infoMsg);
+        infoLable.setFont(headingFont);
+        mainPanel.add(infoLable, c);
 
-        JButton btn = new JButton("submit");
-        c.ipadx = 100;
+        c.insets = new Insets(10,0,0,20);
+        c.ipadx = 0;
+        c.gridx = 2;
+        c.gridy = 1;
+        c.gridwidth = 1;
+        emailLabel = new JLabel("ایمیل:");
+        emailLabel.setFont(bodyFont);
+        mainPanel.add(emailLabel, c);
+
+        c.ipadx = 0;
         c.gridx = 0;
         c.gridy = 1;
-        mainPanel.add(btn, c);
+        c.gridwidth = 2;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        emailInputField = new JTextField();
+        ghostText = new GhostText(emailInputField, "example@host.com");
+        mainPanel.add(emailInputField, c);
+//        KeyBoard kb = new KeyBoard(frm);
 
-        JButton reportBtn = new JButton("Get report");
-        c.gridx = 0;
+
+
+        submitBtn = new JButton("ارسال");
+        submitBtn.setFont(bodyFont);
+        c.ipadx = 100;
+        c.ipady = 0;
+        c.gridx = 1;
         c.gridy = 2;
-        mainPanel.add(reportBtn, c);
-        btn.addActionListener(new ActionListener()
+        c.gridwidth = 1;
+        c.fill = GridBagConstraints.CENTER;
+        mainPanel.add(submitBtn, c);
+
+        c.insets = new Insets(40,0,0,0);
+        c.ipadx = 0;
+        c.gridx = 1;
+        c.gridy = 3;
+        c.gridwidth = 1;
+        statusLabel = new JLabel(" ");
+        statusLabel.setFont(bodyFont.deriveFont(18.0f));
+        mainPanel.add(statusLabel, c);
+
+        submitBtn.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                if (EmailSend.isValidEmailAddress(txt.getText()))
+                if (isValidEmailAddress(ghostText.isEmpty() ? "" : emailInputField.getText()))
                 {
+                    String tempEmail = emailInputField.getText();
                     new Thread(new Runnable()
                     {
                         @Override
                         public void run()
                         {
-                            dbManager.addEmail(txt.getText());
-                            EmailSend.send(txt.getText());
+                            dbManager.addEmail(tempEmail);
+                            EmailSend.send(tempEmail);
                         }
                     }).start();
-                    JOptionPane.showMessageDialog(frm, "catalog sent");
+                    setVisibleAll(false);
+                    statusLabel.setText("<html>کاتالوگ به آدرس " + tempEmail + " <font color='green'>ارسال شد</font></html>");
+                    new Thread(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            try
+                            {
+                                Thread.sleep(7000);
+                            } catch (InterruptedException e1)
+                            {
+                                e1.printStackTrace();
+                            }
+                            resetStatusLabel();
+                            emailInputField.setText("");
+                            setVisibleAll(true);
+                            emailInputField.requestFocus();
+                            submitBtn.requestFocus();
+                        }
+                    }).start();
                 } else
                 {
-                    JOptionPane.showMessageDialog(frm, "input again");
-
+                    statusLabel.setText("<html>ایمیل <font color='red'>اشتباه</font> وارد شده است</html>");
                 }
 
 
             }
         });
-        reportBtn.addActionListener(new ActionListener()
+        emailInputField.addFocusListener(new FocusListener()
         {
             @Override
-            public void actionPerformed(ActionEvent e)
+            public void focusGained(FocusEvent e)
             {
-                WordExporter.exportToWord(dbManager.getEmailEntities());
+                resetStatusLabel();
+            }
+
+            @Override
+            public void focusLost(FocusEvent e)
+            {
+
             }
         });
         frm.add(mainPanel);
         frm.setVisible(true);
+        submitBtn.requestFocus();
+    }
+
+    private static void resetStatusLabel()
+    {
+        statusLabel.setText(" ");
+    }
+
+    private static void setVisibleAll(boolean b)
+    {
+        infoLable.setVisible(b);
+        emailInputField.setVisible(b);
+        emailLabel.setVisible(b);
+        submitBtn.setVisible(b);
+    }
+
+    private static void listLookAndFeels()
+    {
+        UIManager.LookAndFeelInfo[] plafs = UIManager.getInstalledLookAndFeels();
+        for (UIManager.LookAndFeelInfo info : plafs) {
+            System.out.println(info.getClassName());
+        }
+    }
+
+    private static void initializeLayout(JPanel layout)
+    {
+        GridBagConstraints c = new GridBagConstraints();
+        c.gridy = 0;
+        for(int i = 0; i < 4; i++)
+        {
+            c.gridx = i;
+            JLabel temp = new JLabel("");
+            layout.add(temp, c);
+        }
+
+        c.gridx = 0;
+        for(int i = 0; i < 3; i++)
+        {
+            c.gridy = i;
+            JLabel temp = new JLabel("");
+            layout.add(temp, c);
+        }
     }
 
 

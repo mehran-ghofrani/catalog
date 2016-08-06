@@ -22,10 +22,10 @@ public class EmailSend
 {
 
 
-    public static void send(String to)
+    public synchronized static void send(String to)
     {
         //////////////////////////////////////////////////
-
+        System.out.println("sending email to: " + to);
         final String username = "sales@protouch.ir";
         final String password = "salesPROTOUCH1395@@";
 
@@ -91,14 +91,5 @@ public class EmailSend
 
         ////////////////////////////
     }
-
-    public static boolean isValidEmailAddress(String email)
-    {
-        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
-        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
-        java.util.regex.Matcher m = p.matcher(email);
-        return m.matches();
-    }
-
 
 }

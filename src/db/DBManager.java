@@ -33,8 +33,16 @@ public class DBManager
         }
     }
 
-    public Integer addEmail(String email)
+    public synchronized Integer addEmail(String email)
     {
+
+        List<EmailEntity> searchRes = getEmail(email);
+        if(searchRes.size() != 0)
+        {
+            System.out.println("email: " + email + " has been added previously");
+            return -1;
+        }
+
         Session session = factory.openSession();
         Transaction tx = null;
         Integer employeeID = null;
@@ -95,6 +103,27 @@ public class DBManager
         {
             tx = session.beginTransaction();
             emails = session.createQuery("FROM EmailEntity").list();
+            tx.commit();
+        } catch (HibernateException e)
+        {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally
+        {
+            session.close();
+        }
+        return emails;
+    }
+
+    public List getEmail(String email)
+    {
+        List emails = null;
+        Session session = factory.openSession();
+        Transaction tx = null;
+        try
+        {
+            tx = session.beginTransaction();
+            emails = session.createQuery("FROM EmailEntity where address='" + email + "'").list();
             tx.commit();
         } catch (HibernateException e)
         {
