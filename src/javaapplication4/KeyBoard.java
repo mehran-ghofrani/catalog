@@ -97,7 +97,15 @@ public class KeyBoard extends JPanel
         JButton shift = new JButton("Shift");
         JButton backSpace = new JButton("Delete");
         JButton enter = new JButton("Enter");
-
+        JButton dotcom = new JButton(".com");
+        JButton atsign = new JButton("@");
+        enter.setBackground(Color.yellow);
+        shift.setBackground(Color.yellow);
+        backSpace.setBackground(Color.yellow);
+        dotcom.setBackground(Color.green);
+        atsign.setBackground(Color.green);
+        
+        
         shift.setFocusable(false);
         backSpace.setFocusable(false);
         enter.setFocusable(false);
@@ -115,6 +123,31 @@ public class KeyBoard extends JPanel
                 btn.setLocation(currentLocation);
                 currentLocation.setLocation(keysWidth + currentLocation.getX(), currentLocation.getY());
                 frm.add(btn);
+                btn.addMouseListener(new MouseListener() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                    }
+
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+                        ((JButton)e.getSource()).setBackground(Color.black);
+                    }
+
+                    @Override
+                    public void mouseReleased(MouseEvent e) {
+                        ((JButton)e.getSource()).setBackground(null);
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        
+                    }
+                });
                 btn.addActionListener(new ActionListener()
                 {
                     @Override
@@ -149,7 +182,7 @@ public class KeyBoard extends JPanel
                                 robot.keyPress(key_code);
                                 robot.keyRelease(key_code);
                             }
-
+                            System.out.println(key_code);
 
                         } catch (AWTException ex)
                         {
@@ -164,18 +197,29 @@ public class KeyBoard extends JPanel
 
 
         }
+        
+        frm.add(dotcom);
+        currentLocation.setLocation(currentLocation.getX() , currentLocation.getY());
+        dotcom.setLocation(currentLocation);
+        dotcom.setSize(keysWidth*2/3 , keysHeight);
         frm.add(shift);
-        currentLocation.setLocation(currentLocation.getX() + keysWidth / 3, currentLocation.getY() + keysHeight / 3);
+        currentLocation.setLocation(currentLocation.getX() + keysWidth * 2 / 3, currentLocation.getY() );
         shift.setLocation(currentLocation);
-        shift.setSize(keysWidth * 5 / 2, keysHeight / 2);
-        frm.add(backSpace);
-        currentLocation.setLocation(currentLocation.getX() + keysWidth * 2 / 3, currentLocation.getY() - keysHeight);
-        backSpace.setLocation(currentLocation);
-        backSpace.setSize(keysWidth * 11 / 6, keysHeight / 2);
+        shift.setSize(keysWidth *7/3, keysHeight);
+        frm.add(atsign);
+        currentLocation.setLocation(currentLocation.getX(), currentLocation.getY()-keysHeight );
+        atsign.setLocation(currentLocation);
+        atsign.setSize(keysWidth *2/3, keysHeight);
         frm.add(enter);
-        currentLocation.setLocation(currentLocation.getX() + keysWidth * 2 / 3, currentLocation.getY() - keysHeight);
+        currentLocation.setLocation(currentLocation.getX() + keysWidth * 2 / 3, currentLocation.getY());
         enter.setLocation(currentLocation);
-        enter.setSize(keysWidth * 21 / 18, keysHeight / 2);
+        enter.setSize(keysWidth * 5 / 3, keysHeight );
+        frm.add(backSpace);
+        currentLocation.setLocation(currentLocation.getX() , currentLocation.getY() - keysHeight);
+        backSpace.setLocation(currentLocation);
+        backSpace.setSize(keysWidth * 5 / 3, keysHeight );
+        atsign.setFocusable(false);
+        dotcom.setFocusable(false);
 
 
         frm.repaint();
@@ -188,7 +232,7 @@ public class KeyBoard extends JPanel
 
                 if (((JButton) e.getSource()).getBackground() == Color.red)
                 {
-                    ((JButton) e.getSource()).setBackground(null);
+                    ((JButton) e.getSource()).setBackground(Color.yellow);
                     for (int i = 0; i <= 3; i++)
                         for (int j = 0; j <= 13; j++)
                             if (btns[i][j] != null) btns[i][j].setText(lowerKeys[i][j] + "");
@@ -244,7 +288,31 @@ public class KeyBoard extends JPanel
                 }
             }
         });
+        enter.addMouseListener(new MouseListener() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                    }
 
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+                        ((JButton)e.getSource()).setBackground(Color.black);
+                    }
+
+                    @Override
+                    public void mouseReleased(MouseEvent e) {
+                        ((JButton)e.getSource()).setBackground(Color.yellow);
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        
+                    }
+                });
         enter.addActionListener(new ActionListener()
         {
             @Override
@@ -253,6 +321,118 @@ public class KeyBoard extends JPanel
                 enterActionPerformListener.EnterActionPerform();
             }
         });
+        
+        atsign.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parent.setListenToKeyboardShow(false);
+                txt.requestFocusInWindow();
+                parent.setListenToKeyboardShow(true);
+
+                try
+                {
+                    Robot robot = new Robot();
+                    robot.keyPress(KeyEvent.VK_SHIFT);
+                    robot.keyPress(50);
+                    robot.keyRelease(50);
+                    robot.keyRelease(KeyEvent.VK_SHIFT);
+
+                } catch (AWTException ex)
+                {
+                    Logger.getLogger(KeyBoard.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        atsign.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                ((JButton)e.getSource()).setBackground(Color.black);
+                
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                ((JButton)e.getSource()).setBackground(Color.green);
+                
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+        });
+        
+        
+        
+        
+        
+        
+        dotcom.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parent.setListenToKeyboardShow(false);
+                txt.requestFocusInWindow();
+                parent.setListenToKeyboardShow(true);
+
+                try
+                {
+                    Robot robot = new Robot();
+
+                    robot.keyPress(46);
+                    robot.keyRelease(46);
+                    robot.keyPress(67);
+                    robot.keyRelease(67);
+                    robot.keyPress(79);
+                    robot.keyRelease(79);
+                    robot.keyPress(77);
+                    robot.keyRelease(77);
+
+
+                } catch (AWTException ex)
+                {
+                    Logger.getLogger(KeyBoard.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        dotcom.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                ((JButton)e.getSource()).setBackground(Color.black);
+                
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                ((JButton)e.getSource()).setBackground(Color.green);
+                
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+        });
+        
+        
+        
+        
+        
+        
+        
 
     }
 
@@ -262,6 +442,7 @@ public class KeyBoard extends JPanel
         super.finalize(); //To change body of generated methods, choose Tools | Templates.
 
     }
+    
 
 
 };
@@ -292,6 +473,7 @@ class deletorListener implements MouseListener
     @Override
     public void mousePressed(MouseEvent e)
     {
+        ((JButton)e.getSource()).setBackground(Color.black);
         KeyBoard.deleterActive = true;
         new Thread(KeyBoard.deleter).start();
 
@@ -301,6 +483,7 @@ class deletorListener implements MouseListener
     public void mouseReleased(MouseEvent e)
     {
         KeyBoard.deleterActive = false;
+        ((JButton)e.getSource()).setBackground(Color.yellow);
     }
 
     @Override

@@ -82,7 +82,7 @@ public class JavaApplication4 implements EnterActionPerformListener
 
 
         listLookAndFeels();
-        String nameSnippet = "NimbusLookAndFeel".toLowerCase();
+        String nameSnippet = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel".toLowerCase();
         UIManager.LookAndFeelInfo[] plafs = UIManager.getInstalledLookAndFeels();
         for (UIManager.LookAndFeelInfo info : plafs)
         {
