@@ -3,6 +3,7 @@ nbproject/
 build/
 test/
 out/
+build.xml
 *.iml
 *.mf
 *.docx
