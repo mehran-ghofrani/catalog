@@ -31,7 +31,7 @@ public class KeyBoard extends JPanel
         final int keysWidth = (int) size.getWidth() / 14;
 
 
-        Point currentLocation = new Point(0, frm.getHeight() - keysHeight * 5 - 10);
+        Point currentLocation = new Point(0, frm.getHeight() - keysHeight * 5 );
         final char[][] upperKeys = {
                 {'~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', '|'},
                 {'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '{', '}'},
@@ -115,19 +115,18 @@ public class KeyBoard extends JPanel
 
 
         }
-
-        frm.add(backSpace);
-        currentLocation.setLocation(currentLocation.getX() + keysWidth * 3 / 2, currentLocation.getY() - keysHeight * 2 / 3);
-        backSpace.setLocation(currentLocation);
-        backSpace.setSize(keysWidth * 3 / 2, keysHeight / 2);
         frm.add(shift);
-        currentLocation.setLocation(currentLocation.getX(), currentLocation.getY() + keysHeight);
+        currentLocation.setLocation(currentLocation.getX()+keysWidth/3, currentLocation.getY()+ keysHeight/3);
         shift.setLocation(currentLocation);
-        shift.setSize(keysWidth * 3 / 2, keysHeight / 2);
+        shift.setSize(keysWidth * 5/2, keysHeight / 2);
+        frm.add(backSpace);
+        currentLocation.setLocation(currentLocation.getX() + keysWidth*2/3 , currentLocation.getY() - keysHeight );
+        backSpace.setLocation(currentLocation);
+        backSpace.setSize(keysWidth * 11/6, keysHeight / 2);
         frm.add(enter);
-        currentLocation.setLocation(currentLocation.getX(), currentLocation.getY() - 2 * keysHeight);
+        currentLocation.setLocation(currentLocation.getX() + keysWidth*2/3, currentLocation.getY() - keysHeight);
         enter.setLocation(currentLocation);
-        enter.setSize(keysWidth * 3 / 2, keysHeight / 2);
+        enter.setSize(keysWidth * 21 / 18, keysHeight / 2);
 
 
         frm.repaint();
