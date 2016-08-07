@@ -22,9 +22,8 @@ public class EmailSend
 {
 
 
-    public synchronized static void send(String to)
+    public synchronized static void send(String to, String attachmentPath, String attachmentName)
     {
-        //////////////////////////////////////////////////
         System.out.println("sending email to: " + to);
         final String username = "sales@protouch.ir";
         final String password = "salesPROTOUCH1395@@";
@@ -69,13 +68,14 @@ public class EmailSend
             multipart.addBodyPart(messageBodyPart);
 
             // Part two is attachment
-            messageBodyPart = new MimeBodyPart();
-            String filename = "C:\\Users\\Public\\Pictures\\Sample Pictures\\Chrysanthemum.jpg";
-            DataSource source = new FileDataSource(filename);
-            messageBodyPart.setDataHandler(new DataHandler(source));
-            messageBodyPart.setFileName(filename);
-            multipart.addBodyPart(messageBodyPart);
-
+            if(attachmentPath != null)
+            {
+                messageBodyPart = new MimeBodyPart();
+                DataSource source = new FileDataSource(attachmentPath);
+                messageBodyPart.setDataHandler(new DataHandler(source));
+                messageBodyPart.setFileName(attachmentName);
+                multipart.addBodyPart(messageBodyPart);
+            }
             // Send the complete message parts
             message.setContent(multipart);
 

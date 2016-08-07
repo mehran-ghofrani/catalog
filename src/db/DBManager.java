@@ -30,17 +30,18 @@ public class DBManager
             System.err.println("Failed to create sessionFactory object." + ex);
             throw new ExceptionInInitializerError(ex);
         }
+        System.out.println("Database object created");
     }
 
     public synchronized Integer addEmail(String email)
     {
 
-        List<EmailEntity> searchRes = getEmail(email);
-        if (searchRes.size() != 0)
-        {
-            System.out.println("email: " + email + " has been added previously");
-            return -1;
-        }
+//        List<EmailEntity> searchRes = getEmail(email);
+//        if (searchRes.size() != 0)
+//        {
+//            System.out.println("email: " + email + " has been added previously");
+//            return -1;
+//        }
 
         Session session = factory.openSession();
         Transaction tx = null;

@@ -9,10 +9,7 @@ import db.DBManager;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 
 import static Utilities.EmailUtils.isValidEmailAddress;
 import static java.lang.Math.abs;
@@ -22,6 +19,9 @@ public class JavaApplication4 implements EnterActionPerformListener
 {
 
     final DBManager dbManager;
+
+    private Font headingFont;
+    private Font bodyFont;
 
     private JLabel infoLable;
     private JButton submitBtn;
@@ -36,8 +36,8 @@ public class JavaApplication4 implements EnterActionPerformListener
     public JavaApplication4()
     {
         listenToKeyboardShow = true;
-//        dbManager = null;
-        dbManager = new DBManager();
+        dbManager = null;
+//        dbManager = new DBManager();
         initComponents();
     }
 
@@ -132,8 +132,9 @@ public class JavaApplication4 implements EnterActionPerformListener
         mainPanel.setLayout(layout);
         initializeLayout(mainPanel);
         GridBagConstraints c = new GridBagConstraints();
-        Font headingFont = new Font("B Nazanin", Font.CENTER_BASELINE, 20);
-        Font bodyFont = headingFont.deriveFont(18.0f);
+
+        headingFont = new Font("B Nazanin", Font.CENTER_BASELINE, 20);
+        bodyFont = headingFont.deriveFont(18.0f);
 
         c.ipady = 20;
         c.insets = new Insets(10, 0, 30, 0);
@@ -154,6 +155,7 @@ public class JavaApplication4 implements EnterActionPerformListener
         c.gridx = 2;
         c.gridy = 1;
         c.gridwidth = 1;
+        c.fill = GridBagConstraints.BOTH;
         emailLabel = new JLabel("ایمیل:");
         emailLabel.setFont(bodyFont);
         mainPanel.add(emailLabel, c);
@@ -162,7 +164,7 @@ public class JavaApplication4 implements EnterActionPerformListener
         c.gridx = 0;
         c.gridy = 1;
         c.gridwidth = 2;
-        c.fill = GridBagConstraints.HORIZONTAL;
+        c.fill = GridBagConstraints.BOTH;
         emailInputField = new TouchJTextField("", "example@host.com", this);
         mainPanel.add(emailInputField, c);
 
@@ -171,17 +173,18 @@ public class JavaApplication4 implements EnterActionPerformListener
         submitBtn.setFont(bodyFont);
         c.ipadx = 100;
         c.ipady = 0;
-        c.gridx = 1;
+        c.gridx = 0;
         c.gridy = 2;
-        c.gridwidth = 1;
+        c.gridwidth = 3;
         c.fill = GridBagConstraints.CENTER;
         mainPanel.add(submitBtn, c);
 
         c.insets = new Insets(40, 0, 0, 0);
         c.ipadx = 0;
-        c.gridx = 1;
+        c.gridx = 0;
         c.gridy = 3;
-        c.gridwidth = 1;
+        c.gridwidth = 3;
+        c.fill = GridBagConstraints.CENTER;
         statusLabel = new JLabel(" ");
         statusLabel.setFont(bodyFont);
         mainPanel.add(statusLabel, c);
@@ -218,6 +221,15 @@ public class JavaApplication4 implements EnterActionPerformListener
 
             }
         });
+        submitBtn.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                EnterActionPerform();
+            }
+        });
+
         emailInputField.addFocusListener(new FocusListener()
         {
             @Override
@@ -308,10 +320,11 @@ public class JavaApplication4 implements EnterActionPerformListener
                 public void run()
                 {
                     dbManager.addEmail(tempEmail);
-                    EmailSend.send(tempEmail);
+                    EmailSend.send(tempEmail, "extraData//Desert.jpg", "Catalog");
                 }
             }).start();
             setVisibleAll(false);
+            statusLabel.setFont(headingFont.deriveFont(22.0f));
             statusLabel.setText("<html>کاتالوگ به آدرس " + tempEmail + " <font color='green'>ارسال شد</font></html>");
             new Thread(new Runnable()
             {
@@ -334,6 +347,7 @@ public class JavaApplication4 implements EnterActionPerformListener
             }).start();
         } else
         {
+            statusLabel.setFont(bodyFont);
             statusLabel.setText("<html>ایمیل <font color='red'>اشتباه</font> وارد شده است</html>");
         }
     }
