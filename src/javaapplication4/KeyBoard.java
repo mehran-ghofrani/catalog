@@ -10,6 +10,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,11 +20,49 @@ import java.util.logging.Logger;
  */
 public class KeyBoard extends JPanel
 {
-
+    static Thread deleter;
     JavaApplication4 parent;
-
+    public static boolean deleterActive=false;
     public KeyBoard(JavaApplication4 javaApplication4, Dimension size, final JTextField txt)
     {
+        
+            deleter=new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while(true){
+                    System.out.println("tttttttttttrunning");
+            if(KeyBoard.deleterActive==true){
+                
+                parent.setListenToKeyboardShow(false);
+                txt.requestFocusInWindow();
+                parent.setListenToKeyboardShow(true);
+
+                try
+                {
+                    Robot robot = new Robot();
+
+                    KeyStroke awtKS = KeyStroke.getKeyStroke(8, 0);
+                    robot.keyPress(awtKS.getKeyCode());
+                    try {    
+                        Thread.sleep(50);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(KeyBoard.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    robot.keyRelease(awtKS.getKeyCode());
+
+
+                } catch (AWTException ex)
+                {
+                    Logger.getLogger(KeyBoard.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                }
+                }
+                
+                
+            }
+        });
+        deleter.start();
+        
         parent = javaApplication4;
         JPanel frm = this;
         setLayout(null);
@@ -170,7 +210,7 @@ public class KeyBoard extends JPanel
 
             }
         });
-
+        backSpace.addMouseListener(new deletorListener());
         backSpace.addActionListener(new ActionListener()
         {
             @Override
@@ -222,28 +262,35 @@ class MButton extends JButton
 
 }
 
-class bListener implements ActionListener
-{
 
-    @Override
-    public void actionPerformed(ActionEvent e)
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+ class deletorListener implements MouseListener{
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                
+            }
 
+            @Override
+            public void mousePressed(MouseEvent e) {
+                KeyBoard.deleterActive=true;
+                System.out.println("1");
+                
+            }
 
-}
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                KeyBoard.deleterActive=false;
+                System.out.println("0");
+    
+            }
 
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                
+            }
 
-class backSpaceListener implements ActionListener
-{
-
-    @Override
-    public void actionPerformed(ActionEvent e)
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-
-}
+            @Override
+            public void mouseExited(MouseEvent e) {
+                
+            }
+        }
 
