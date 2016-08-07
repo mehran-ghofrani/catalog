@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="primitives.EmailEntity" table="email" schema="emailcenter">
+        <id name="id">
+            <column name="id" sql-type="int(11)"/>
+        </id>
+        <property name="address">
+            <column name="address" sql-type="varchar(50)" length="50"/>
+        </property>
+        <property name="addedTime">
+            <column name="addedTime" sql-type="datetime"/>
+        </property>
+    </class>
+</hibernate-mapping>
