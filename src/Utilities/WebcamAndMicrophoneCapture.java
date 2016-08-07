@@ -26,6 +26,7 @@ import javax.sound.sampled.Mixer;
 import javax.sound.sampled.TargetDataLine;
 
 import org.bytedeco.javacpp.avcodec;
+import org.bytedeco.javacpp.avutil;
 import org.bytedeco.javacv.CanvasFrame;
 import org.bytedeco.javacv.FFmpegFrameRecorder;
 import org.bytedeco.javacv.Frame;
@@ -34,7 +35,8 @@ import org.bytedeco.javacv.OpenCVFrameGrabber;
 
 public class WebcamAndMicrophoneCapture
 {
-    final private static int WEBCAM_DEVICE_INDEX = 2;
+
+    final private static int WEBCAM_DEVICE_INDEX = 0;
     final private static int AUDIO_DEVICE_INDEX = 4;
 
     final private static int FRAME_RATE = 30;
@@ -67,8 +69,8 @@ public class WebcamAndMicrophoneCapture
         // imageHeight = height we specified for the grabber
         // audioChannels = 2, because we like stereo
         FFmpegFrameRecorder recorder = new FFmpegFrameRecorder(
-                "rtmp://my-streaming-server/app_name_here/instance_name/stream_name",
-                captureWidth, captureHeight, 2);
+                "aaaa"/*"rtmp://my-streaming-server/app_name_here/instance_name/stream_name"*/,
+                captureWidth, captureHeight, 0);
         recorder.setInterleaved(true);
 
         // decrease "startup" latency in FFMPEG (see:
@@ -211,7 +213,7 @@ public class WebcamAndMicrophoneCapture
 
             // Create timestamp for this frame
             videoTS = 1000 * (System.currentTimeMillis() - startTime);
-
+            System.out.println("aaa");
             // Check for AV drift
             if (videoTS > recorder.getTimestamp())
             {
