@@ -18,9 +18,10 @@ import static Utilities.EmailUtils.isValidEmailAddress;
 import static java.lang.Math.abs;
 
 
-public class JavaApplication4
+public class JavaApplication4 implements EnterActionPerformListener
 {
 
+    final DBManager dbManager;
 
     private JLabel infoLable;
     private JButton submitBtn;
@@ -35,6 +36,8 @@ public class JavaApplication4
     public JavaApplication4()
     {
         listenToKeyboardShow = true;
+//        dbManager = null;
+        dbManager = new DBManager();
         initComponents();
     }
 
@@ -75,8 +78,6 @@ public class JavaApplication4
 
     private void initComponents()
     {
-        final DBManager dbManager = null;
-//        dbManager = new DBManager();
         JFrame frm = new JFrame();
 
 
@@ -196,43 +197,7 @@ public class JavaApplication4
             @Override
             public void mousePressed(MouseEvent e)
             {
-                if (isValidEmailAddress(emailInputField.getValidText()))
-                {
-                    String tempEmail = emailInputField.getValidText();
-                    new Thread(new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            dbManager.addEmail(tempEmail);
-                            EmailSend.send(tempEmail);
-                        }
-                    }).start();
-                    setVisibleAll(false);
-                    statusLabel.setText("<html>کاتالوگ به آدرس " + tempEmail + " <font color='green'>ارسال شد</font></html>");
-                    new Thread(new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            try
-                            {
-                                Thread.sleep(3000);
-                            } catch (InterruptedException e1)
-                            {
-                                e1.printStackTrace();
-                            }
-                            resetStatusLabel();
-                            emailInputField.setText("");
-                            setVisibleAll(true);
-                            emailInputField.requestFocus();
-                            submitBtn.requestFocus();
-                        }
-                    }).start();
-                } else
-                {
-                    statusLabel.setText("<html>ایمیل <font color='red'>اشتباه</font> وارد شده است</html>");
-                }
+                EnterActionPerform();
             }
 
             @Override
@@ -268,7 +233,7 @@ public class JavaApplication4
             }
         });
 
-        KeyBoard kb = new KeyBoard(this, keyboardPanel.getSize(), emailInputField);
+        KeyBoard kb = new KeyBoard(this, keyboardPanel.getSize(), emailInputField, this);
         kb.setLocation(0, 0);
         keyboardPanel.setLayout(null);
         keyboardPanel.add(kb);
@@ -329,5 +294,47 @@ public class JavaApplication4
     public void setListenToKeyboardShow(boolean listenToKeyboardShow)
     {
         this.listenToKeyboardShow = listenToKeyboardShow;
+    }
+
+    @Override
+    public void EnterActionPerform()
+    {
+        if (isValidEmailAddress(emailInputField.getValidText()))
+        {
+            String tempEmail = emailInputField.getValidText();
+            new Thread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    dbManager.addEmail(tempEmail);
+                    EmailSend.send(tempEmail);
+                }
+            }).start();
+            setVisibleAll(false);
+            statusLabel.setText("<html>کاتالوگ به آدرس " + tempEmail + " <font color='green'>ارسال شد</font></html>");
+            new Thread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    try
+                    {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e1)
+                    {
+                        e1.printStackTrace();
+                    }
+                    resetStatusLabel();
+                    emailInputField.setText("");
+                    setVisibleAll(true);
+                    emailInputField.requestFocus();
+                    submitBtn.requestFocus();
+                }
+            }).start();
+        } else
+        {
+            statusLabel.setText("<html>ایمیل <font color='red'>اشتباه</font> وارد شده است</html>");
+        }
     }
 }

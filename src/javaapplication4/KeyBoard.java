@@ -7,11 +7,7 @@ package javaapplication4;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,62 +16,62 @@ import java.util.logging.Logger;
  */
 public class KeyBoard extends JPanel
 {
-    static Thread deleter;
+    static Runnable deleter;
     JavaApplication4 parent;
-    public static boolean deleterActive=false;
-    public static boolean firstCharDelay=true;
-    public KeyBoard(JavaApplication4 javaApplication4, Dimension size, final JTextField txt)
+    public static boolean deleterActive = false;
+    public static boolean firstCharDelay = true;
+
+    public KeyBoard(JavaApplication4 javaApplication4, Dimension size, final JTextField txt, EnterActionPerformListener enterActionPerformListener)
     {
-        
-            deleter=new Thread(new Runnable() {
+
+        deleter = new Runnable()
+        {
             @Override
-            public void run() {
-                while(true){
-                    
-                    System.out.println("tttttttttttrunning");
-            if(KeyBoard.deleterActive==true){
-                
-                parent.setListenToKeyboardShow(false);
-                txt.requestFocusInWindow();
-                parent.setListenToKeyboardShow(true);
-                if(KeyBoard.firstCharDelay==true){
-                    try {    
-                        Thread.sleep(500);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(KeyBoard.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    KeyBoard.firstCharDelay=false;}
-                else{
-                try
+            public void run()
+            {
+                while (KeyBoard.deleterActive == true)
                 {
-                    Robot robot = new Robot();
+                    parent.setListenToKeyboardShow(false);
+                    txt.requestFocusInWindow();
+                    parent.setListenToKeyboardShow(true);
+                    if (KeyBoard.firstCharDelay == true)
+                    {
+                        try
+                        {
+                            Thread.sleep(500);
+                        } catch (InterruptedException ex)
+                        {
+                            Logger.getLogger(KeyBoard.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        KeyBoard.firstCharDelay = false;
+                    } else
+                    {
+                        try
+                        {
+                            Robot robot = new Robot();
 
-                    KeyStroke awtKS = KeyStroke.getKeyStroke(8, 0);
-                    robot.keyPress(awtKS.getKeyCode());
-                    try {    
-                        Thread.sleep(50);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(KeyBoard.class.getName()).log(Level.SEVERE, null, ex);
+                            KeyStroke awtKS = KeyStroke.getKeyStroke(8, 0);
+                            robot.keyPress(awtKS.getKeyCode());
+                            try
+                            {
+                                Thread.sleep(50);
+                            } catch (InterruptedException ex)
+                            {
+                                Logger.getLogger(KeyBoard.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            robot.keyRelease(awtKS.getKeyCode());
+
+
+                        } catch (AWTException ex)
+                        {
+                            Logger.getLogger(KeyBoard.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
-                    robot.keyRelease(awtKS.getKeyCode());
-
-
-                } catch (AWTException ex)
-                {
-                    Logger.getLogger(KeyBoard.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
-                }
-            
-                }else
-            KeyBoard.firstCharDelay=true;
-                }
-                
-                
+                KeyBoard.firstCharDelay = true;
             }
-        });
-        deleter.start();
-        
+        };
+
         parent = javaApplication4;
         JPanel frm = this;
         setLayout(null);
@@ -84,7 +80,7 @@ public class KeyBoard extends JPanel
         final int keysWidth = (int) size.getWidth() / 14;
 
 
-        Point currentLocation = new Point(0, frm.getHeight() - keysHeight * 5 );
+        Point currentLocation = new Point(0, frm.getHeight() - keysHeight * 5);
         final char[][] upperKeys = {
                 {'~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', '|'},
                 {'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '{', '}'},
@@ -169,15 +165,15 @@ public class KeyBoard extends JPanel
 
         }
         frm.add(shift);
-        currentLocation.setLocation(currentLocation.getX()+keysWidth/3, currentLocation.getY()+ keysHeight/3);
+        currentLocation.setLocation(currentLocation.getX() + keysWidth / 3, currentLocation.getY() + keysHeight / 3);
         shift.setLocation(currentLocation);
-        shift.setSize(keysWidth * 5/2, keysHeight / 2);
+        shift.setSize(keysWidth * 5 / 2, keysHeight / 2);
         frm.add(backSpace);
-        currentLocation.setLocation(currentLocation.getX() + keysWidth*2/3 , currentLocation.getY() - keysHeight );
+        currentLocation.setLocation(currentLocation.getX() + keysWidth * 2 / 3, currentLocation.getY() - keysHeight);
         backSpace.setLocation(currentLocation);
-        backSpace.setSize(keysWidth * 11/6, keysHeight / 2);
+        backSpace.setSize(keysWidth * 11 / 6, keysHeight / 2);
         frm.add(enter);
-        currentLocation.setLocation(currentLocation.getX() + keysWidth*2/3, currentLocation.getY() - keysHeight);
+        currentLocation.setLocation(currentLocation.getX() + keysWidth * 2 / 3, currentLocation.getY() - keysHeight);
         enter.setLocation(currentLocation);
         enter.setSize(keysWidth * 21 / 18, keysHeight / 2);
 
@@ -249,6 +245,15 @@ public class KeyBoard extends JPanel
             }
         });
 
+        enter.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                enterActionPerformListener.EnterActionPerform();
+            }
+        });
+
     }
 
     @Override
@@ -276,34 +281,38 @@ class MButton extends JButton
 }
 
 
- class deletorListener implements MouseListener{
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                
-            }
+class deletorListener implements MouseListener
+{
+    @Override
+    public void mouseClicked(MouseEvent e)
+    {
 
-            @Override
-            public void mousePressed(MouseEvent e) {
-                KeyBoard.deleterActive=true;
-                
-                
-            }
+    }
 
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                KeyBoard.deleterActive=false;
-                
-    
-            }
+    @Override
+    public void mousePressed(MouseEvent e)
+    {
+        KeyBoard.deleterActive = true;
+        new Thread(KeyBoard.deleter).start();
 
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                
-            }
+    }
 
-            @Override
-            public void mouseExited(MouseEvent e) {
-                
-            }
-        }
+    @Override
+    public void mouseReleased(MouseEvent e)
+    {
+        KeyBoard.deleterActive = false;
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e)
+    {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e)
+    {
+
+    }
+}
 
