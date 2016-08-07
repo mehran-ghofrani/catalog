@@ -36,8 +36,8 @@ public class JavaApplication4 implements EnterActionPerformListener
     public JavaApplication4()
     {
         listenToKeyboardShow = true;
-        dbManager = null;
-//        dbManager = new DBManager();
+//        dbManager = null;
+        dbManager = new DBManager();
         initComponents();
     }
 
