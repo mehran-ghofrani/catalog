@@ -23,6 +23,7 @@ public class KeyBoard extends JPanel
     static Thread deleter;
     JavaApplication4 parent;
     public static boolean deleterActive=false;
+    public static boolean firstCharDelay=true;
     public KeyBoard(JavaApplication4 javaApplication4, Dimension size, final JTextField txt)
     {
         
@@ -30,13 +31,21 @@ public class KeyBoard extends JPanel
             @Override
             public void run() {
                 while(true){
+                    
                     System.out.println("tttttttttttrunning");
             if(KeyBoard.deleterActive==true){
                 
                 parent.setListenToKeyboardShow(false);
                 txt.requestFocusInWindow();
                 parent.setListenToKeyboardShow(true);
-
+                if(KeyBoard.firstCharDelay==true){
+                    try {    
+                        Thread.sleep(500);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(KeyBoard.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    KeyBoard.firstCharDelay=false;}
+                else{
                 try
                 {
                     Robot robot = new Robot();
@@ -55,7 +64,11 @@ public class KeyBoard extends JPanel
                 {
                     Logger.getLogger(KeyBoard.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                
                 }
+            
+                }else
+            KeyBoard.firstCharDelay=true;
                 }
                 
                 
@@ -272,14 +285,14 @@ class MButton extends JButton
             @Override
             public void mousePressed(MouseEvent e) {
                 KeyBoard.deleterActive=true;
-                System.out.println("1");
+                
                 
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
                 KeyBoard.deleterActive=false;
-                System.out.println("0");
+                
     
             }
 
