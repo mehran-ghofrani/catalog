@@ -9,10 +9,10 @@ import db.DBManager;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import static Utilities.EmailUtils.isValidEmailAddress;
 import static java.lang.Math.abs;
@@ -25,7 +25,6 @@ public class JavaApplication4
     private JLabel infoLable;
     private JButton submitBtn;
     private JLabel statusLabel;
-    private GhostText ghostText;
     private TouchJTextField emailInputField;
     private JLabel emailLabel;
 
@@ -163,8 +162,7 @@ public class JavaApplication4
         c.gridy = 1;
         c.gridwidth = 2;
         c.fill = GridBagConstraints.HORIZONTAL;
-        emailInputField = new TouchJTextField(this);
-        ghostText = new GhostText(emailInputField, "example@host.com");
+        emailInputField = new TouchJTextField("", "example@host.com", this);
         mainPanel.add(emailInputField, c);
 
 
@@ -187,14 +185,20 @@ public class JavaApplication4
         statusLabel.setFont(bodyFont);
         mainPanel.add(statusLabel, c);
 
-        submitBtn.addActionListener(new ActionListener()
+        submitBtn.addMouseListener(new MouseListener()
         {
             @Override
-            public void actionPerformed(ActionEvent e)
+            public void mouseClicked(MouseEvent e)
             {
-                if (isValidEmailAddress(ghostText.isEmpty() ? "" : emailInputField.getText()))
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e)
+            {
+                if (isValidEmailAddress(emailInputField.getValidText()))
                 {
-                    String tempEmail = emailInputField.getText();
+                    String tempEmail = emailInputField.getValidText();
                     new Thread(new Runnable()
                     {
                         @Override
@@ -213,7 +217,7 @@ public class JavaApplication4
                         {
                             try
                             {
-                                Thread.sleep(7000);
+                                Thread.sleep(3000);
                             } catch (InterruptedException e1)
                             {
                                 e1.printStackTrace();
@@ -229,7 +233,23 @@ public class JavaApplication4
                 {
                     statusLabel.setText("<html>ایمیل <font color='red'>اشتباه</font> وارد شده است</html>");
                 }
+            }
 
+            @Override
+            public void mouseReleased(MouseEvent e)
+            {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e)
+            {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e)
+            {
 
             }
         });
@@ -297,6 +317,7 @@ public class JavaApplication4
         {
             keyboardPanel.setVisible(false);
             mainPanel.setLocation(0, 0);
+            submitBtn.requestFocus();
         }
     }
 

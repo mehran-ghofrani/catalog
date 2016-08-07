@@ -1,33 +1,37 @@
 package javaapplication4;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.io.File;
 
-/**
- * Created by online on 8/6/2016.
- */
 public class TouchJTextField extends JTextField
 {
+    private GhostText ghostText;
+
+
     private boolean isSensetiveToTouch;
     private JavaApplication4 parent;
+    private String text;
 
-    public TouchJTextField(JavaApplication4 parent)
-    {
-        this.parent = parent;
-        initComponent();
-    }
-
-    public TouchJTextField(String text, JavaApplication4 parent)
+    public TouchJTextField(String text, String ghostText, JavaApplication4 parent)
     {
         super(text);
         this.parent = parent;
-        initComponent();
+
+        initComponent(text, ghostText);
     }
 
-    private void initComponent()
+    private void initComponent(String text, String ghostText)
     {
         isSensetiveToTouch = true;
+
+        this.ghostText = new GhostText(this, ghostText);
+
 
         addFocusListener(new FocusListener()
         {
@@ -43,5 +47,21 @@ public class TouchJTextField extends JTextField
                 parent.hideKeyBoard();
             }
         });
+
+    }
+
+    public String getValidText()
+    {
+        return ghostText == null || ghostText.isEmpty() ? "" : super.getText();
+    }
+
+    public GhostText getGhostText()
+    {
+        return ghostText;
+    }
+
+    public boolean isSensetiveToTouch()
+    {
+        return isSensetiveToTouch;
     }
 }
