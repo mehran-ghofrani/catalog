@@ -9,3 +9,4 @@ build.xml
 *.docx
 *.pdf
 /dist/
+libs/JavaCV
