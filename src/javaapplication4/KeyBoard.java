@@ -220,6 +220,7 @@ public class KeyBoard extends JPanel
         backSpace.setSize(keysWidth * 5 / 3, keysHeight );
         atsign.setFocusable(false);
         dotcom.setFocusable(false);
+        atsign.setIcon(new ImageIcon("C:\\Documents and Settings\\Downloads\\apple-keyboard-caps.png"));
 
 
         frm.repaint();
