@@ -26,7 +26,6 @@ import javax.sound.sampled.Mixer;
 import javax.sound.sampled.TargetDataLine;
 
 import org.bytedeco.javacpp.avcodec;
-import org.bytedeco.javacpp.avutil;
 import org.bytedeco.javacv.CanvasFrame;
 import org.bytedeco.javacv.FFmpegFrameRecorder;
 import org.bytedeco.javacv.Frame;
@@ -48,7 +47,7 @@ public class WebcamAndMicrophoneCapture
     public static void main(String[] args) throws Exception, org.bytedeco.javacv.FrameGrabber.Exception
     {
 
-
+//        Loader.load(org.bytedeco.javacpp.avutil.class);
         int captureWidth = 1280;
         int captureHeight = 720;
 
