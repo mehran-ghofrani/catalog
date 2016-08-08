@@ -14,6 +14,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.awt.image.WritableRaster;
+import java.io.File;
 
 /**
  * @author Mactabi
@@ -22,11 +23,12 @@ public class Camera extends JPanel
 {
 
     private static Camera instance;
+    private final int currentIndex;
     private Image currentImg;
 
     private Camera()
     {
-        System.load("C:\\Users\\Mactabi\\Desktop\\opencv\\build\\java\\x64\\" + Core.NATIVE_LIBRARY_NAME + ".dll");
+        System.load( new File("").getAbsolutePath() + "\\libs\\OpenCV\\" + Core.NATIVE_LIBRARY_NAME + ".dll");
         VideoCapture camera = new VideoCapture(0);
         Mat frame = new Mat();
         if (!camera.isOpened())
@@ -48,13 +50,24 @@ public class Camera extends JPanel
                             BufferedImage image = MatToBufferedImage(flippedFrame);
                             setImage(image);
                             repaint();
-//                            break;
+                        }
+                        else
+                        {
+                            camera.release();
+                            break;
                         }
                     }
                 }
             });
             updater.start();
         }
+
+        setSize(MainFrame.getInstance().getSize());
+        setLocation(0, 0);
+        setBackground(Color.BLUE);
+
+        currentIndex = MainFrame.getInstance().addPanel(this);
+        MainFrame.getInstance().showPanel(currentIndex);
     }
 
     public static Camera getInstance()
@@ -129,7 +142,7 @@ public class Camera extends JPanel
     public void paint(Graphics g)
     {
         super.paintComponents(g); //To change body of generated methods, choose Tools | Templates.
-        g.drawImage(currentImg, 0, 0, this);
+        g.drawImage(currentImg.getScaledInstance(getWidth(), getHeight(), Image.SCALE_FAST), 0, 0, this);
 
     }
 
@@ -137,11 +150,6 @@ public class Camera extends JPanel
     {
         this.currentImg = img;
 
-    }
-
-    public void release()
-    {
-        getInstance().release();
     }
 
 }

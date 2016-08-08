@@ -6,6 +6,7 @@
 package mains;
 
 import db.DBManager;
+import uiComponents.pages.Camera;
 import uiComponents.pages.CatalogEmailSendingPage;
 
 public class MailMain
@@ -13,7 +14,8 @@ public class MailMain
     public static void main(String[] args)
     {
         DBManager.getMyInstance();
-        new CatalogEmailSendingPage();
+//        new CatalogEmailSendingPage();
+        Camera.getInstance();
     }
 
 }
