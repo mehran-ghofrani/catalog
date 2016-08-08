@@ -1,4 +1,4 @@
-package mains;
+package uiComponents.pages;
 
 /**
  * Created by online on 8/7/2016.

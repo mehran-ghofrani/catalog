@@ -1,7 +1,6 @@
 package uiComponents.pages;
 
 import db.DBManager;
-import mains.EnterActionPerformListener;
 import uiComponents.TouchJTextField;
 import utilities.EmailUtils;
 

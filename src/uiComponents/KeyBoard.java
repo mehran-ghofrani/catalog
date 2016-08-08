@@ -5,7 +5,7 @@
  */
 package uiComponents;
 
-import mains.EnterActionPerformListener;
+import uiComponents.pages.EnterActionPerformListener;
 import uiComponents.pages.MainFrame;
 
 import javax.swing.*;
