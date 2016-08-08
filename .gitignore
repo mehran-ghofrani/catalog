@@ -10,3 +10,4 @@ build.xml
 *.pdf
 /dist/
 libs/JavaCV
+*.jpg

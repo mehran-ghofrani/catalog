@@ -13,7 +13,7 @@ public class MailMain
 {
     public static void main(String[] args)
     {
-        DBManager.getMyInstance();
+//        DBManager.getMyInstance();
 //        new CatalogEmailSendingPage();
         Camera.getInstance();
     }
