@@ -461,14 +461,14 @@ public class KeyBoard extends JPanel
         return enterActionPerformListener;
     }
 
-    public JTextField getTextField()
-    {
-        return textField;
-    }
-
     public void setEnterActionPerformListener(EnterActionPerformListener enterActionPerformListener)
     {
         this.enterActionPerformListener = enterActionPerformListener;
+    }
+
+    public JTextField getTextField()
+    {
+        return textField;
     }
 
     public void setTextField(JTextField textField)

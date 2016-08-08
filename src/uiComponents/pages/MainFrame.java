@@ -156,7 +156,7 @@ public class MainFrame extends JFrame implements TouchKeyboardHandler
                 mainPanel.remove(panels.elementAt(currentPanelIndex));
             mainPanel.add(panels.elementAt(index));
             currentPanelIndex = index;
-            if(isFirstTimeToShow)
+            if (isFirstTimeToShow)
             {
                 isFirstTimeToShow = false;
                 setVisible(true);

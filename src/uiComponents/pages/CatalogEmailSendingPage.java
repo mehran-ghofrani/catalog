@@ -178,7 +178,7 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
             @Override
             public Component getComponentAfter(Container aContainer, Component aComponent)
             {
-                if(aComponent.equals(emailInputField))
+                if (aComponent.equals(emailInputField))
                     return submitBtn;
                 return emailInputField;
             }
@@ -186,7 +186,7 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
             @Override
             public Component getComponentBefore(Container aContainer, Component aComponent)
             {
-                if(aComponent.equals(emailInputField))
+                if (aComponent.equals(emailInputField))
                     return submitBtn;
                 return emailInputField;
             }
