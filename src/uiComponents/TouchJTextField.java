@@ -1,13 +1,10 @@
-package javaapplication4;
+package uiComponents;
 
-import javax.imageio.ImageIO;
+import uiComponents.pages.MainFrame;
+
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.io.File;
 
 public class TouchJTextField extends JTextField
 {
@@ -15,10 +12,10 @@ public class TouchJTextField extends JTextField
 
 
     private boolean isSensetiveToTouch;
-    private JavaApplication4 parent;
+    private MainFrame parent;
     private String text;
 
-    public TouchJTextField(String text, String ghostText, JavaApplication4 parent)
+    public TouchJTextField(String text, String ghostText, MainFrame parent)
     {
         super(text);
         this.parent = parent;
@@ -38,7 +35,7 @@ public class TouchJTextField extends JTextField
             @Override
             public void focusGained(FocusEvent e)
             {
-                parent.showKeyBoard();
+                parent.showKeyBoard(TouchJTextField.this);
             }
 
             @Override

@@ -1,4 +1,4 @@
-package javaapplication4;
+package mains;
 
 /**
  * Created by online on 8/7/2016.

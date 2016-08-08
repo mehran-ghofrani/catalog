@@ -1,14 +1,16 @@
-import Utilities.WordExporter;
+package mains;
+
 import db.DBManager;
+import utilities.WordExporter;
 
 /**
  * Created by online on 8/1/2016.
  */
-public class Main
+public class ExporterMain
 {
     public static void main(String[] args)
     {
-        DBManager dbManager = new DBManager();
+        DBManager dbManager = DBManager.getMyInstance();
 //        for(int i = 0; i < 5; i++)
 //        {
 //            dbManager.addEmail("d_alihosseiny" + i + "@yahoo.com");

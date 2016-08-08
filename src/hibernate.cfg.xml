@@ -13,7 +13,7 @@
         <property name="hibernate.connection.username">admin</property>
         <property name="hibernate.connection.password">12345</property>
 
-        <mapping resource="primitives/EmailEntity.hbm.xml"/>
-        <mapping class="primitives.EmailEntity"/>
+        <mapping resource="db/entities/EmailEntity.hbm.xml"/>
+        <mapping class="db.entities.EmailEntity"/>
     </session-factory>
 </hibernate-configuration>

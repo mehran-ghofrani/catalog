@@ -1,4 +1,4 @@
-package javaapplication4;
+package uiComponents;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;

@@ -1,26 +1,27 @@
 package db;
 
+import db.entities.EmailEntity;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
-import primitives.EmailEntity;
 
 import java.sql.Timestamp;
 import java.util.Iterator;
 import java.util.List;
 
-import static Utilities.DateUtils.convertToDateFormat;
-import static Utilities.DateUtils.getCurrentDate;
+import static utilities.DateUtils.convertToDateFormat;
+import static utilities.DateUtils.getCurrentDate;
 
 
 public class DBManager
 {
 
+    private static DBManager instance = null;
     private final SessionFactory factory;
 
-    public DBManager()
+    private DBManager()
     {
         try
         {
@@ -31,6 +32,13 @@ public class DBManager
             throw new ExceptionInInitializerError(ex);
         }
         System.out.println("Database object created");
+    }
+
+    public static DBManager getMyInstance()
+    {
+        if (instance == null)
+            instance = new DBManager();
+        return instance;
     }
 
     public synchronized Integer addEmail(String email)

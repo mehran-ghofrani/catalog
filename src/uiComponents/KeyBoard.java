@@ -3,7 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package javaapplication4;
+package uiComponents;
+
+import mains.EnterActionPerformListener;
+import uiComponents.pages.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,19 +14,19 @@ import java.awt.event.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * @author Mactabi
- */
 public class KeyBoard extends JPanel
 {
-    static Runnable deleter;
-    JavaApplication4 parent;
-    public static boolean deleterActive = false;
-    public static boolean firstCharDelay = true;
+    protected static Runnable deleter;
+    protected static boolean deleterActive = false;
+    protected static boolean firstCharDelay = true;
+    protected MainFrame parent;
 
-    public KeyBoard(JavaApplication4 javaApplication4, Dimension size, final JTextField txt, EnterActionPerformListener enterActionPerformListener)
+    private EnterActionPerformListener enterActionPerformListener;
+    private JTextField textField;
+
+    public KeyBoard(MainFrame parent)
     {
-
+        this.parent = parent;
         deleter = new Runnable()
         {
             @Override
@@ -32,7 +35,7 @@ public class KeyBoard extends JPanel
                 while (KeyBoard.deleterActive == true)
                 {
                     parent.setListenToKeyboardShow(false);
-                    txt.requestFocusInWindow();
+                    getTextField().requestFocusInWindow();
                     parent.setListenToKeyboardShow(true);
                     if (KeyBoard.firstCharDelay == true)
                     {
@@ -72,15 +75,13 @@ public class KeyBoard extends JPanel
             }
         };
 
-        parent = javaApplication4;
-        JPanel frm = this;
         setLayout(null);
-        frm.setSize(size);
-        final int keysHeight = (int) size.getHeight() / 4;
-        final int keysWidth = (int) size.getWidth() / 14;
+        setSize(parent.getKeyboardPanel().getSize());
+        final int keysHeight = (int) getHeight() / 4;
+        final int keysWidth = (int) getWidth() / 14;
 
 
-        Point currentLocation = new Point(0, frm.getHeight() - keysHeight * 5);
+        Point currentLocation = new Point(0, getHeight() - keysHeight * 5);
         final char[][] upperKeys = {
                 {'~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', '|'},
                 {'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '{', '}'},
@@ -104,8 +105,8 @@ public class KeyBoard extends JPanel
         backSpace.setBackground(Color.yellow);
         dotcom.setBackground(Color.green);
         atsign.setBackground(Color.green);
-        
-        
+
+
         shift.setFocusable(false);
         backSpace.setFocusable(false);
         enter.setFocusable(false);
@@ -122,30 +123,36 @@ public class KeyBoard extends JPanel
                 btn.setSize(keysWidth, keysHeight);
                 btn.setLocation(currentLocation);
                 currentLocation.setLocation(keysWidth + currentLocation.getX(), currentLocation.getY());
-                frm.add(btn);
-                btn.addMouseListener(new MouseListener() {
+                add(btn);
+                btn.addMouseListener(new MouseListener()
+                {
                     @Override
-                    public void mouseClicked(MouseEvent e) {
+                    public void mouseClicked(MouseEvent e)
+                    {
                     }
 
                     @Override
-                    public void mousePressed(MouseEvent e) {
-                        ((JButton)e.getSource()).setBackground(Color.black);
+                    public void mousePressed(MouseEvent e)
+                    {
+                        ((JButton) e.getSource()).setBackground(Color.black);
                     }
 
                     @Override
-                    public void mouseReleased(MouseEvent e) {
-                        ((JButton)e.getSource()).setBackground(null);
+                    public void mouseReleased(MouseEvent e)
+                    {
+                        ((JButton) e.getSource()).setBackground(null);
                     }
 
                     @Override
-                    public void mouseEntered(MouseEvent e) {
-                        
+                    public void mouseEntered(MouseEvent e)
+                    {
+
                     }
 
                     @Override
-                    public void mouseExited(MouseEvent e) {
-                        
+                    public void mouseExited(MouseEvent e)
+                    {
+
                     }
                 });
                 btn.addActionListener(new ActionListener()
@@ -154,7 +161,7 @@ public class KeyBoard extends JPanel
                     public void actionPerformed(ActionEvent e)
                     {
                         parent.setListenToKeyboardShow(false);
-                        txt.requestFocusInWindow();
+                        getTextField().requestFocusInWindow();
                         parent.setListenToKeyboardShow(true);
 
                         MButton b = ((MButton) e.getSource());
@@ -197,32 +204,32 @@ public class KeyBoard extends JPanel
 
 
         }
-        
-        frm.add(dotcom);
-        currentLocation.setLocation(currentLocation.getX() , currentLocation.getY());
+
+        add(dotcom);
+        currentLocation.setLocation(currentLocation.getX(), currentLocation.getY());
         dotcom.setLocation(currentLocation);
-        dotcom.setSize(keysWidth*2/3 , keysHeight);
-        frm.add(shift);
-        currentLocation.setLocation(currentLocation.getX() + keysWidth * 2 / 3, currentLocation.getY() );
+        dotcom.setSize(keysWidth * 2 / 3, keysHeight);
+        add(shift);
+        currentLocation.setLocation(currentLocation.getX() + keysWidth * 2 / 3, currentLocation.getY());
         shift.setLocation(currentLocation);
-        shift.setSize(keysWidth *7/3, keysHeight);
-        frm.add(atsign);
-        currentLocation.setLocation(currentLocation.getX(), currentLocation.getY()-keysHeight );
+        shift.setSize(keysWidth * 7 / 3, keysHeight);
+        add(atsign);
+        currentLocation.setLocation(currentLocation.getX(), currentLocation.getY() - keysHeight);
         atsign.setLocation(currentLocation);
-        atsign.setSize(keysWidth *2/3, keysHeight);
-        frm.add(enter);
+        atsign.setSize(keysWidth * 2 / 3, keysHeight);
+        add(enter);
         currentLocation.setLocation(currentLocation.getX() + keysWidth * 2 / 3, currentLocation.getY());
         enter.setLocation(currentLocation);
-        enter.setSize(keysWidth * 5 / 3, keysHeight );
-        frm.add(backSpace);
-        currentLocation.setLocation(currentLocation.getX() , currentLocation.getY() - keysHeight);
+        enter.setSize(keysWidth * 5 / 3, keysHeight);
+        add(backSpace);
+        currentLocation.setLocation(currentLocation.getX(), currentLocation.getY() - keysHeight);
         backSpace.setLocation(currentLocation);
-        backSpace.setSize(keysWidth * 5 / 3, keysHeight );
+        backSpace.setSize(keysWidth * 5 / 3, keysHeight);
         atsign.setFocusable(false);
         dotcom.setFocusable(false);
 
 
-        frm.repaint();
+        repaint();
 
         shift.addActionListener(new ActionListener()
         {
@@ -270,7 +277,7 @@ public class KeyBoard extends JPanel
             public void actionPerformed(ActionEvent e)
             {
                 parent.setListenToKeyboardShow(false);
-                txt.requestFocusInWindow();
+                getTextField().requestFocusInWindow();
                 parent.setListenToKeyboardShow(true);
 
                 try
@@ -288,45 +295,53 @@ public class KeyBoard extends JPanel
                 }
             }
         });
-        enter.addMouseListener(new MouseListener() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                    }
+        enter.addMouseListener(new MouseListener()
+        {
+            @Override
+            public void mouseClicked(MouseEvent e)
+            {
+            }
 
-                    @Override
-                    public void mousePressed(MouseEvent e) {
-                        ((JButton)e.getSource()).setBackground(Color.black);
-                    }
+            @Override
+            public void mousePressed(MouseEvent e)
+            {
+                ((JButton) e.getSource()).setBackground(Color.black);
+            }
 
-                    @Override
-                    public void mouseReleased(MouseEvent e) {
-                        ((JButton)e.getSource()).setBackground(Color.yellow);
-                    }
+            @Override
+            public void mouseReleased(MouseEvent e)
+            {
+                ((JButton) e.getSource()).setBackground(Color.yellow);
+            }
 
-                    @Override
-                    public void mouseEntered(MouseEvent e) {
-                        
-                    }
+            @Override
+            public void mouseEntered(MouseEvent e)
+            {
 
-                    @Override
-                    public void mouseExited(MouseEvent e) {
-                        
-                    }
-                });
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e)
+            {
+
+            }
+        });
         enter.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                enterActionPerformListener.EnterActionPerform();
+                getEnterActionPerformListener().EnterActionPerform();
             }
         });
-        
-        atsign.addActionListener(new ActionListener() {
+
+        atsign.addActionListener(new ActionListener()
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)
+            {
                 parent.setListenToKeyboardShow(false);
-                txt.requestFocusInWindow();
+                getTextField().requestFocusInWindow();
                 parent.setListenToKeyboardShow(true);
 
                 try
@@ -343,42 +358,46 @@ public class KeyBoard extends JPanel
                 }
             }
         });
-        atsign.addMouseListener(new MouseListener() {
+        atsign.addMouseListener(new MouseListener()
+        {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseClicked(MouseEvent e)
+            {
             }
 
             @Override
-            public void mousePressed(MouseEvent e) {
-                ((JButton)e.getSource()).setBackground(Color.black);
-                
+            public void mousePressed(MouseEvent e)
+            {
+                ((JButton) e.getSource()).setBackground(Color.black);
+
             }
 
             @Override
-            public void mouseReleased(MouseEvent e) {
-                ((JButton)e.getSource()).setBackground(Color.green);
-                
+            public void mouseReleased(MouseEvent e)
+            {
+                ((JButton) e.getSource()).setBackground(Color.green);
+
             }
 
             @Override
-            public void mouseEntered(MouseEvent e) {
+            public void mouseEntered(MouseEvent e)
+            {
             }
 
             @Override
-            public void mouseExited(MouseEvent e) {
+            public void mouseExited(MouseEvent e)
+            {
             }
         });
-        
-        
-        
-        
-        
-        
-        dotcom.addActionListener(new ActionListener() {
+
+
+        dotcom.addActionListener(new ActionListener()
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)
+            {
                 parent.setListenToKeyboardShow(false);
-                txt.requestFocusInWindow();
+                getTextField().requestFocusInWindow();
                 parent.setListenToKeyboardShow(true);
 
                 try
@@ -401,48 +420,60 @@ public class KeyBoard extends JPanel
                 }
             }
         });
-        dotcom.addMouseListener(new MouseListener() {
+        dotcom.addMouseListener(new MouseListener()
+        {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseClicked(MouseEvent e)
+            {
             }
 
             @Override
-            public void mousePressed(MouseEvent e) {
-                ((JButton)e.getSource()).setBackground(Color.black);
-                
+            public void mousePressed(MouseEvent e)
+            {
+                ((JButton) e.getSource()).setBackground(Color.black);
+
             }
 
             @Override
-            public void mouseReleased(MouseEvent e) {
-                ((JButton)e.getSource()).setBackground(Color.green);
-                
+            public void mouseReleased(MouseEvent e)
+            {
+                ((JButton) e.getSource()).setBackground(Color.green);
+
             }
 
             @Override
-            public void mouseEntered(MouseEvent e) {
+            public void mouseEntered(MouseEvent e)
+            {
             }
 
             @Override
-            public void mouseExited(MouseEvent e) {
+            public void mouseExited(MouseEvent e)
+            {
             }
         });
-        
-        
-        
-        
-        
-        
-        
+
 
     }
 
-    @Override
-    protected void finalize() throws Throwable
+    public EnterActionPerformListener getEnterActionPerformListener()
     {
-        super.finalize(); //To change body of generated methods, choose Tools | Templates.
-
+        return enterActionPerformListener;
     }
-    
+
+    public JTextField getTextField()
+    {
+        return textField;
+    }
+
+    public void setEnterActionPerformListener(EnterActionPerformListener enterActionPerformListener)
+    {
+        this.enterActionPerformListener = enterActionPerformListener;
+    }
+
+    public void setTextField(JTextField textField)
+    {
+        this.textField = textField;
+    }
 
 
 };
@@ -473,7 +504,7 @@ class deletorListener implements MouseListener
     @Override
     public void mousePressed(MouseEvent e)
     {
-        ((JButton)e.getSource()).setBackground(Color.black);
+        ((JButton) e.getSource()).setBackground(Color.black);
         KeyBoard.deleterActive = true;
         new Thread(KeyBoard.deleter).start();
 
@@ -483,7 +514,7 @@ class deletorListener implements MouseListener
     public void mouseReleased(MouseEvent e)
     {
         KeyBoard.deleterActive = false;
-        ((JButton)e.getSource()).setBackground(Color.yellow);
+        ((JButton) e.getSource()).setBackground(Color.yellow);
     }
 
     @Override

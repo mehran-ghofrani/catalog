@@ -1,4 +1,4 @@
-package primitives;
+package db.entities;
 
 import javax.persistence.*;
 import java.sql.Timestamp;

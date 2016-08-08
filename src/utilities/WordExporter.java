@@ -1,7 +1,7 @@
-package Utilities;
+package utilities;
 
+import db.entities.EmailEntity;
 import org.apache.poi.xwpf.usermodel.*;
-import primitives.EmailEntity;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
-import static Utilities.DateUtils.convertToDateFormat;
+import static utilities.DateUtils.convertToDateFormat;
 
 /**
  * Created by online on 8/1/2016.

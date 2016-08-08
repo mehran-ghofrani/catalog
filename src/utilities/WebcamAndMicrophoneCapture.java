@@ -1,29 +1,16 @@
-package Utilities;
+package utilities;
 
 /**
  * @author Ben Davenport
- *
+ * <p>
  * This class is a simple example for broadcasting a video capture device (ie, webcam) and an audio capture device (ie, microphone)
  * using an FFmpegFrameRecorder.
- *
+ * <p>
  * FFmpegFrameRecorder allows the output destination to be either a FILE or an RTMP endpoint (Wowza, FMS, et al)
- *
+ * <p>
  * IMPORTANT: There are potential timing issues with audio/video synchronicity across threads, I am working on finding a solution, but
  * chime in if you can fig it out :o)
  */
-
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.ShortBuffer;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.Mixer;
-import javax.sound.sampled.TargetDataLine;
 
 import org.bytedeco.javacpp.avcodec;
 import org.bytedeco.javacv.CanvasFrame;
@@ -31,6 +18,13 @@ import org.bytedeco.javacv.FFmpegFrameRecorder;
 import org.bytedeco.javacv.Frame;
 import org.bytedeco.javacv.FrameRecorder.Exception;
 import org.bytedeco.javacv.OpenCVFrameGrabber;
+
+import javax.sound.sampled.*;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.ShortBuffer;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class WebcamAndMicrophoneCapture
 {
@@ -110,7 +104,8 @@ public class WebcamAndMicrophoneCapture
         recorder.start();
 
         // Thread for audio capture, this could be in a nested private class if you prefer...
-        new Thread(new Runnable() {
+        new Thread(new Runnable()
+        {
             @Override
             public void run()
             {
@@ -130,7 +125,7 @@ public class WebcamAndMicrophoneCapture
                     // Open and start capturing audio
                     // It's possible to have more control over the chosen audio device with this line:
                     // TargetDataLine line = (TargetDataLine)mixer.getLine(dataLineInfo);
-                    TargetDataLine line = (TargetDataLine)AudioSystem.getLine(dataLineInfo);
+                    TargetDataLine line = (TargetDataLine) AudioSystem.getLine(dataLineInfo);
                     line.open(audioFormat);
                     line.start();
 
@@ -150,7 +145,8 @@ public class WebcamAndMicrophoneCapture
                     // a similar approach could be used for the webcam capture
                     // as well, if you wish
                     ScheduledThreadPoolExecutor exec = new ScheduledThreadPoolExecutor(1);
-                    exec.scheduleAtFixedRate(new Runnable() {
+                    exec.scheduleAtFixedRate(new Runnable()
+                    {
                         @Override
                         public void run()
                         {
@@ -174,15 +170,13 @@ public class WebcamAndMicrophoneCapture
                                 // recorder is instance of
                                 // org.bytedeco.javacv.FFmpegFrameRecorder
                                 recorder.recordSamples(sampleRate, numChannels, sBuff);
-                            }
-                            catch (org.bytedeco.javacv.FrameRecorder.Exception e)
+                            } catch (org.bytedeco.javacv.FrameRecorder.Exception e)
                             {
                                 e.printStackTrace();
                             }
                         }
                     }, 0, (long) 1000 / FRAME_RATE, TimeUnit.MILLISECONDS);
-                }
-                catch (LineUnavailableException e1)
+                } catch (LineUnavailableException e1)
                 {
                     e1.printStackTrace();
                 }

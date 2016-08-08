@@ -1,9 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package javaapplication4;
+package utilities;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -16,12 +11,10 @@ import javax.mail.internet.MimeMultipart;
 import java.util.Properties;
 
 /**
- * @author Mactabi
+ * Created by online on 8/6/2016.
  */
-public class EmailSend
+public class EmailUtils
 {
-
-
     public synchronized static void send(String to, String attachmentPath, String attachmentName)
     {
         System.out.println("sending email to: " + to);
@@ -68,7 +61,7 @@ public class EmailSend
             multipart.addBodyPart(messageBodyPart);
 
             // Part two is attachment
-            if(attachmentPath != null)
+            if (attachmentPath != null)
             {
                 messageBodyPart = new MimeBodyPart();
                 DataSource source = new FileDataSource(attachmentPath);
@@ -92,4 +85,13 @@ public class EmailSend
         ////////////////////////////
     }
 
+    public static boolean isValidEmailAddress(String email)
+    {
+        if (email.trim().equalsIgnoreCase(""))
+            return false;
+        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+        java.util.regex.Matcher m = p.matcher(email);
+        return m.matches();
+    }
 }
