@@ -35,11 +35,11 @@ public class Camera extends JPanel
     private Camera()
     {
         System.load(new File("").getAbsolutePath() + "\\libs\\OpenCV\\" + Core.NATIVE_LIBRARY_NAME + ".dll");
-        timer = 10;
+        timer = 7;
 
         VideoCapture camera = new VideoCapture(0);
         Mat frame = new Mat();
-        if (!camera.isOpened())
+        if(!camera.isOpened())
         {
             System.out.println("Error");
         } else
@@ -69,38 +69,38 @@ public class Camera extends JPanel
             updater.start();
         }
 
-        addMouseListener(new MouseListener()
-        {
-            @Override
-            public void mouseClicked(MouseEvent e)
-            {
-                saveImage();
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e)
-            {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e)
-            {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e)
-            {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e)
-            {
-
-            }
-        });
+//        addMouseListener(new MouseListener()
+//        {
+//            @Override
+//            public void mouseClicked(MouseEvent e)
+//            {
+//                saveImage();
+//            }
+//
+//            @Override
+//            public void mousePressed(MouseEvent e)
+//            {
+//
+//            }
+//
+//            @Override
+//            public void mouseReleased(MouseEvent e)
+//            {
+//
+//            }
+//
+//            @Override
+//            public void mouseEntered(MouseEvent e)
+//            {
+//
+//            }
+//
+//            @Override
+//            public void mouseExited(MouseEvent e)
+//            {
+//
+//            }
+//        });
 
         setSize(MainFrame.getInstance().getSize());
         setLocation(0, 0);
@@ -143,6 +143,22 @@ public class Camera extends JPanel
                             }
                         }
                         saveImage();
+                        setLocation(getParent().getWidth()*5/100,getParent().getHeight()*5/100);
+                        setSize(getParent().getWidth()*90/100,getParent().getHeight()*90/100);
+                        try
+                        {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e)
+                        {
+                            e.printStackTrace();
+                        }
+                        setLocation(0,0);
+                        setSize(getParent().getWidth(),getParent().getHeight());
+                        repaint();
+                        getParent().repaint();
+
+                        camera.release();
+
                     }
                 }).start();
             }
@@ -256,10 +272,16 @@ public class Camera extends JPanel
         g.drawImage(currentImg.getScaledInstance(width, height, Image.SCALE_FAST)
                 , (getWidth() - width) / 2, (getHeight() - height) / 2, this);
         g.setFont(Fonts.englishTimerFont);
-        g.setColor(Color.white);
+        g.setFont(new Font(Font.DIALOG,Font.BOLD,300));
+        g.setColor(Color.red);
+        if(timer>=4)g.setColor(Color.yellow);
+        if(timer>=6)g.setColor(Color.green);
+
+
         synchronized (timer)
         {
-            g.drawString(timer.toString(), getWidth() / 2, getHeight() / 2);
+            if(timer!=0)
+                g.drawString(timer.toString(), (getWidth() / 2)-100, (getHeight() /2)+100);
         }
     }
 

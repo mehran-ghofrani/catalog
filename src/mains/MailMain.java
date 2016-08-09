@@ -15,7 +15,7 @@ public class MailMain
     {
 //        DBManager.getMyInstance();
 //        new CatalogEmailSendingPage();
-        Camera.getInstance();
+          Camera.getInstance();
     }
 
 }
