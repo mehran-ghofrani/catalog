@@ -19,18 +19,18 @@ import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
 
-public class Camera extends JPanel
+public class ImageCapturingPage extends JPanel implements MainPanel
 {
 
-    private static Camera instance;
-    private final int currentIndex;
+    private static ImageCapturingPage instance;
     private Image currentImg;
     private Integer timer;
     private Boolean showCamera;
     private boolean showCapture;
     private double captureBorderThickness;
+    private int currentIndex = 0;
 
-    private Camera()
+    private ImageCapturingPage()
     {
         System.load(new File("").getAbsolutePath() + "\\libs\\OpenCV\\" + Core.NATIVE_LIBRARY_NAME + ".dll");
         timer = 2;
@@ -44,7 +44,7 @@ public class Camera extends JPanel
             System.out.println("Error");
         } else
         {
-            Thread updater = new Thread(new Runnable()
+            new Thread(new Runnable()
             {
                 @Override
                 public void run()
@@ -64,16 +64,13 @@ public class Camera extends JPanel
                     }
                     camera.release();
                 }
-            });
-            updater.start();
+            }).start();
         }
 
         setSize(MainFrame.getInstance().getSize());
         setLocation(0, 0);
-        setBackground(Color.BLUE);
 
         currentIndex = MainFrame.getInstance().addPanel(this);
-        MainFrame.getInstance().showPanel(currentIndex);
 
         new Thread(new Runnable()
         {
@@ -91,33 +88,26 @@ public class Camera extends JPanel
                     }
                 }
 
-                new Thread(new Runnable()
+                while (getTimer() > 0)
                 {
-                    @Override
-                    public void run()
+                    System.out.println(getTimer());
+                    decreaseTimer();
+                    try
                     {
-                        while (getTimer() > 0)
-                        {
-                            System.out.println(getTimer());
-                            decreaseTimer();
-                            try
-                            {
-                                Thread.sleep(1000);
-                            } catch (InterruptedException e)
-                            {
-                                e.printStackTrace();
-                            }
-                        }
-                        saveImage();
-                        showCamera = false;
-                        showCapturing();
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e)
+                    {
+                        e.printStackTrace();
                     }
-                }).start();
+                }
+                saveImage();
+                showCamera = false;
+                showCapturingEffect();
             }
         }).start();
     }
 
-    private void showCapturing()
+    private void showCapturingEffect()
     {
 //        setSize(getParent().getWidth() * 90 / 100, getParent().getHeight() * 90 / 100);
 //        setLocation(getParent().getWidth() * 5 / 100, getParent().getHeight() * 5 / 100);
@@ -132,8 +122,8 @@ public class Camera extends JPanel
 //        setSize(getParent().getWidth(), getParent().getHeight());
 //        repaint();
         showCapture = true;
-            captureBorderThickness = 0.1;
-        while(captureBorderThickness < 1)
+        captureBorderThickness = 0.1;
+        while (captureBorderThickness < 1)
         {
             captureBorderThickness += 0.1;
             try
@@ -195,11 +185,11 @@ public class Camera extends JPanel
         }).start();
     }
 
-    public static Camera getInstance()
+    public static ImageCapturingPage getInstance()
     {
 
         if (instance == null)
-            instance = new Camera();
+            instance = new ImageCapturingPage();
         return instance;
     }
 
@@ -210,7 +200,7 @@ public class Camera extends JPanel
         j.setSize(400, 400);
         j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         j.setLayout(null);
-        Camera cam = Camera.getInstance();
+        ImageCapturingPage cam = ImageCapturingPage.getInstance();
         j.getContentPane().add(cam);
         cam.setVisible(true);
         cam.setSize(400, 400);
@@ -281,15 +271,15 @@ public class Camera extends JPanel
 
 
         if (timer > 0)
-            g.drawString(timer.toString(), (getWidth() / 2) - 100, (getHeight() / 2) + 100);
+            g.drawString(timer.toString(), (getWidth() / 2), (getHeight() / 2));
 
-        if(showCapture)
+        if (showCapture)
         {
             g.setColor(Color.white);
             float thickness = 10;
             Graphics2D g2 = (Graphics2D) g;
             Stroke oldStroke = g2.getStroke();
-            g2.setStroke(new BasicStroke((float) (captureBorderThickness > 0 ? (captureBorderThickness*thickness) : 0.0)));
+            g2.setStroke(new BasicStroke((float) (captureBorderThickness > 0 ? (captureBorderThickness * thickness) : 0.0)));
             g2.drawRect((getWidth() - width) / 2, (getHeight() - height) / 2, width, height);
             g2.setStroke(oldStroke);
         }
@@ -309,6 +299,12 @@ public class Camera extends JPanel
     private void decreaseTimer()
     {
         timer--;
+    }
+
+    @Override
+    public int getPanelIndex()
+    {
+        return currentIndex;
     }
 }
 

@@ -5,9 +5,8 @@
  */
 package mains;
 
-import db.DBManager;
-import uiComponents.pages.Camera;
-import uiComponents.pages.CatalogEmailSendingPage;
+import uiComponents.pages.ImageCapturingPage;
+import uiComponents.pages.MainFrame;
 
 public class MailMain
 {
@@ -15,7 +14,9 @@ public class MailMain
     {
 //        DBManager.getMyInstance();
 //        new CatalogEmailSendingPage();
-          Camera.getInstance();
+          ImageCapturingPage.getInstance();
+        MainFrame.getInstance().showPanel(ImageCapturingPage.getInstance().getPanelIndex());
+
     }
 
 }
