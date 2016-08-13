@@ -4,16 +4,21 @@ import db.DBManager;
 import uiComponents.TouchJTextField;
 import utilities.EmailUtils;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
 
 import static utilities.EmailUtils.isValidEmailAddress;
 import static utilities.Fonts.bodyFont;
 import static utilities.Fonts.headingFont;
 
-public class CatalogEmailSendingPage extends JPanel implements EnterActionPerformListener
+public class CatalogEmailSendingPage extends JPanel implements EnterActionPerformListener, MainPanel
 {
+    private static CatalogEmailSendingPage instance = null;
+    private Image userImg;
     private JLabel infoLable;
     private JButton submitBtn;
     private JLabel statusLabel;
@@ -23,10 +28,17 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
     private MainFrame parent;
     private int currentIndex;
 
-    public CatalogEmailSendingPage()
+    private CatalogEmailSendingPage()
     {
         this.parent = MainFrame.getInstance();
         initComponents();
+    }
+
+    public static CatalogEmailSendingPage getInstance()
+    {
+        if(instance == null)
+            instance = new CatalogEmailSendingPage();
+        return instance;
     }
 
 
@@ -210,7 +222,6 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
         });
 
         currentIndex = parent.addPanel(this);
-        parent.showPanel(currentIndex);
     }
 
     private void resetStatusLabel()
@@ -267,6 +278,23 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
         {
             statusLabel.setFont(bodyFont);
             statusLabel.setText("<html>ایمیل <font color='red'>اشتباه</font> وارد شده است</html>");
+        }
+    }
+
+    @Override
+    public int getPanelIndex()
+    {
+        return currentIndex;
+    }
+
+    public void setImage(String path)
+    {
+        try
+        {
+            this.userImg = ImageIO.read(new File(path));
+        } catch (IOException e)
+        {
+            e.printStackTrace();
         }
     }
 }

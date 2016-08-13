@@ -5,6 +5,7 @@
  */
 package uiComponents.pages;
 
+import org.bytedeco.javacv.ProjectiveDevice;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.highgui.VideoCapture;
@@ -23,56 +24,74 @@ public class ImageCapturingPage extends JPanel implements MainPanel
 {
 
     private static ImageCapturingPage instance;
+    private final Thread timerThread;
     private Image currentImg;
     private Integer timer;
     private Boolean showCamera;
     private boolean showCapture;
     private double captureBorderThickness;
     private int currentIndex = 0;
+    private VideoCapture camera;
 
     private ImageCapturingPage()
     {
         System.load(new File("").getAbsolutePath() + "\\libs\\OpenCV\\" + Core.NATIVE_LIBRARY_NAME + ".dll");
-        timer = 2;
+        timer = 8;
         showCamera = true;
         showCapture = false;
 
-        VideoCapture camera = new VideoCapture(0);
+        camera = new VideoCapture(0);
         Mat frame = new Mat();
-        if (!camera.isOpened())
+        waitUntilCameraIsConnected();
+        while (!camera.isOpened())
         {
-            System.out.println("Error");
-        } else
+            JOptionPane.showConfirmDialog(this, "خطا در اتصال به دوربین");
+            camera.open(0);
+        }
+        new Thread(new Runnable()
         {
-            new Thread(new Runnable()
+            @Override
+            public void run()
             {
-                @Override
-                public void run()
+                while (true)
                 {
-                    while (true)
+                    if (getCamera().read(frame))
                     {
-                        if (camera.read(frame))
+                        if (showCamera == false)
+                            break;
+                        Mat flippedFrame = new Mat();
+                        Core.flip(frame, flippedFrame, 1);
+                        BufferedImage image = MatToBufferedImage(flippedFrame);
+                        setImage(image);
+                        repaint();
+                    } else
+                    {
+                        if(timerThread != null)
                         {
-                            if (showCamera == false)
-                                break;
-                            Mat flippedFrame = new Mat();
-                            Core.flip(frame, flippedFrame, 1);
-                            BufferedImage image = MatToBufferedImage(flippedFrame);
-                            setImage(image);
-                            repaint();
+                            System.out.println("suspend");
+                            if(timerThread.isAlive())
+                                timerThread.suspend();
+                        }
+                        waitUntilCameraIsConnected();
+                        waitUntilImageIsReady();
+                        if(timerThread != null)
+                        {
+                            System.out.println("resume");
+                            timerThread.resume();
                         }
                     }
-                    camera.release();
                 }
-            }).start();
-        }
+                getCamera().release();
+                System.out.println("camera released");
+            }
+        }).start();
 
         setSize(MainFrame.getInstance().getSize());
         setLocation(0, 0);
 
         currentIndex = MainFrame.getInstance().addPanel(this);
 
-        new Thread(new Runnable()
+        timerThread = new Thread(new Runnable()
         {
             @Override
             public void run()
@@ -103,8 +122,40 @@ public class ImageCapturingPage extends JPanel implements MainPanel
                 saveImage();
                 showCamera = false;
                 showCapturingEffect();
+                System.out.println("thread timer ended");
+                CatalogEmailSendingPage.getInstance().setImage("image.jpg");
+                MainFrame.getInstance().showPanel(CatalogEmailSendingPage.getInstance().getPanelIndex());
             }
-        }).start();
+        });
+        timerThread.start();
+    }
+
+    private void waitUntilCameraIsConnected()
+    {
+        while (!camera.isOpened())
+        {
+            camera.release();
+            JOptionPane.showConfirmDialog(this, "خطا در اتصال به دوربین");
+            camera.open(0);
+        }
+    }
+
+    private void waitUntilImageIsReady()
+    {
+        Mat frame = new Mat();
+        while (!camera.read(frame))
+        {
+            camera.release();
+            try
+            {
+                Thread.sleep(50);
+            } catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+            camera.open(0);
+            System.out.println("try to read image");
+        }
     }
 
     private void showCapturingEffect()
@@ -259,29 +310,29 @@ public class ImageCapturingPage extends JPanel implements MainPanel
         super.paintComponents(g);
         g.setColor(Color.white);
         g.fillRect(0, 0, getWidth(), getHeight());
-        double aspectRatio = ((double) currentImg.getWidth(null)) / currentImg.getHeight(null);
-        int width, height = getHeight() - 50;
-        width = (int) (height * aspectRatio);
-        g.drawImage(currentImg.getScaledInstance(width, height, Image.SCALE_FAST)
-                , (getWidth() - width) / 2, (getHeight() - height) / 2, this);
-        g.setFont(Fonts.englishTimerFont);
-        if (timer >= 6) g.setColor(Color.green);
-        else if (timer >= 4) g.setColor(Color.yellow);
-        else g.setColor(Color.red);
-
-
-        if (timer > 0)
-            g.drawString(timer.toString(), (getWidth() / 2), (getHeight() / 2));
-
-        if (showCapture)
+        if (currentImg != null)
         {
-            g.setColor(Color.white);
-            float thickness = 10;
-            Graphics2D g2 = (Graphics2D) g;
-            Stroke oldStroke = g2.getStroke();
-            g2.setStroke(new BasicStroke((float) (captureBorderThickness > 0 ? (captureBorderThickness * thickness) : 0.0)));
-            g2.drawRect((getWidth() - width) / 2, (getHeight() - height) / 2, width, height);
-            g2.setStroke(oldStroke);
+            double aspectRatio = ((double) currentImg.getWidth(null)) / currentImg.getHeight(null);
+            int width, height = getHeight() - 50;
+            width = (int) (height * aspectRatio);
+            g.drawImage(currentImg.getScaledInstance(width, height, Image.SCALE_FAST)
+                    , (getWidth() - width) / 2, (getHeight() - height) / 2, this);
+            g.setFont(Fonts.englishTimerFont);
+            if (timer >= 6) g.setColor(Color.green);
+            else if (timer >= 4) g.setColor(Color.yellow);
+            else g.setColor(Color.red);
+            if (timer > 0)
+                g.drawString(timer.toString(),  (getWidth() / 2) - 140, (getHeight() / 2) + 100);
+            if (showCapture)
+            {
+                g.setColor(Color.white);
+                float thickness = 10;
+                Graphics2D g2 = (Graphics2D) g;
+                Stroke oldStroke = g2.getStroke();
+                g2.setStroke(new BasicStroke((float) (captureBorderThickness > 0 ? (captureBorderThickness * thickness) : 0.0)));
+                g2.drawRect((getWidth() - width) / 2, (getHeight() - height) / 2, width, height);
+                g2.setStroke(oldStroke);
+            }
         }
     }
 
@@ -305,6 +356,16 @@ public class ImageCapturingPage extends JPanel implements MainPanel
     public int getPanelIndex()
     {
         return currentIndex;
+    }
+
+    public VideoCapture getCamera()
+    {
+        return camera;
+    }
+
+    public void setCamera(VideoCapture camera)
+    {
+        this.camera = camera;
     }
 }
 

@@ -160,7 +160,9 @@ public class MainFrame extends JFrame implements TouchKeyboardHandler
                 isFirstTimeToShow = false;
                 setVisible(true);
             }
+            repaint();
             panels.elementAt(index).requestFocusInWindow();
+            panels.elementAt(index).updateUI();
         }
 
     }
