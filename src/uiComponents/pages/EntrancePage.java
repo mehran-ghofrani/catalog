@@ -1,6 +1,12 @@
 package uiComponents.pages;
 
+import com.jogamp.opengl.fixedfunc.GLMatrixFunc;
+import com.jogamp.opengl.util.gl2.GLUT;
+import com.jogamp.opengl.util.texture.Texture;
+import com.jogamp.opengl.util.texture.TextureIO;
 import com.sun.deploy.config.Config;
+import com.sun.glass.ui.Size;
+import org.apache.poi.ss.formula.ptg.AddPtg;
 import sun.rmi.runtime.NewThreadAction;
 
 import javax.imageio.ImageIO;
@@ -24,6 +30,7 @@ import javax.swing.JFrame;
 import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
@@ -35,6 +42,16 @@ import com.jogamp.opengl.glu.GLU;
 public class EntrancePage extends GLJPanel implements MainPanel
 {
     private int currentIndex;
+    private static EntrancePage instance;
+
+    public static EntrancePage getInstance(){
+        if(instance==null)
+            instance= new EntrancePage();
+        return instance;
+
+
+
+    }
 
     public EntrancePage(){
         super( new GLCapabilities( GLProfile.getDefault() ) );
@@ -45,13 +62,14 @@ public class EntrancePage extends GLJPanel implements MainPanel
     public void init(){
 
         Dimension size = MainFrame.getInstance().getSize();
+
         setSize(size);
         setLocation(0, 0);
         String pictureAddress="C:\\Users\\Mactabi\\Desktop\\1.jpg";
 
         setLayout(null);
         JButton btn=new JButton();
-        add(btn);
+        //add(btn);
         btn.setLocation((int)size.getWidth()/4,(int)size.getHeight()/4);
         btn.setSize((int)size.getWidth()/2,(int)size.getHeight()/2);
 
@@ -157,32 +175,91 @@ public class EntrancePage extends GLJPanel implements MainPanel
 
 
 class OneTriangle {
+    public static float deg=0;
     protected static void setup( GL2 gl2, int width, int height ) {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while(true) {
+                    deg++;
+                    if (deg>359) deg=0;
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    EntrancePage.getInstance().repaint();
+                }
+            }
+        }).start();
+
+
+        Texture text;
+
+        try {
+            text = TextureIO.newTexture(new File("C:\\Users\\Mactabi\\Desktop\\1.bmp"), false);
+            text.enable(gl2);
+            text.bind(gl2);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         gl2.glMatrixMode( GL2.GL_PROJECTION );
         gl2.glLoadIdentity();
+        gl2.glClearColor(1,1,1,1);
 
-        // coordinate system origin at lower left with width and height same as the window
-        GLU glu = new GLU();
-        glu.gluOrtho2D( 0.0f, width, 0.0f, height );
+
 
         gl2.glMatrixMode( GL2.GL_MODELVIEW );
         gl2.glLoadIdentity();
 
-        gl2.glViewport( 0, 0, width, height );
     }
 
     protected static void render( GL2 gl2, int width, int height ) {
         gl2.glClear( GL.GL_COLOR_BUFFER_BIT );
 
-        // draw a triangle filling the window
+        gl2.glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
         gl2.glLoadIdentity();
-        gl2.glBegin( GL.GL_TRIANGLES );
-        gl2.glColor3f( 1, 0, 0 );
-        gl2.glVertex2f( 0, 0 );
-        gl2.glColor3f( 0, 1, 0 );
-        gl2.glVertex2f( width, 0 );
+
+
+        // draw a triangle filling the window
+        GLU glu=new GLU();
+        GLUT glut=new GLUT();
+
+        glu.gluPerspective(90f,1f,0.1f ,10f);
+        glu.gluLookAt(0,2,0,0,0,-3,0,1,0);
+
+
+
+
+
+
+
+        gl2.glTranslated(0,0,-3);
+        gl2.glDisable(GL.GL_CULL_FACE);
+        gl2.glRotatef(deg,0,1,0);
+
+
+
+
+
+
         gl2.glColor3f( 0, 0, 1 );
-        gl2.glVertex2f( width / 2, height );
+
+
+        gl2.glBegin(GL2.GL_QUADS);
+        gl2.glNormal3f(0,0,1);
+        gl2.glTexCoord2d(0.0, 0.0);
+        gl2.glVertex2d(0.0, 0.0);
+        gl2.glTexCoord2d(1.0, 0.0);
+        gl2.glVertex2d(width, 0.0);
+        gl2.glTexCoord2d(1.0, 1.0);
+        gl2.glVertex2d(width, height);
+        gl2.glTexCoord2d(0.0, 1.0);
+        gl2.glVertex2d(0.0, height);
         gl2.glEnd();
+
+//        glut.glutWireTeapot(1);
     }
 }
