@@ -5,17 +5,21 @@
  */
 package mains;
 
-import uiComponents.pages.ImageCapturingPage;
+import uiComponents.pages.EntrancePage;
 import uiComponents.pages.MainFrame;
+
+import javax.swing.*;
 
 public class MailMain
 {
     public static void main(String[] args)
+
     {
 //        DBManager.getMyInstance();
 //        new CatalogEmailSendingPage();
-          ImageCapturingPage.getInstance();
-        MainFrame.getInstance().showPanel(ImageCapturingPage.getInstance().getPanelIndex());
+//          ImageCapturingPage.getInstance();
+//        MainFrame.getInstance().showPanel(new EntrancePage(MainFrame.getInstance().getSize()).getPanelIndex());
+        MainFrame.getInstance().showPanel(new EntrancePage().getPanelIndex());
 
     }
 
