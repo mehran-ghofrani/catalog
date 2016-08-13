@@ -13,17 +13,12 @@ import utilities.Fonts;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
 
-/**
- * @author Mactabi
- */
 public class Camera extends JPanel
 {
 
@@ -31,15 +26,20 @@ public class Camera extends JPanel
     private final int currentIndex;
     private Image currentImg;
     private Integer timer;
+    private Boolean showCamera;
+    private boolean showCapture;
+    private double captureBorderThickness;
 
     private Camera()
     {
         System.load(new File("").getAbsolutePath() + "\\libs\\OpenCV\\" + Core.NATIVE_LIBRARY_NAME + ".dll");
-        timer = 7;
+        timer = 2;
+        showCamera = true;
+        showCapture = false;
 
         VideoCapture camera = new VideoCapture(0);
         Mat frame = new Mat();
-        if(!camera.isOpened())
+        if (!camera.isOpened())
         {
             System.out.println("Error");
         } else
@@ -53,54 +53,20 @@ public class Camera extends JPanel
                     {
                         if (camera.read(frame))
                         {
+                            if (showCamera == false)
+                                break;
                             Mat flippedFrame = new Mat();
                             Core.flip(frame, flippedFrame, 1);
                             BufferedImage image = MatToBufferedImage(flippedFrame);
                             setImage(image);
                             repaint();
-                        } else
-                        {
-                            camera.release();
-                            break;
                         }
                     }
+                    camera.release();
                 }
             });
             updater.start();
         }
-
-//        addMouseListener(new MouseListener()
-//        {
-//            @Override
-//            public void mouseClicked(MouseEvent e)
-//            {
-//                saveImage();
-//            }
-//
-//            @Override
-//            public void mousePressed(MouseEvent e)
-//            {
-//
-//            }
-//
-//            @Override
-//            public void mouseReleased(MouseEvent e)
-//            {
-//
-//            }
-//
-//            @Override
-//            public void mouseEntered(MouseEvent e)
-//            {
-//
-//            }
-//
-//            @Override
-//            public void mouseExited(MouseEvent e)
-//            {
-//
-//            }
-//        });
 
         setSize(MainFrame.getInstance().getSize());
         setLocation(0, 0);
@@ -143,26 +109,61 @@ public class Camera extends JPanel
                             }
                         }
                         saveImage();
-                        setLocation(getParent().getWidth()*5/100,getParent().getHeight()*5/100);
-                        setSize(getParent().getWidth()*90/100,getParent().getHeight()*90/100);
-                        try
-                        {
-                            Thread.sleep(100);
-                        } catch (InterruptedException e)
-                        {
-                            e.printStackTrace();
-                        }
-                        setLocation(0,0);
-                        setSize(getParent().getWidth(),getParent().getHeight());
-                        repaint();
-                        getParent().repaint();
-
-                        camera.release();
-
+                        showCamera = false;
+                        showCapturing();
                     }
                 }).start();
             }
         }).start();
+    }
+
+    private void showCapturing()
+    {
+//        setSize(getParent().getWidth() * 90 / 100, getParent().getHeight() * 90 / 100);
+//        setLocation(getParent().getWidth() * 5 / 100, getParent().getHeight() * 5 / 100);
+//        try
+//        {
+//            Thread.sleep(100);
+//        } catch (InterruptedException e)
+//        {
+//            e.printStackTrace();
+//        }
+//        setLocation(0, 0);
+//        setSize(getParent().getWidth(), getParent().getHeight());
+//        repaint();
+        showCapture = true;
+            captureBorderThickness = 0.1;
+        while(captureBorderThickness < 1)
+        {
+            captureBorderThickness += 0.1;
+            try
+            {
+                Thread.sleep(10);
+            } catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        captureBorderThickness = 1;
+        try
+        {
+            Thread.sleep(10);
+        } catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+        while (captureBorderThickness > 0)
+        {
+            captureBorderThickness -= 0.1;
+            try
+            {
+                Thread.sleep(10);
+            } catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        showCapture = false;
     }
 
     private void saveImage()
@@ -265,27 +266,36 @@ public class Camera extends JPanel
     @Override
     public void paint(Graphics g)
     {
-        super.paintComponents(g); //To change body of generated methods, choose Tools | Templates.
+        super.paintComponents(g);
+        g.setColor(Color.white);
+        g.fillRect(0, 0, getWidth(), getHeight());
         double aspectRatio = ((double) currentImg.getWidth(null)) / currentImg.getHeight(null);
         int width, height = getHeight() - 50;
         width = (int) (height * aspectRatio);
         g.drawImage(currentImg.getScaledInstance(width, height, Image.SCALE_FAST)
                 , (getWidth() - width) / 2, (getHeight() - height) / 2, this);
         g.setFont(Fonts.englishTimerFont);
-        g.setFont(new Font(Font.DIALOG,Font.BOLD,300));
-        g.setColor(Color.red);
-        if(timer>=4)g.setColor(Color.yellow);
-        if(timer>=6)g.setColor(Color.green);
+        if (timer >= 6) g.setColor(Color.green);
+        else if (timer >= 4) g.setColor(Color.yellow);
+        else g.setColor(Color.red);
 
 
-        synchronized (timer)
+        if (timer > 0)
+            g.drawString(timer.toString(), (getWidth() / 2) - 100, (getHeight() / 2) + 100);
+
+        if(showCapture)
         {
-            if(timer!=0)
-                g.drawString(timer.toString(), (getWidth() / 2)-100, (getHeight() /2)+100);
+            g.setColor(Color.white);
+            float thickness = 10;
+            Graphics2D g2 = (Graphics2D) g;
+            Stroke oldStroke = g2.getStroke();
+            g2.setStroke(new BasicStroke((float) (captureBorderThickness > 0 ? (captureBorderThickness*thickness) : 0.0)));
+            g2.drawRect((getWidth() - width) / 2, (getHeight() - height) / 2, width, height);
+            g2.setStroke(oldStroke);
         }
     }
 
-    void setImage(Image img)
+    private void setImage(Image img)
     {
         this.currentImg = img;
 
@@ -293,18 +303,12 @@ public class Camera extends JPanel
 
     public Integer getTimer()
     {
-        synchronized (timer)
-        {
-            return timer;
-        }
+        return timer;
     }
 
     private void decreaseTimer()
     {
-        synchronized (timer)
-        {
-            timer--;
-        }
+        timer--;
     }
 }
 

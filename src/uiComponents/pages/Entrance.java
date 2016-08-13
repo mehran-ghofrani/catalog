@@ -5,9 +5,9 @@ import javax.swing.*;
 /**
  * Created by online on 8/9/2016.
  */
-public class Enterance
+public class Entrance
 {
-    enterance(){
+    public Entrance(){
         JFrame welcome =new JFrame();
         welcome.setVisible(true);
         welcome.setUndecorated(true);
