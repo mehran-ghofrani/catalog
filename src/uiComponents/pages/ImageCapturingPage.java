@@ -77,7 +77,12 @@ public class ImageCapturingPage extends JPanel implements ActivityPage
         while (!camera.isOpened())
         {
             camera.release();
-            JOptionPane.showConfirmDialog(this, "خطا در اتصال به دوربین");
+            int result = JOptionPane.showConfirmDialog(this, "خطا در اتصال به دوربین", "خطا", JOptionPane.OK_CANCEL_OPTION);
+            if(result == JOptionPane.CANCEL_OPTION)
+            {
+                MainFrame.getInstance().goHomePage();
+                return;
+            }
             camera.open(0);
         }
     }
@@ -307,6 +312,11 @@ public class ImageCapturingPage extends JPanel implements ActivityPage
             {
                 while (!isShowing())
                 {
+                    if(showCamera == false)
+                    {
+                        Thread.currentThread().interrupt();
+                        return;
+                    }
                     try
                     {
                         Thread.sleep(10);
@@ -358,10 +368,10 @@ public class ImageCapturingPage extends JPanel implements ActivityPage
             {
                 while (true)
                 {
+                    if (showCamera == false)
+                        break;
                     if (getCamera().read(frame))
                     {
-                        if (showCamera == false)
-                            break;
                         Mat flippedFrame = new Mat();
                         Core.flip(frame, flippedFrame, 1);
                         BufferedImage image = MatToBufferedImage(flippedFrame);
