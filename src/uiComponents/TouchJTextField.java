@@ -26,7 +26,7 @@ public class TouchJTextField extends JTextField
     private void initComponent(String text, String ghostText)
     {
         isSensetiveToTouch = true;
-
+        setColumns(25);
         this.ghostText = new GhostText(this, ghostText);
 
 

@@ -43,7 +43,7 @@ public class RetryPage extends JPanel implements ActivityPage {
 
         try {
             frameImage = ImageIO.read(new File("icons\\ImageFrame3.png"));
-            logoImage = ImageIO.read(new File("icons\\logo.jpg"));
+            logoImage = ImageIO.read(new File("icons\\logo.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -85,7 +85,6 @@ public class RetryPage extends JPanel implements ActivityPage {
 
         GridBagLayout layout = new GridBagLayout();
         setLayout(layout);
-        initializeLayout(this);
         GridBagConstraints c = new GridBagConstraints();
 
 
@@ -104,9 +103,10 @@ public class RetryPage extends JPanel implements ActivityPage {
         add(infoLable, c);
 
 
+        c.insets = new Insets(10, 0, 10, 20);
         submitBtn = new JButton("بله بفرست به ایمیلم");
         submitBtn.setFont(bodyFont);
-        c.ipadx = 100;
+        c.ipadx = 0;
         c.ipady = 0;
         c.gridx = 0;
         c.gridy = 2;
@@ -116,7 +116,7 @@ public class RetryPage extends JPanel implements ActivityPage {
 
         JButton retryBtn = new JButton("نه...از اول میندازم");
         retryBtn.setFont(bodyFont);
-        c.ipadx = 100;
+        c.ipadx = 0;
         c.ipady = 0;
         c.gridx = 1;
         c.gridy = 2;
@@ -126,7 +126,7 @@ public class RetryPage extends JPanel implements ActivityPage {
         retryBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MainFrame.getInstance().showPanel(EntrancePage.getInstance().getPanelIndex());
+                MainFrame.getInstance().goPreviousPage();
             }
         });
 
@@ -137,9 +137,9 @@ public class RetryPage extends JPanel implements ActivityPage {
                 try
                 {
                     Thread.sleep(500);
-                } catch (InterruptedException e)
+                } catch (InterruptedException e1)
                 {
-                    e.printStackTrace();
+                    e1.printStackTrace();
                 }
                 MainFrame.getInstance().showPanel(CatalogEmailSendingPage.getInstance().getPanelIndex());
 

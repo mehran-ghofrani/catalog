@@ -42,7 +42,7 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
         try
         {
             frameImage = ImageIO.read(new File("icons\\ImageFrame3.png"));
-            logoImage = ImageIO.read(new File("icons\\logo.jpg"));
+            logoImage = ImageIO.read(new File("icons\\logo.png"));
         } catch (IOException e)
         {
             e.printStackTrace();
@@ -86,7 +86,7 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
 
         GridBagLayout layout = new GridBagLayout();
         setLayout(layout);
-        initializeLayout(this);
+//        initializeLayout(this);
         GridBagConstraints c = new GridBagConstraints();
 
 
@@ -96,9 +96,9 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
         c.insets = new Insets(10, 0, 30, 0);
         c.weighty = 0;
         c.weightx = 0;
-        c.gridx = 1;
+        c.gridx = 0;
         c.gridy = i++;
-        c.gridwidth = 1;
+        c.gridwidth = 2;
         c.fill = GridBagConstraints.CENTER;
 
         String infoMsg = "در صورت تمایل، ایمیل خود را برای دریافت عکس سلفی وارد نمایید";
@@ -108,19 +108,19 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
 
         c.insets = new Insets(10, 0, 0, 20);
         c.ipadx = 0;
-        c.gridx = 2;
+        c.gridx = 1;
         c.gridy = i;
         c.gridwidth = 1;
-        c.fill = GridBagConstraints.BOTH;
+        c.fill = GridBagConstraints.LINE_END;
         emailLabel = new JLabel("ایمیل:");
         emailLabel.setFont(bodyFont);
         add(emailLabel, c);
 
-        c.ipadx = 0;
+        c.ipadx = 200;
         c.gridx = 0;
         c.gridy = i++;
-        c.gridwidth = 2;
-        c.fill = GridBagConstraints.BOTH;
+        c.gridwidth = 1;
+        c.fill = GridBagConstraints.HORIZONTAL;
         emailInputField = new TouchJTextField("", "example@host.com", parent);
         add(emailInputField, c);
 
@@ -131,7 +131,7 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
         c.ipady = 0;
         c.gridx = 0;
         c.gridy = i++;
-        c.gridwidth = 3;
+        c.gridwidth = 2;
         c.fill = GridBagConstraints.CENTER;
         add(submitBtn, c);
 
@@ -139,7 +139,7 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
         c.ipadx = 0;
         c.gridx = 0;
         c.gridy = i++;
-        c.gridwidth = 3;
+        c.gridwidth = 2;
         c.fill = GridBagConstraints.CENTER;
         statusLabel = new JLabel(" ");
         statusLabel.setFont(bodyFont);
@@ -287,9 +287,10 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
                     }
                     resetStatusLabel();
                     emailInputField.setText("");
+                    MainFrame.getInstance().goHomePage();
                     setVisibleAll(true);
-                    emailInputField.requestFocus();
-                    submitBtn.requestFocus();
+//                    emailInputField.requestFocus();
+//                    submitBtn.requestFocus();
                 }
             }).start();
         } else
@@ -353,8 +354,8 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
             c.weightx = 0;
             c.gridx = 0;
             c.gridy = 0;
-            c.gridwidth = 1;
-            c.fill = GridBagConstraints.HORIZONTAL;
+            c.gridwidth = 2;
+            c.fill = GridBagConstraints.CENTER;
             imagePanel = new JLabel(imgIcon);
             add(imagePanel, c);
         }
