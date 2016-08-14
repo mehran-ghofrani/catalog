@@ -169,7 +169,7 @@ public class EntrancePage extends GLJPanel implements ActivityPage
                             }
                         }
                     }).start();
-                    OneTriangle.threadExists = false;
+                    OneTriangle.threadExists = true;
                 }
 
             }
