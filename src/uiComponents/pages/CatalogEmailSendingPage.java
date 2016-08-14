@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -78,7 +79,7 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
 
     private void initComponents()
     {
-        setSize(parent.getSize());
+        setSize(parent.getMainPanelSize());
         setLocation(0, 0);
         setBackground(Color.WHITE);
 
@@ -88,12 +89,14 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
         GridBagConstraints c = new GridBagConstraints();
 
 
+        int i = 1;
+
         c.ipady = 20;
         c.insets = new Insets(10, 0, 30, 0);
         c.weighty = 0;
         c.weightx = 0;
         c.gridx = 1;
-        c.gridy = 1;
+        c.gridy = i++;
         c.gridwidth = 1;
         c.fill = GridBagConstraints.CENTER;
 
@@ -105,7 +108,7 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
         c.insets = new Insets(10, 0, 0, 20);
         c.ipadx = 0;
         c.gridx = 2;
-        c.gridy = 2;
+        c.gridy = i;
         c.gridwidth = 1;
         c.fill = GridBagConstraints.BOTH;
         emailLabel = new JLabel("ایمیل:");
@@ -114,7 +117,7 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
 
         c.ipadx = 0;
         c.gridx = 0;
-        c.gridy = 2;
+        c.gridy = i++;
         c.gridwidth = 2;
         c.fill = GridBagConstraints.BOTH;
         emailInputField = new TouchJTextField("", "example@host.com", parent);
@@ -126,7 +129,7 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
         c.ipadx = 100;
         c.ipady = 0;
         c.gridx = 0;
-        c.gridy = 3;
+        c.gridy = i++;
         c.gridwidth = 3;
         c.fill = GridBagConstraints.CENTER;
         add(submitBtn, c);
@@ -134,7 +137,7 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
         c.insets = new Insets(40, 0, 0, 0);
         c.ipadx = 0;
         c.gridx = 0;
-        c.gridy = 4;
+        c.gridy = i++;
         c.gridwidth = 3;
         c.fill = GridBagConstraints.CENTER;
         statusLabel = new JLabel(" ");

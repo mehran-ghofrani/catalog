@@ -40,7 +40,7 @@ public class ImageCapturingPage extends JPanel implements ActivityPage
         showCamera = true;
         showCapture = false;
 
-        setSize(MainFrame.getInstance().getSize());
+        setSize(MainFrame.getInstance().getMainPanelSize());
         setLocation(0, 0);
 
         currentIndex = MainFrame.getInstance().addPanel(this);
