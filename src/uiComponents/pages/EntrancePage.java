@@ -208,7 +208,7 @@ class OneTriangle {
         Texture text;
 
         try {
-            text = TextureIO.newTexture(new File("C:\\Users\\Mactabi\\Desktop\\1.jpg"), true);
+            text = TextureIO.newTexture(new File("icons\\1.jpg"), true);
             text.enable(gl2);
             text.bind(gl2);
         } catch (IOException e) {
