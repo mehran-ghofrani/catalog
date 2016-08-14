@@ -15,11 +15,11 @@ public class MailMain
 //        ImageCapturingPage.getInstance();
 
         EntrancePage.getInstance();
-        RetryPage.getInstance();
 
-        MainFrame.getInstance().showPanel(RetryPage.getInstance().getPanelIndex());
+//        RetryPage.getInstance();
         ImageCapturingPage.getInstance();
         CatalogEmailSendingPage.getInstance();
+        MainFrame.getInstance().showPanel(EntrancePage.getInstance().getPanelIndex());
 
 //        MainFrame.getInstance().showPanel(CatalogEmailSendingPage.getInstance().getPanelIndex());
 //        MainFrame.getInstance().showPanel(EntrancePage.getInstance().getPanelIndex());
