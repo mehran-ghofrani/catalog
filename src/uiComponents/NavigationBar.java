@@ -69,6 +69,7 @@ public class NavigationBar extends JPanel
             @Override
             public void actionPerformed(ActionEvent e)
             {
+                System.out.println("home");
                 parent.goHomePage();
             }
         });
@@ -78,6 +79,7 @@ public class NavigationBar extends JPanel
             @Override
             public void actionPerformed(ActionEvent e)
             {
+                System.out.println("back");
                 parent.goPreviousPage();
             }
         });

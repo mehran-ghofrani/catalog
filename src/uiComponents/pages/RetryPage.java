@@ -48,9 +48,6 @@ public class RetryPage extends JPanel implements ActivityPage {
             e.printStackTrace();
         }
         initComponents();
-
-
-        currentIndex = parent.addPanel(this);
     }
 
     public void setImage(String path) {
