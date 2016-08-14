@@ -339,7 +339,7 @@ public class ImageCapturingPage extends JPanel implements ActivityPage
                 showCamera = false;
                 showCapturingEffect();
                 System.out.println("thread timer ended");
-                CatalogEmailSendingPage.getInstance().setImage("image.jpg");
+                RetryPage.getInstance().setImage("image.jpg");
                 try
                 {
                     Thread.sleep(500);
@@ -347,7 +347,7 @@ public class ImageCapturingPage extends JPanel implements ActivityPage
                 {
                     e.printStackTrace();
                 }
-                MainFrame.getInstance().showPanel(CatalogEmailSendingPage.getInstance().getPanelIndex());
+                MainFrame.getInstance().showPanel(RetryPage.getInstance().getPanelIndex());
             }
         });
 
@@ -397,7 +397,7 @@ public class ImageCapturingPage extends JPanel implements ActivityPage
 
     private void initializeTimer()
     {
-        timer = 10;
+        timer = 1;
     }
 
     @Override

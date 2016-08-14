@@ -351,7 +351,7 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
             c.insets = new Insets(10, 0, 30, 0);
             c.weighty = 0;
             c.weightx = 0;
-            c.gridx = 1;
+            c.gridx = 0;
             c.gridy = 0;
             c.gridwidth = 1;
             c.fill = GridBagConstraints.HORIZONTAL;
