@@ -228,7 +228,7 @@ class OneTriangle {
         GLUT glut=new GLUT();
 
         glu.gluPerspective(90f,1f,0.1f ,10f);
-        glu.gluLookAt(0,2,0,0,0,-3,0,1,0);
+        glu.gluLookAt(0,0,0,0,0,-3,0,1,0);
 
 
 
@@ -236,9 +236,9 @@ class OneTriangle {
 
 
 
-        gl2.glTranslated(0,0,-3);
+        gl2.glTranslated(-0.5,-0.5,-2);
         gl2.glDisable(GL.GL_CULL_FACE);
-        gl2.glRotatef(deg,0,1,0);
+        //gl2.glRotatef(deg,0,1,0);
 
 
 
@@ -253,13 +253,13 @@ class OneTriangle {
         gl2.glTexCoord2d(0.0, 0.0);
         gl2.glVertex2d(0.0, 0.0);
         gl2.glTexCoord2d(1.0, 0.0);
-        gl2.glVertex2d(width, 0.0);
+        gl2.glVertex2d(1, 0.0);
         gl2.glTexCoord2d(1.0, 1.0);
-        gl2.glVertex2d(width, height);
+        gl2.glVertex2d(1, 1);
         gl2.glTexCoord2d(0.0, 1.0);
-        gl2.glVertex2d(0.0, height);
+        gl2.glVertex2d(0.0, 1);
         gl2.glEnd();
 
-//        glut.glutWireTeapot(1);
+
     }
 }
