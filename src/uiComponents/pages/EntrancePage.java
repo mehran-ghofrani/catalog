@@ -153,6 +153,25 @@ public class EntrancePage extends GLJPanel implements ActivityPage
 
             @Override
             public void init( GLAutoDrawable glautodrawable ) {
+                if(OneTriangle.threadExists==false) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            while (true) {
+                                OneTriangle.deg += 0.05;
+                                if (OneTriangle.deg > 359) OneTriangle.deg = 0;
+                                try {
+                                    Thread.sleep(1);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                EntrancePage.getInstance().repaint();
+                            }
+                        }
+                    }).start();
+                    OneTriangle.threadExists = false;
+                }
+
             }
 
             @Override
@@ -225,23 +244,10 @@ public class EntrancePage extends GLJPanel implements ActivityPage
 
 class OneTriangle {
     public static float deg=0;
+    public static boolean threadExists=false;
     protected static void setup( GL2 gl2, int width, int height ) {
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while(true) {
-                    deg+=0.05;
-                    if (deg>359) deg=0;
-                    try {
-                        Thread.sleep(1);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    EntrancePage.getInstance().repaint();
-                }
-            }
-        }).start();
+
 
 
         Texture text;
