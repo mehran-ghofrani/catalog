@@ -126,10 +126,25 @@ public class RetryPage extends JPanel implements ActivityPage {
         c.gridwidth = 1;
         c.fill = GridBagConstraints.HORIZONTAL;
         add(retryBtn, c);
+        retryBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MainFrame.getInstance().showPanel(EntrancePage.getInstance().getPanelIndex());
+            }
+        });
 
         submitBtn.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                CatalogEmailSendingPage.getInstance().setImage("image.jpg");
+                try
+                {
+                    Thread.sleep(500);
+                } catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+                MainFrame.getInstance().showPanel(CatalogEmailSendingPage.getInstance().getPanelIndex());
 
             }
 
