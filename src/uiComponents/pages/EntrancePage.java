@@ -282,9 +282,6 @@ class OneTriangle {
 
 
 
-
-
-
         gl2.glTranslated(0,0,-1);
         gl2.glDisable(GL.GL_CULL_FACE);
         gl2.glRotatef(deg,0,1,0);
