@@ -8,13 +8,13 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import static utilities.EmailUtils.isValidEmailAddress;
 import static utilities.Fonts.bodyFont;
 import static utilities.Fonts.headingFont;
+import static utilities.ImageUtilities.framifyImage;
 
 public class CatalogEmailSendingPage extends JPanel implements EnterActionPerformListener, MainPanel
 {
@@ -28,7 +28,7 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
 
     private MainFrame parent;
     private int currentIndex;
-    private Image imageFrame;
+    private Image frameImage;
     private Image logoImage;
 
 
@@ -37,7 +37,7 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
         this.parent = MainFrame.getInstance();
         try
         {
-            imageFrame = ImageIO.read(new File("icons\\ImageFrame2.png"));
+            frameImage = ImageIO.read(new File("icons\\ImageFrame3.png"));
             logoImage = ImageIO.read(new File("icons\\logo.jpg"));
         } catch (IOException e)
         {
@@ -309,22 +309,10 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
             e.printStackTrace();
         }
 
-        double logoAspectRatio = logoImage.getWidth(null) / ((double) logoImage.getHeight(null));
-        int logoHeight = userImg.getHeight(null) / 10, logoWidth = (int) (logoHeight * logoAspectRatio);
-        int extraHeight = (int) (imageFrame.getHeight(null)*0.1), extraWidth = (int) (extraHeight * (userImg.getWidth(null) / ((double) userImg.getHeight(null))));
+        double imgAspectRatio = userImg.getWidth(null) / ((double) userImg.getHeight(null));
+        int finalHeight = (getHeight() - 50)/4, finalWidth = (int) (finalHeight * imgAspectRatio);
+        ImageIcon imgPanel = framifyImage(userImg, logoImage, frameImage, finalWidth, finalHeight);
 
-        Graphics graphics1 = userImg.getGraphics();
-        graphics1.drawImage(logoImage, userImg.getWidth(null) - logoWidth - 10, userImg.getHeight(null) - logoHeight - 10, logoWidth, logoHeight, null);
-
-        BufferedImage bi = new BufferedImage(userImg.getWidth(null) + 2 * extraWidth, userImg.getHeight(null) + 2 * extraHeight, BufferedImage.TYPE_INT_ARGB);
-
-        Graphics graphics = bi.createGraphics();
-        graphics.drawImage(userImg, extraWidth, extraHeight, null);
-        graphics.drawImage(imageFrame, 0, 0, bi.getWidth(null), bi.getHeight(null), null);
-
-
-//        ImagePanel imgPanel = new ImagePanel(userImg);
-        ImageIcon imgPanel = new ImageIcon(bi);
         GridBagConstraints c = new GridBagConstraints();
 
 

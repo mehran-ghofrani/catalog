@@ -35,7 +35,7 @@ public class ImageCapturingPage extends JPanel implements MainPanel
     private ImageCapturingPage()
     {
         System.load(new File("").getAbsolutePath() + "\\libs\\OpenCV\\" + Core.NATIVE_LIBRARY_NAME + ".dll");
-        timer = 8;
+        timer = 1;
         showCamera = true;
         showCapture = false;
 
