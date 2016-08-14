@@ -277,7 +277,7 @@ class OneTriangle {
         GLUT glut=new GLUT();
 
         glu.gluPerspective(90f,1f,0.1f ,10f);
-        glu.gluLookAt(0,0,0,0,0,-3,0,1,0);
+        glu.gluLookAt(0,0,0,0,0,-2,0,1,0);
 
 
 
@@ -285,7 +285,7 @@ class OneTriangle {
 
 
 
-        gl2.glTranslated(0,0,-2);
+        gl2.glTranslated(0,0,-1);
         gl2.glDisable(GL.GL_CULL_FACE);
         gl2.glRotatef(deg,0,1,0);
 
