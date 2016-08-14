@@ -25,6 +25,7 @@ public class ImageCapturingPage extends JPanel implements ActivityPage
 
     private static ImageCapturingPage instance;
     private Thread timerThread;
+    private Thread cameraThread;
     private Image currentImg;
     private Integer timer;
     private Boolean showCamera;
@@ -36,9 +37,11 @@ public class ImageCapturingPage extends JPanel implements ActivityPage
     private ImageCapturingPage()
     {
         System.load(new File("").getAbsolutePath() + "\\libs\\OpenCV\\" + Core.NATIVE_LIBRARY_NAME + ".dll");
-        timer = 1;
+        initializeTimer();
         showCamera = true;
         showCapture = false;
+
+        camera = new VideoCapture(0);
 
         setSize(MainFrame.getInstance().getMainPanelSize());
         setLocation(0, 0);
@@ -283,16 +286,72 @@ public class ImageCapturingPage extends JPanel implements ActivityPage
     @Override
     public void afterShow()
     {
-        camera = new VideoCapture(0);
-        Mat frame = new Mat();
-        waitUntilCameraIsConnected();
-        while (!camera.isOpened())
+        showCamera = true;
+        showCapture = false;
+
+        currentImg = null;
+        initializeTimer();
+
+        if(!camera.isOpened())
         {
-            JOptionPane.showConfirmDialog(this, "خطا در اتصال به دوربین");
             camera.open(0);
         }
 
-        new Thread(new Runnable()
+        Mat frame = new Mat();
+        waitUntilCameraIsConnected();
+
+        timerThread = new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                while (!isShowing())
+                {
+                    try
+                    {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+
+                while (getTimer() > 0)
+                {
+                    if(showCamera == false)
+                    {
+                        Thread.currentThread().interrupt();
+                        return;
+                    }
+                    System.out.println(getTimer());
+                    decreaseTimer();
+                    try
+                    {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e)
+                    {
+                        Thread.currentThread().interrupt();
+                        e.printStackTrace();
+                        return;
+                    }
+                }
+                saveImage();
+                showCamera = false;
+                showCapturingEffect();
+                System.out.println("thread timer ended");
+                CatalogEmailSendingPage.getInstance().setImage("image.jpg");
+                try
+                {
+                    Thread.sleep(500);
+                } catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+                MainFrame.getInstance().showPanel(CatalogEmailSendingPage.getInstance().getPanelIndex());
+            }
+        });
+
+        cameraThread = new Thread(new Runnable()
         {
             @Override
             public void run()
@@ -328,53 +387,17 @@ public class ImageCapturingPage extends JPanel implements ActivityPage
                 getCamera().release();
                 System.out.println("camera released");
             }
-        }).start();
-
-        timerThread = new Thread(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                while (!isShowing())
-                {
-                    try
-                    {
-                        Thread.sleep(10);
-                    } catch (InterruptedException e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-
-                while (getTimer() > 0)
-                {
-                    System.out.println(getTimer());
-                    decreaseTimer();
-                    try
-                    {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-                saveImage();
-                showCamera = false;
-                showCapturingEffect();
-                System.out.println("thread timer ended");
-                CatalogEmailSendingPage.getInstance().setImage("image.jpg");
-                try
-                {
-                    Thread.sleep(500);
-                } catch (InterruptedException e)
-                {
-                    e.printStackTrace();
-                }
-                MainFrame.getInstance().showPanel(CatalogEmailSendingPage.getInstance().getPanelIndex());
-            }
         });
+
+
+        cameraThread.start();
         timerThread.start();
 
+    }
+
+    private void initializeTimer()
+    {
+        timer = 10;
     }
 
     @Override
@@ -386,7 +409,12 @@ public class ImageCapturingPage extends JPanel implements ActivityPage
     @Override
     public void afterDispose()
     {
-
+        showCamera = false;
+        showCapture = false;
+//        if(cameraThread.isAlive())
+//            cameraThread.interrupt();
+//        if(timerThread.isAlive())
+//            timerThread.interrupt();
     }
 
     public VideoCapture getCamera()

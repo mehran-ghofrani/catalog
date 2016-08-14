@@ -33,6 +33,7 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
     private int currentIndex;
     private Image frameImage;
     private Image logoImage;
+    private JLabel imagePanel;
 
 
     private CatalogEmailSendingPage()
@@ -340,21 +341,24 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
 
         double imgAspectRatio = userImg.getWidth(null) / ((double) userImg.getHeight(null));
         int finalHeight = (getHeight() - 50) / 4, finalWidth = (int) (finalHeight * imgAspectRatio);
-        ImageIcon imgPanel = framifyImage(userImg, logoImage, frameImage, finalWidth, finalHeight);
-
-        GridBagConstraints c = new GridBagConstraints();
+        ImageIcon imgIcon = framifyImage(userImg, logoImage, frameImage, finalWidth, finalHeight);
 
 
-        c.ipady = 20;
-        c.insets = new Insets(10, 0, 30, 0);
-        c.weighty = 0;
-        c.weightx = 0;
-        c.gridx = 1;
-        c.gridy = 0;
-        c.gridwidth = 1;
-        c.fill = GridBagConstraints.HORIZONTAL;
-
-        add(new JLabel(imgPanel), c);
-
+        if(imagePanel == null)
+        {
+            GridBagConstraints c = new GridBagConstraints();
+            c.ipady = 20;
+            c.insets = new Insets(10, 0, 30, 0);
+            c.weighty = 0;
+            c.weightx = 0;
+            c.gridx = 1;
+            c.gridy = 0;
+            c.gridwidth = 1;
+            c.fill = GridBagConstraints.HORIZONTAL;
+            imagePanel = new JLabel(imgIcon);
+            add(imagePanel, c);
+        }
+        else imagePanel.setIcon(imgIcon);
+        repaint();
     }
 }
