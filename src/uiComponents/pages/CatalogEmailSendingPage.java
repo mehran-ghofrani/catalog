@@ -310,7 +310,7 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
         }
 
         double imgAspectRatio = userImg.getWidth(null) / ((double) userImg.getHeight(null));
-        int finalHeight = (getHeight() - 50)/4, finalWidth = (int) (finalHeight * imgAspectRatio);
+        int finalHeight = (getHeight() - 50) / 4, finalWidth = (int) (finalHeight * imgAspectRatio);
         ImageIcon imgPanel = framifyImage(userImg, logoImage, frameImage, finalWidth, finalHeight);
 
         GridBagConstraints c = new GridBagConstraints();

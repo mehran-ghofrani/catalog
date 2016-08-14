@@ -65,15 +65,15 @@ public class ImageCapturingPage extends JPanel implements MainPanel
                         repaint();
                     } else
                     {
-                        if(timerThread != null)
+                        if (timerThread != null)
                         {
                             System.out.println("suspend");
-                            if(timerThread.isAlive())
+                            if (timerThread.isAlive())
                                 timerThread.suspend();
                         }
                         waitUntilCameraIsConnected();
                         waitUntilImageIsReady();
-                        if(timerThread != null)
+                        if (timerThread != null)
                         {
                             System.out.println("resume");
                             timerThread.resume();
@@ -134,6 +134,29 @@ public class ImageCapturingPage extends JPanel implements MainPanel
             }
         });
         timerThread.start();
+    }
+
+    public static ImageCapturingPage getInstance()
+    {
+
+        if (instance == null)
+            instance = new ImageCapturingPage();
+        return instance;
+    }
+
+    public static void main(String args[])
+    {
+        JFrame j = new JFrame();
+        j.setVisible(true);
+        j.setSize(400, 400);
+        j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        j.setLayout(null);
+        ImageCapturingPage cam = ImageCapturingPage.getInstance();
+        j.getContentPane().add(cam);
+        cam.setVisible(true);
+        cam.setSize(400, 400);
+        System.out.println("done");
+
     }
 
     private void waitUntilCameraIsConnected()
@@ -242,29 +265,6 @@ public class ImageCapturingPage extends JPanel implements MainPanel
         }).start();
     }
 
-    public static ImageCapturingPage getInstance()
-    {
-
-        if (instance == null)
-            instance = new ImageCapturingPage();
-        return instance;
-    }
-
-    public static void main(String args[])
-    {
-        JFrame j = new JFrame();
-        j.setVisible(true);
-        j.setSize(400, 400);
-        j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        j.setLayout(null);
-        ImageCapturingPage cam = ImageCapturingPage.getInstance();
-        j.getContentPane().add(cam);
-        cam.setVisible(true);
-        cam.setSize(400, 400);
-        System.out.println("done");
-
-    }
-
     public BufferedImage MatToBufferedImage(Mat frame)
     {
         //Mat() to BufferedImage
@@ -328,7 +328,7 @@ public class ImageCapturingPage extends JPanel implements MainPanel
             else if (timer >= 4) g.setColor(Color.yellow);
             else g.setColor(Color.red);
             if (timer > 0)
-                g.drawString(timer.toString(),  (getWidth() / 2) - 140, (getHeight() / 2) + 100);
+                g.drawString(timer.toString(), (getWidth() / 2) - 140, (getHeight() / 2) + 100);
             if (showCapture)
             {
                 g.setColor(Color.white);
