@@ -53,7 +53,7 @@ public class EntrancePage extends GLJPanel implements MainPanel
 
     }
 
-    public EntrancePage(){
+    private EntrancePage(){
         super( new GLCapabilities( GLProfile.getDefault() ) );
         init();
 

@@ -1,6 +1,7 @@
 package mains;
 
 import uiComponents.pages.CatalogEmailSendingPage;
+import uiComponents.pages.EntrancePage;
 import uiComponents.pages.ImageCapturingPage;
 import uiComponents.pages.MainFrame;
 
@@ -11,13 +12,13 @@ public class MailMain
     {
 //        DBManager.getMyInstance();
 //        ImageCapturingPage.getInstance();
-//        MainFrame.getInstance().showPanel(new EntrancePage(MainFrame.getInstance().getSize()).getPanelIndex());
-//        MainFrame.getInstance().showPanel(EntrancePage.getInstance().getPanelIndex());
 
+        EntrancePage.getInstance();
         CatalogEmailSendingPage.getInstance();
         ImageCapturingPage.getInstance();
-        MainFrame.getInstance().showPanel(ImageCapturingPage.getInstance().getPanelIndex());
+        MainFrame.getInstance().showPanel(EntrancePage.getInstance().getPanelIndex());
 //        MainFrame.getInstance().showPanel(CatalogEmailSendingPage.getInstance().getPanelIndex());
+//        MainFrame.getInstance().showPanel(EntrancePage.getInstance().getPanelIndex());
 
     }
 
