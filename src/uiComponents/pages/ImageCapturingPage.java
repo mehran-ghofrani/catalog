@@ -5,6 +5,7 @@
  */
 package uiComponents.pages;
 
+import org.bytedeco.javacv.ProjectiveDevice;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.highgui.VideoCapture;
@@ -123,6 +124,13 @@ public class ImageCapturingPage extends JPanel implements MainPanel
                 showCapturingEffect();
                 System.out.println("thread timer ended");
                 CatalogEmailSendingPage.getInstance().setImage("image.jpg");
+                try
+                {
+                    Thread.sleep(500);
+                } catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
                 MainFrame.getInstance().showPanel(CatalogEmailSendingPage.getInstance().getPanelIndex());
             }
         });
