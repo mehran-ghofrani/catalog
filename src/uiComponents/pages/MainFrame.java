@@ -9,6 +9,8 @@ import uiComponents.uiInterfaces.TouchKeyboardHandler;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.Vector;
 
 import static java.lang.Math.abs;
@@ -86,6 +88,54 @@ public class MainFrame extends JFrame implements TouchKeyboardHandler
         setUndecorated(true);
         setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        addWindowListener(new WindowListener()
+        {
+            @Override
+            public void windowOpened(WindowEvent e)
+            {
+
+            }
+
+            @Override
+            public void windowClosing(WindowEvent e)
+            {
+                for(JPanel page : panels)
+                {
+                    ((ActivityPage) page).beforeDispose();
+                    ((ActivityPage) page).afterDispose();
+                }
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e)
+            {
+
+            }
+
+            @Override
+            public void windowIconified(WindowEvent e)
+            {
+
+            }
+
+            @Override
+            public void windowDeiconified(WindowEvent e)
+            {
+
+            }
+
+            @Override
+            public void windowActivated(WindowEvent e)
+            {
+
+            }
+
+            @Override
+            public void windowDeactivated(WindowEvent e)
+            {
+
+            }
+        });
 
         JLayeredPane lp = getLayeredPane();
 
