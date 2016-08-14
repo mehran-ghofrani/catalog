@@ -1,4 +1,4 @@
-package uiComponents.pages;
+package uiComponents.uiInterfaces;
 
 import uiComponents.TouchJTextField;
 

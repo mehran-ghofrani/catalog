@@ -8,6 +8,7 @@ package uiComponents.pages;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.highgui.VideoCapture;
+import uiComponents.uiInterfaces.ActivityPage;
 import utilities.Fonts;
 
 import javax.imageio.ImageIO;
@@ -19,11 +20,11 @@ import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
 
-public class ImageCapturingPage extends JPanel implements MainPanel
+public class ImageCapturingPage extends JPanel implements ActivityPage
 {
 
     private static ImageCapturingPage instance;
-    private final Thread timerThread;
+    private Thread timerThread;
     private Image currentImg;
     private Integer timer;
     private Boolean showCamera;
@@ -39,101 +40,33 @@ public class ImageCapturingPage extends JPanel implements MainPanel
         showCamera = true;
         showCapture = false;
 
-        camera = new VideoCapture(0);
-        Mat frame = new Mat();
-        waitUntilCameraIsConnected();
-        while (!camera.isOpened())
-        {
-            JOptionPane.showConfirmDialog(this, "خطا در اتصال به دوربین");
-            camera.open(0);
-        }
-        new Thread(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                while (true)
-                {
-                    if (getCamera().read(frame))
-                    {
-                        if (showCamera == false)
-                            break;
-                        Mat flippedFrame = new Mat();
-                        Core.flip(frame, flippedFrame, 1);
-                        BufferedImage image = MatToBufferedImage(flippedFrame);
-                        setImage(image);
-                        repaint();
-                    } else
-                    {
-                        if(timerThread != null)
-                        {
-                            System.out.println("suspend");
-                            if(timerThread.isAlive())
-                                timerThread.suspend();
-                        }
-                        waitUntilCameraIsConnected();
-                        waitUntilImageIsReady();
-                        if(timerThread != null)
-                        {
-                            System.out.println("resume");
-                            timerThread.resume();
-                        }
-                    }
-                }
-                getCamera().release();
-                System.out.println("camera released");
-            }
-        }).start();
-
         setSize(MainFrame.getInstance().getSize());
         setLocation(0, 0);
 
         currentIndex = MainFrame.getInstance().addPanel(this);
+    }
 
-        timerThread = new Thread(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                while (!isShowing())
-                {
-                    try
-                    {
-                        Thread.sleep(10);
-                    } catch (InterruptedException e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
+    public static ImageCapturingPage getInstance()
+    {
 
-                while (getTimer() > 0)
-                {
-                    System.out.println(getTimer());
-                    decreaseTimer();
-                    try
-                    {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-                saveImage();
-                showCamera = false;
-                showCapturingEffect();
-                System.out.println("thread timer ended");
-                CatalogEmailSendingPage.getInstance().setImage("image.jpg");
-                try
-                {
-                    Thread.sleep(500);
-                } catch (InterruptedException e)
-                {
-                    e.printStackTrace();
-                }
-                MainFrame.getInstance().showPanel(CatalogEmailSendingPage.getInstance().getPanelIndex());
-            }
-        });
-        timerThread.start();
+        if (instance == null)
+            instance = new ImageCapturingPage();
+        return instance;
+    }
+
+    public static void main(String args[])
+    {
+        JFrame j = new JFrame();
+        j.setVisible(true);
+        j.setSize(400, 400);
+        j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        j.setLayout(null);
+        ImageCapturingPage cam = ImageCapturingPage.getInstance();
+        j.getContentPane().add(cam);
+        cam.setVisible(true);
+        cam.setSize(400, 400);
+        System.out.println("done");
+
     }
 
     private void waitUntilCameraIsConnected()
@@ -242,29 +175,6 @@ public class ImageCapturingPage extends JPanel implements MainPanel
         }).start();
     }
 
-    public static ImageCapturingPage getInstance()
-    {
-
-        if (instance == null)
-            instance = new ImageCapturingPage();
-        return instance;
-    }
-
-    public static void main(String args[])
-    {
-        JFrame j = new JFrame();
-        j.setVisible(true);
-        j.setSize(400, 400);
-        j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        j.setLayout(null);
-        ImageCapturingPage cam = ImageCapturingPage.getInstance();
-        j.getContentPane().add(cam);
-        cam.setVisible(true);
-        cam.setSize(400, 400);
-        System.out.println("done");
-
-    }
-
     public BufferedImage MatToBufferedImage(Mat frame)
     {
         //Mat() to BufferedImage
@@ -328,7 +238,7 @@ public class ImageCapturingPage extends JPanel implements MainPanel
             else if (timer >= 4) g.setColor(Color.yellow);
             else g.setColor(Color.red);
             if (timer > 0)
-                g.drawString(timer.toString(),  (getWidth() / 2) - 140, (getHeight() / 2) + 100);
+                g.drawString(timer.toString(), (getWidth() / 2) - 140, (getHeight() / 2) + 100);
             if (showCapture)
             {
                 g.setColor(Color.white);
@@ -362,6 +272,121 @@ public class ImageCapturingPage extends JPanel implements MainPanel
     public int getPanelIndex()
     {
         return currentIndex;
+    }
+
+    @Override
+    public void beforeShow()
+    {
+
+    }
+
+    @Override
+    public void afterShow()
+    {
+        camera = new VideoCapture(0);
+        Mat frame = new Mat();
+        waitUntilCameraIsConnected();
+        while (!camera.isOpened())
+        {
+            JOptionPane.showConfirmDialog(this, "خطا در اتصال به دوربین");
+            camera.open(0);
+        }
+
+        new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                while (true)
+                {
+                    if (getCamera().read(frame))
+                    {
+                        if (showCamera == false)
+                            break;
+                        Mat flippedFrame = new Mat();
+                        Core.flip(frame, flippedFrame, 1);
+                        BufferedImage image = MatToBufferedImage(flippedFrame);
+                        setImage(image);
+                        repaint();
+                    } else
+                    {
+                        if (timerThread != null)
+                        {
+                            System.out.println("suspend");
+                            if (timerThread.isAlive())
+                                timerThread.suspend();
+                        }
+                        waitUntilCameraIsConnected();
+                        waitUntilImageIsReady();
+                        if (timerThread != null)
+                        {
+                            System.out.println("resume");
+                            timerThread.resume();
+                        }
+                    }
+                }
+                getCamera().release();
+                System.out.println("camera released");
+            }
+        }).start();
+
+        timerThread = new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                while (!isShowing())
+                {
+                    try
+                    {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+
+                while (getTimer() > 0)
+                {
+                    System.out.println(getTimer());
+                    decreaseTimer();
+                    try
+                    {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+                saveImage();
+                showCamera = false;
+                showCapturingEffect();
+                System.out.println("thread timer ended");
+                CatalogEmailSendingPage.getInstance().setImage("image.jpg");
+                try
+                {
+                    Thread.sleep(500);
+                } catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+                MainFrame.getInstance().showPanel(CatalogEmailSendingPage.getInstance().getPanelIndex());
+            }
+        });
+        timerThread.start();
+
+    }
+
+    @Override
+    public void beforeDispose()
+    {
+
+    }
+
+    @Override
+    public void afterDispose()
+    {
+
     }
 
     public VideoCapture getCamera()

@@ -1,4 +1,4 @@
-package uiComponents.pages;
+package uiComponents.uiInterfaces;
 
 /**
  * Created by online on 8/7/2016.

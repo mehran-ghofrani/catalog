@@ -2,6 +2,9 @@ package uiComponents.pages;
 
 import uiComponents.KeyBoard;
 import uiComponents.TouchJTextField;
+import uiComponents.uiInterfaces.ActivityPage;
+import uiComponents.uiInterfaces.EnterActionPerformListener;
+import uiComponents.uiInterfaces.TouchKeyboardHandler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -152,17 +155,26 @@ public class MainFrame extends JFrame implements TouchKeyboardHandler
         if (currentPanelIndex != index)
         {
             if (currentPanelIndex != -1)
+            {
+
+                ((ActivityPage)(panels.elementAt(currentPanelIndex))).beforeDispose();
                 mainPanel.remove(panels.elementAt(currentPanelIndex));
+                panels.elementAt(currentPanelIndex).setVisible(false);
+                ((ActivityPage)(panels.elementAt(currentPanelIndex))).afterDispose();
+            }
             mainPanel.add(panels.elementAt(index));
             currentPanelIndex = index;
+            ((ActivityPage)(panels.elementAt(currentPanelIndex))).beforeShow();
             if (isFirstTimeToShow)
             {
                 isFirstTimeToShow = false;
                 setVisible(true);
             }
             repaint();
+            panels.elementAt(index).setVisible(true);
             panels.elementAt(index).requestFocusInWindow();
             panels.elementAt(index).updateUI();
+            ((ActivityPage)(panels.elementAt(currentPanelIndex))).afterShow();
         }
 
     }

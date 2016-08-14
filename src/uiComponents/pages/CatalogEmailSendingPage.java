@@ -2,6 +2,8 @@ package uiComponents.pages;
 
 import db.DBManager;
 import uiComponents.TouchJTextField;
+import uiComponents.uiInterfaces.EnterActionPerformListener;
+import uiComponents.uiInterfaces.ActivityPage;
 import utilities.EmailUtils;
 
 import javax.imageio.ImageIO;
@@ -16,7 +18,7 @@ import static utilities.Fonts.bodyFont;
 import static utilities.Fonts.headingFont;
 import static utilities.ImageUtilities.framifyImage;
 
-public class CatalogEmailSendingPage extends JPanel implements EnterActionPerformListener, MainPanel
+public class CatalogEmailSendingPage extends JPanel implements EnterActionPerformListener, ActivityPage
 {
     private static CatalogEmailSendingPage instance = null;
     private Image userImg;
@@ -299,6 +301,30 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
         return currentIndex;
     }
 
+    @Override
+    public void beforeShow()
+    {
+
+    }
+
+    @Override
+    public void afterShow()
+    {
+
+    }
+
+    @Override
+    public void beforeDispose()
+    {
+
+    }
+
+    @Override
+    public void afterDispose()
+    {
+
+    }
+
     public void setImage(String path)
     {
         try
@@ -310,7 +336,7 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
         }
 
         double imgAspectRatio = userImg.getWidth(null) / ((double) userImg.getHeight(null));
-        int finalHeight = (getHeight() - 50)/4, finalWidth = (int) (finalHeight * imgAspectRatio);
+        int finalHeight = (getHeight() - 50) / 4, finalWidth = (int) (finalHeight * imgAspectRatio);
         ImageIcon imgPanel = framifyImage(userImg, logoImage, frameImage, finalWidth, finalHeight);
 
         GridBagConstraints c = new GridBagConstraints();

@@ -4,16 +4,10 @@ import com.jogamp.opengl.fixedfunc.GLMatrixFunc;
 import com.jogamp.opengl.util.gl2.GLUT;
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.TextureIO;
-import com.sun.deploy.config.Config;
-import com.sun.glass.ui.Size;
-import org.apache.poi.ss.formula.ptg.AddPtg;
-import sun.rmi.runtime.NewThreadAction;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -24,22 +18,18 @@ import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.GLCapabilities;
-import com.jogamp.opengl.awt.GLCanvas;
-import javax.swing.JFrame;
 
-import java.awt.BorderLayout;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.glu.GLU;
+import uiComponents.uiInterfaces.ActivityPage;
 
 /**
  * Created by online on 8/9/2016.
  */
-public class EntrancePage extends GLJPanel implements MainPanel
+public class EntrancePage extends GLJPanel implements ActivityPage
 {
     private int currentIndex;
     private static EntrancePage instance;
@@ -74,10 +64,35 @@ public class EntrancePage extends GLJPanel implements MainPanel
         btn.setSize((int)size.getWidth()/2,(int)size.getHeight()/2);
 
         btn.setVisible(true);
-        btn.addActionListener(new ActionListener() {
+        addMouseListener(new MouseListener()
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void mouseClicked(MouseEvent e)
+            {
                 MainFrame.getInstance().showPanel(ImageCapturingPage.getInstance().getPanelIndex());
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e)
+            {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e)
+            {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e)
+            {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e)
+            {
 
             }
         });
@@ -180,6 +195,30 @@ public class EntrancePage extends GLJPanel implements MainPanel
     @Override
     public int getPanelIndex(){
         return currentIndex;
+    }
+
+    @Override
+    public void beforeShow()
+    {
+
+    }
+
+    @Override
+    public void afterShow()
+    {
+
+    }
+
+    @Override
+    public void beforeDispose()
+    {
+
+    }
+
+    @Override
+    public void afterDispose()
+    {
+
     }
 }
 
