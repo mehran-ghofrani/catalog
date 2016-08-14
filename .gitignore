@@ -10,4 +10,5 @@ build.xml
 *.pdf
 /dist/
 libs/JavaCV
-
+jogl-windows/
+image.jpg

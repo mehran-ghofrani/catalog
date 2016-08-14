@@ -2,6 +2,8 @@ package uiComponents.pages;
 
 import db.DBManager;
 import uiComponents.TouchJTextField;
+import uiComponents.uiInterfaces.EnterActionPerformListener;
+import uiComponents.uiInterfaces.ActivityPage;
 import utilities.EmailUtils;
 
 import javax.imageio.ImageIO;
@@ -16,7 +18,7 @@ import static utilities.Fonts.bodyFont;
 import static utilities.Fonts.headingFont;
 import static utilities.ImageUtilities.framifyImage;
 
-public class CatalogEmailSendingPage extends JPanel implements EnterActionPerformListener, MainPanel
+public class CatalogEmailSendingPage extends JPanel implements EnterActionPerformListener, ActivityPage
 {
     private static CatalogEmailSendingPage instance = null;
     private Image userImg;
@@ -297,6 +299,30 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
     public int getPanelIndex()
     {
         return currentIndex;
+    }
+
+    @Override
+    public void beforeShow()
+    {
+
+    }
+
+    @Override
+    public void afterShow()
+    {
+
+    }
+
+    @Override
+    public void beforeDispose()
+    {
+
+    }
+
+    @Override
+    public void afterDispose()
+    {
+
     }
 
     public void setImage(String path)
