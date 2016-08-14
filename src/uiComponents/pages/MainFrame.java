@@ -1,6 +1,7 @@
 package uiComponents.pages;
 
 import uiComponents.KeyBoard;
+import uiComponents.NavigationBar;
 import uiComponents.TouchJTextField;
 import uiComponents.uiInterfaces.ActivityPage;
 import uiComponents.uiInterfaces.EnterActionPerformListener;
@@ -16,12 +17,14 @@ public class MainFrame extends JFrame implements TouchKeyboardHandler
 {
     private static MainFrame instance = null;
 
-    private boolean listenToKeyboardShow;
     private JPanel mainPanel, keyboardPanel;
+    private KeyBoard keyboard;
+    private NavigationBar navBar;
+
     private Vector<JPanel> panels;
+    private boolean listenToKeyboardShow;
     private int currentPanelIndex;
     private boolean isFirstTimeToShow;
-    private KeyBoard keyboard;
 
     private MainFrame()
     {
@@ -86,16 +89,19 @@ public class MainFrame extends JFrame implements TouchKeyboardHandler
 
         JLayeredPane lp = getLayeredPane();
 
+        navBar = new NavigationBar(this);
+        navBar.setLocation(0, 0);
+
         mainPanel = new JPanel();
         mainPanel.setLayout(null);
         mainPanel.setBackground(Color.WHITE);
-        mainPanel.setSize(getSize());
-        mainPanel.setLocation(0, 0);
+        mainPanel.setSize(getWidth(), getHeight() - navBar.getHeight());
+        mainPanel.setLocation(0, navBar.getHeight());
 
         keyboardPanel = new JPanel();
         keyboardPanel.setLayout(null);
-        keyboardPanel.setSize(mainPanel.getWidth(), mainPanel.getHeight() / 3);
-        keyboardPanel.setLocation(0, 2 * mainPanel.getHeight() / 3);
+        keyboardPanel.setSize(getWidth(), getHeight() / 3);
+        keyboardPanel.setLocation(0, 2 * getHeight() / 3);
         keyboardPanel.setBackground(Color.BLUE);
         keyboardPanel.setVisible(false);
 
@@ -103,8 +109,10 @@ public class MainFrame extends JFrame implements TouchKeyboardHandler
         keyboard.setLocation(0, 0);
         keyboardPanel.add(keyboard);
 
+
         lp.add(mainPanel, new Integer(1));
         lp.add(keyboardPanel, new Integer(2));
+        lp.add(navBar, new Integer(3));
     }
 
     @Override
@@ -116,17 +124,16 @@ public class MainFrame extends JFrame implements TouchKeyboardHandler
             getKeyboard().setTextField(textField);
 
             keyboardPanel.setVisible(true);
-            int freeSpace = (mainPanel.getHeight() - keyboardPanel.getHeight());
+            int freeSpace = (getHeight() - keyboardPanel.getHeight() - navBar.getHeight());
             int offset = freeSpace / 2 - textField.getY();
-//            System.out.println("offset: " + offset);
-            if (offset > 0)
+            if (offset > 0) // it goes down
             {
-                mainPanel.setLocation(0, 0);
+                mainPanel.setLocation(0, navBar.getHeight());
             } else if (abs(offset) + freeSpace > mainPanel.getHeight())
             {
-                mainPanel.setLocation(0, freeSpace - mainPanel.getHeight());
+                mainPanel.setLocation(0, freeSpace - mainPanel.getHeight() + navBar.getHeight());
             } else
-                mainPanel.setLocation(0, offset);
+                mainPanel.setLocation(0, offset + navBar.getHeight());
         }
     }
 
@@ -136,7 +143,7 @@ public class MainFrame extends JFrame implements TouchKeyboardHandler
         if (listenToKeyboardShow)
         {
             keyboardPanel.setVisible(false);
-            mainPanel.setLocation(0, 0);
+            mainPanel.setLocation(0, navBar.getHeight());
         }
     }
 
@@ -157,14 +164,14 @@ public class MainFrame extends JFrame implements TouchKeyboardHandler
             if (currentPanelIndex != -1)
             {
 
-                ((ActivityPage)(panels.elementAt(currentPanelIndex))).beforeDispose();
+                ((ActivityPage) (panels.elementAt(currentPanelIndex))).beforeDispose();
                 mainPanel.remove(panels.elementAt(currentPanelIndex));
                 panels.elementAt(currentPanelIndex).setVisible(false);
-                ((ActivityPage)(panels.elementAt(currentPanelIndex))).afterDispose();
+                ((ActivityPage) (panels.elementAt(currentPanelIndex))).afterDispose();
             }
             mainPanel.add(panels.elementAt(index));
             currentPanelIndex = index;
-            ((ActivityPage)(panels.elementAt(currentPanelIndex))).beforeShow();
+            ((ActivityPage) (panels.elementAt(currentPanelIndex))).beforeShow();
             if (isFirstTimeToShow)
             {
                 isFirstTimeToShow = false;
@@ -174,7 +181,7 @@ public class MainFrame extends JFrame implements TouchKeyboardHandler
             panels.elementAt(index).setVisible(true);
             panels.elementAt(index).requestFocusInWindow();
             panels.elementAt(index).updateUI();
-            ((ActivityPage)(panels.elementAt(currentPanelIndex))).afterShow();
+            ((ActivityPage) (panels.elementAt(currentPanelIndex))).afterShow();
         }
 
     }
@@ -197,5 +204,31 @@ public class MainFrame extends JFrame implements TouchKeyboardHandler
     public KeyBoard getKeyboard()
     {
         return keyboard;
+    }
+
+    public Dimension getMainPanelSize()
+    {
+        return mainPanel.getSize();
+    }
+
+    public void goPreviousPage()
+    {
+        if (currentPanelIndex > 0)
+            showPanel(currentPanelIndex - 1);
+    }
+
+    public void goHomePage()
+    {
+        showPanel(0);
+    }
+
+    public void hideNavbar()
+    {
+        navBar.setVisible(false);
+    }
+
+    public void showNavbar()
+    {
+        navBar.setVisible(true);
     }
 }

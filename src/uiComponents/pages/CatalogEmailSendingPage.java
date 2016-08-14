@@ -33,7 +33,6 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
     private int currentIndex;
     private Image frameImage;
     private Image logoImage;
-    private JButton homeBtn;
 
 
     private CatalogEmailSendingPage()
@@ -80,7 +79,7 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
 
     private void initComponents()
     {
-        setSize(parent.getSize());
+        setSize(parent.getMainPanelSize());
         setLocation(0, 0);
         setBackground(Color.WHITE);
 
@@ -90,7 +89,7 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
         GridBagConstraints c = new GridBagConstraints();
 
 
-        int i = 2;
+        int i = 1;
 
         c.ipady = 20;
         c.insets = new Insets(10, 0, 30, 0);
@@ -105,26 +104,6 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
         infoLable = new JLabel(infoMsg);
         infoLable.setFont(headingFont);
         add(infoLable, c);
-
-        c.insets = new Insets(10, 0, 0, 20);
-        c.ipadx = 0;
-        c.gridx = 1;
-        c.gridy = 0;
-        c.gridwidth = 1;
-        c.fill = GridBagConstraints.PAGE_START;
-        int h = getHeight()/30;
-        Image homeImg = null;
-        try
-        {
-            homeImg = ImageIO.read(new File("icons//home.png"));
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        BufferedImage bi = new BufferedImage(h, h, BufferedImage.TYPE_4BYTE_ABGR);
-        bi.getGraphics().drawImage(homeImg, 0, 0, h, h, null);
-        homeBtn = new JButton(new ImageIcon(bi));
-        add(homeBtn, c);
 
         c.insets = new Insets(10, 0, 0, 20);
         c.ipadx = 0;
@@ -371,7 +350,7 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
         c.weighty = 0;
         c.weightx = 0;
         c.gridx = 1;
-        c.gridy = 1;
+        c.gridy = 0;
         c.gridwidth = 1;
         c.fill = GridBagConstraints.HORIZONTAL;
 

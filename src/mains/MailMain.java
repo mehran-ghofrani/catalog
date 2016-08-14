@@ -14,8 +14,8 @@ public class MailMain
 //        ImageCapturingPage.getInstance();
 
         EntrancePage.getInstance();
-        CatalogEmailSendingPage.getInstance();
         ImageCapturingPage.getInstance();
+        CatalogEmailSendingPage.getInstance();
         MainFrame.getInstance().showPanel(EntrancePage.getInstance().getPanelIndex());
 //        MainFrame.getInstance().showPanel(CatalogEmailSendingPage.getInstance().getPanelIndex());
 //        MainFrame.getInstance().showPanel(EntrancePage.getInstance().getPanelIndex());

@@ -51,13 +51,13 @@ public class EntrancePage extends GLJPanel implements ActivityPage
     }
     public void init(){
 
-        Dimension size = MainFrame.getInstance().getSize();
-
+        Dimension size = MainFrame.getInstance().getMainPanelSize();
         setSize(size);
         setLocation(0, 0);
         String pictureAddress="C:\\Users\\Mactabi\\Desktop\\1.jpg";
 
         setLayout(null);
+        setBackground(Color.BLUE);
         JButton btn=new JButton();
         //add(btn);
         btn.setLocation((int)size.getWidth()/4,(int)size.getHeight()/4);
