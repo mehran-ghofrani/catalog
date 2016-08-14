@@ -268,6 +268,7 @@ class OneTriangle {
     protected static void render( GL2 gl2, int width, int height ) {
         gl2.glClear( GL.GL_COLOR_BUFFER_BIT );
 
+        gl2.glViewport(0,0,width,height);
         gl2.glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
         gl2.glLoadIdentity();
 

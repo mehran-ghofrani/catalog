@@ -108,39 +108,32 @@ public class RetryPage extends JPanel  implements ActivityPage {
         c.gridwidth = 1;
         c.fill = GridBagConstraints.CENTER;
 
-        String infoMsg = "در صورت تمایل، ایمیل خود را برای دریافت عکس سلفی وارد نمایید";
+        String infoMsg = "آیا عکس دلخواه است؟                                                          ";
         infoLable = new JLabel(infoMsg);
         infoLable.setFont(headingFont);
         add(infoLable, c);
 
-        c.insets = new Insets(10, 0, 0, 20);
-        c.ipadx = 0;
-        c.gridx = 2;
-        c.gridy = 2;
-        c.gridwidth = 1;
-        c.fill = GridBagConstraints.BOTH;
-        emailLabel = new JLabel("ایمیل:");
-        emailLabel.setFont(bodyFont);
-        add(emailLabel, c);
-
-        c.ipadx = 0;
-        c.gridx = 0;
-        c.gridy = 2;
-        c.gridwidth = 2;
-        c.fill = GridBagConstraints.BOTH;
-        emailInputField = new TouchJTextField("", "example@host.com", parent);
-        add(emailInputField, c);
 
 
-        submitBtn = new JButton("ارسال");
+        submitBtn = new JButton("بله بفرست به ایمیلم");
         submitBtn.setFont(bodyFont);
         c.ipadx = 100;
         c.ipady = 0;
-        c.gridx = 0;
+        c.gridx = 2;
         c.gridy = 3;
         c.gridwidth = 3;
         c.fill = GridBagConstraints.CENTER;
         add(submitBtn, c);
+
+        JButton retryBtn = new JButton("نه...از اول میندازم");
+        retryBtn.setFont(bodyFont);
+        c.ipadx = 100;
+        c.ipady = 0;
+        c.gridx = 1;
+        c.gridy = 3;
+        c.gridwidth = 3;
+        c.fill = GridBagConstraints.CENTER;
+        add(retryBtn, c);
 
         c.insets = new Insets(40, 0, 0, 0);
         c.ipadx = 0;
@@ -193,20 +186,7 @@ public class RetryPage extends JPanel  implements ActivityPage {
             }
         });
 
-        emailInputField.addFocusListener(new FocusListener()
-        {
-            @Override
-            public void focusGained(FocusEvent e)
-            {
 
-            }
-
-            @Override
-            public void focusLost(FocusEvent e)
-            {
-
-            }
-        });
         submitBtn.requestFocus();
 
         setFocusTraversalPolicy(new FocusTraversalPolicy()
