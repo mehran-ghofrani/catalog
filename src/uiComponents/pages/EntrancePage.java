@@ -95,8 +95,18 @@ public class EntrancePage extends GLJPanel implements MainPanel
         }
 
         JLabel label=new JLabel("برای انداختن عکس سلفی صفحه را لمس کنید");
-        label.setSize(label.getText().length()*6,50);
-        label.setLocation(((int)size.getWidth()-label.getWidth())/2,0);
+
+
+
+
+
+        label.setFont(new Font(label.getFont().getName(), Font.PLAIN, 22));
+
+
+
+
+        label.setSize(label.getText().length()*12,30);
+        label.setLocation(((int)size.getWidth()-label.getWidth())/2,(int)size.getHeight()-60);
 
         label.setVisible(true);
         add(label);
@@ -182,10 +192,10 @@ class OneTriangle {
             @Override
             public void run() {
                 while(true) {
-                    deg++;
+                    deg+=0.05;
                     if (deg>359) deg=0;
                     try {
-                        Thread.sleep(10);
+                        Thread.sleep(1);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -198,7 +208,7 @@ class OneTriangle {
         Texture text;
 
         try {
-            text = TextureIO.newTexture(new File("C:\\Users\\Mactabi\\Desktop\\1.bmp"), false);
+            text = TextureIO.newTexture(new File("C:\\Users\\Mactabi\\Desktop\\1.jpg"), true);
             text.enable(gl2);
             text.bind(gl2);
         } catch (IOException e) {
@@ -236,28 +246,28 @@ class OneTriangle {
 
 
 
-        gl2.glTranslated(-0.5,-0.5,-2);
+        gl2.glTranslated(0,0,-2);
         gl2.glDisable(GL.GL_CULL_FACE);
-        //gl2.glRotatef(deg,0,1,0);
+        gl2.glRotatef(deg,0,1,0);
 
 
 
 
 
 
-        gl2.glColor3f( 0, 0, 1 );
+
 
 
         gl2.glBegin(GL2.GL_QUADS);
         gl2.glNormal3f(0,0,1);
         gl2.glTexCoord2d(0.0, 0.0);
-        gl2.glVertex2d(0.0, 0.0);
+        gl2.glVertex2d(-1.0, -1.0);
         gl2.glTexCoord2d(1.0, 0.0);
-        gl2.glVertex2d(1, 0.0);
+        gl2.glVertex2d(1, -1.0);
         gl2.glTexCoord2d(1.0, 1.0);
         gl2.glVertex2d(1, 1);
         gl2.glTexCoord2d(0.0, 1.0);
-        gl2.glVertex2d(0.0, 1);
+        gl2.glVertex2d(-1.0, 1);
         gl2.glEnd();
 
 
