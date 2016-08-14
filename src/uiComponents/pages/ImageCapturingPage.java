@@ -5,7 +5,6 @@
  */
 package uiComponents.pages;
 
-import org.bytedeco.javacv.ProjectiveDevice;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.highgui.VideoCapture;
