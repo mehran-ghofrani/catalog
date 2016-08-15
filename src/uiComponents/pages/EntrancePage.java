@@ -75,6 +75,7 @@ public class EntrancePage extends GLJPanel implements ActivityPage
             @Override
             public void mousePressed(MouseEvent e)
             {
+                MainFrame.getInstance().showPanel(ImageCapturingPage.getInstance().getPanelIndex());
 
             }
 
@@ -109,7 +110,7 @@ public class EntrancePage extends GLJPanel implements ActivityPage
 
         }
 
-        JLabel label=new JLabel("برای انداختن عکس سلفی صفحه را لمس کنید " + "\n" + " عکس شما پس از ارسال به ایمیل پاک میشود");
+        JLabel label=new JLabel("برای انداختن عکس سلفی صفحه را لمس کنید" + "\n" + " عکس شما پس از ارسال به ایمیلتان پاک میشود");
 
 
 
@@ -149,6 +150,7 @@ public class EntrancePage extends GLJPanel implements ActivityPage
             @Override
             public void reshape( GLAutoDrawable glautodrawable, int x, int y, int width, int height ) {
                 OneTriangle.setup( glautodrawable.getGL().getGL2(), width, height );
+                glautodrawable.getGL().getGL2().glViewport(0,0,width,height);
             }
 
             @Override
@@ -219,6 +221,10 @@ public class EntrancePage extends GLJPanel implements ActivityPage
     @Override
     public void beforeShow()
     {
+        MainFrame.getInstance().hideNavbar();
+
+
+
 
     }
 
@@ -274,7 +280,7 @@ class OneTriangle {
     protected static void render( GL2 gl2, int width, int height ) {
         gl2.glClear( GL.GL_COLOR_BUFFER_BIT );
 
-        gl2.glViewport(0,0,width,height);
+
         gl2.glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
         gl2.glLoadIdentity();
 
