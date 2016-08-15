@@ -264,6 +264,7 @@ public class ImageCapturingPage extends JPanel implements ActivityPage
     {
         showCamera = true;
         showCapture = false;
+        MainFrame.getInstance().hideNavbar();
 
         currentImg = null;
         initializeTimer();

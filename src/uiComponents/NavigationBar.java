@@ -46,7 +46,8 @@ public class NavigationBar extends JPanel
 
 
         setLayout(null);
-        setBackground(Color.WHITE);
+        Color backColor = Color.lightGray;
+        setBackground(backColor);
         setSize(parent.getWidth(), parent.getHeight()/30);
 
         homeBtn = new JButton(new ImageIcon(homeImg.getScaledInstance(getHeight(), getHeight(), 0)));
@@ -58,8 +59,8 @@ public class NavigationBar extends JPanel
         homeBtn.setFocusable(false);
         backbtn.setFocusable(false);
 
-        homeBtn.setBackground(Color.WHITE);
-        backbtn.setBackground(Color.WHITE);
+        homeBtn.setBackground(backColor);
+        backbtn.setBackground(backColor);
 
         homeBtn.setLocation(getWidth()/2, 0);
         backbtn.setLocation(getWidth()/2 - homeBtn.getWidth(), 0);

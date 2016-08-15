@@ -46,13 +46,13 @@ public class EmailUtils
 
 
             // Set Subject: header field
-            message.setSubject("Testing Subject");
+            message.setSubject("عکس سلفی شما");
 
             // Create the message part
             BodyPart messageBodyPart = new MimeBodyPart();
 
             // Now set the actual message
-            messageBodyPart.setText("This is message body");
+            messageBodyPart.setText("از بازدید شما سپاس گزاریم");
 
             // Create a multipar message
             Multipart multipart = new MimeMultipart();

@@ -86,6 +86,7 @@ public class MainFrame extends JFrame implements TouchKeyboardHandler
         setSize((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight());
         setLocationRelativeTo(null);
         setUndecorated(true);
+        getContentPane().setBackground(Color.WHITE);
         setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         addWindowListener(new WindowListener()
@@ -140,18 +141,18 @@ public class MainFrame extends JFrame implements TouchKeyboardHandler
         JLayeredPane lp = getLayeredPane();
 
         navBar = new NavigationBar(this);
-        navBar.setLocation(0, 0);
+        navBar.setLocation(0, getHeight()-navBar.getHeight());
 
         mainPanel = new JPanel();
         mainPanel.setLayout(null);
         mainPanel.setBackground(Color.WHITE);
         mainPanel.setSize(getWidth(), getHeight() - navBar.getHeight());
-        mainPanel.setLocation(0, navBar.getHeight());
+        mainPanel.setLocation(0, 0);
 
         keyboardPanel = new JPanel();
         keyboardPanel.setLayout(null);
         keyboardPanel.setSize(getWidth(), getHeight() / 3);
-        keyboardPanel.setLocation(0, 2 * getHeight() / 3);
+        keyboardPanel.setLocation(0, 2 * getHeight() / 3 - navBar.getHeight());
         keyboardPanel.setBackground(Color.BLUE);
         keyboardPanel.setVisible(false);
 
@@ -178,12 +179,12 @@ public class MainFrame extends JFrame implements TouchKeyboardHandler
             int offset = freeSpace / 2 - textField.getY();
             if (offset > 0) // it goes down
             {
-                mainPanel.setLocation(0, navBar.getHeight());
+                mainPanel.setLocation(0, 0);
             } else if (abs(offset) + freeSpace > mainPanel.getHeight())
             {
-                mainPanel.setLocation(0, freeSpace - mainPanel.getHeight() + navBar.getHeight());
+                mainPanel.setLocation(0, freeSpace - mainPanel.getHeight());
             } else
-                mainPanel.setLocation(0, offset + navBar.getHeight());
+                mainPanel.setLocation(0, offset);
         }
     }
 
@@ -193,7 +194,7 @@ public class MainFrame extends JFrame implements TouchKeyboardHandler
         if (listenToKeyboardShow)
         {
             keyboardPanel.setVisible(false);
-            mainPanel.setLocation(0, navBar.getHeight());
+            mainPanel.setLocation(0, 0);
         }
     }
 

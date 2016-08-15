@@ -109,7 +109,7 @@ public class EntrancePage extends GLJPanel implements ActivityPage
 
         }
 
-        JLabel label=new JLabel("برای انداختن عکس سلفی صفحه را لمس کنید");
+        JLabel label=new JLabel("برای انداختن عکس سلفی صفحه را لمس کنید " + "\n" + " عکس شما پس از ارسال به ایمیل پاک میشود");
 
 
 
@@ -225,7 +225,7 @@ public class EntrancePage extends GLJPanel implements ActivityPage
     @Override
     public void afterShow()
     {
-
+        MainFrame.getInstance().hideNavbar();
     }
 
     @Override

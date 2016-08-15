@@ -272,7 +272,7 @@ public class RetryPage extends JPanel implements ActivityPage
     @Override
     public void afterShow()
     {
-
+        MainFrame.getInstance().showNavbar();
     }
 
     @Override

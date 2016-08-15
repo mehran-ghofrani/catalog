@@ -271,11 +271,12 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
                 {
                     DBManager.getMyInstance().addEmail(tempEmail);
                     ImageUtilities.saveImage(ImageUtilities.logolizeImage(userImg, logoImage), "image.jpg");
+                    new File("image.jpg").delete();
                     EmailUtils.send(tempEmail, "image.jpg", "Catalog");
                 }
             }).start();
             statusLabel.setFont(headingFont.deriveFont(22.0f));
-            statusLabel.setText("<html>کاتالوگ به آدرس " + tempEmail + " <font color='green'>ارسال شد</font></html>");
+            statusLabel.setText("<html>عکس به آدرس " + tempEmail + " <font color='green'>ارسال شد</font></html>");
             new Thread(new Runnable()
             {
                 @Override
@@ -319,6 +320,7 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
         submitBtn.setEnabled(true);
         emailInputField.requestFocus();
         submitBtn.requestFocus();
+        MainFrame.getInstance().showNavbar();
     }
 
     @Override
