@@ -5,6 +5,7 @@ import uiComponents.TouchJTextField;
 import uiComponents.uiInterfaces.EnterActionPerformListener;
 import uiComponents.uiInterfaces.ActivityPage;
 import utilities.EmailUtils;
+import utilities.ImageUtilities;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -261,16 +262,18 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
         if (isValidEmailAddress(emailInputField.getValidText()))
         {
             String tempEmail = emailInputField.getValidText();
+            submitBtn.setEnabled(false);
+            setVisibleAll(false);
             new Thread(new Runnable()
             {
                 @Override
                 public void run()
                 {
                     DBManager.getMyInstance().addEmail(tempEmail);
-                    EmailUtils.send(tempEmail, "extraData//Desert.jpg", "Catalog");
+                    ImageUtilities.saveImage(ImageUtilities.logolizeImage(userImg, logoImage), "image.jpg");
+                    EmailUtils.send(tempEmail, "image.jpg", "Catalog");
                 }
             }).start();
-            setVisibleAll(false);
             statusLabel.setFont(headingFont.deriveFont(22.0f));
             statusLabel.setText("<html>کاتالوگ به آدرس " + tempEmail + " <font color='green'>ارسال شد</font></html>");
             new Thread(new Runnable()
@@ -288,9 +291,6 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
                     resetStatusLabel();
                     emailInputField.setText("");
                     MainFrame.getInstance().goHomePage();
-                    setVisibleAll(true);
-//                    emailInputField.requestFocus();
-//                    submitBtn.requestFocus();
                 }
             }).start();
         } else
@@ -315,7 +315,10 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
     @Override
     public void afterShow()
     {
-
+        setVisibleAll(true);
+        submitBtn.setEnabled(true);
+        emailInputField.requestFocus();
+        submitBtn.requestFocus();
     }
 
     @Override
@@ -330,22 +333,16 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
 
     }
 
-    public void setImage(String path)
+    public void setImage(Image img)
     {
-        try
-        {
-            userImg = ImageIO.read(new File(path));
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+        userImg = img;
 
         double imgAspectRatio = userImg.getWidth(null) / ((double) userImg.getHeight(null));
-        int finalHeight = (getHeight() - 50) / 4, finalWidth = (int) (finalHeight * imgAspectRatio);
+        int finalHeight = (getHeight()) / 3, finalWidth = (int) (finalHeight * imgAspectRatio);
         ImageIcon imgIcon = framifyImage(userImg, logoImage, frameImage, finalWidth, finalHeight);
 
 
-        if(imagePanel == null)
+        if (imagePanel == null)
         {
             GridBagConstraints c = new GridBagConstraints();
             c.ipady = 20;
@@ -358,8 +355,7 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
             c.fill = GridBagConstraints.CENTER;
             imagePanel = new JLabel(imgIcon);
             add(imagePanel, c);
-        }
-        else imagePanel.setIcon(imgIcon);
+        } else imagePanel.setIcon(imgIcon);
         repaint();
     }
 }
