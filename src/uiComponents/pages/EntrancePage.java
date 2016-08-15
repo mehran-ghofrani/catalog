@@ -168,6 +168,7 @@ public class EntrancePage extends GLJPanel implements ActivityPage
                                     e.printStackTrace();
                                 }
                                 EntrancePage.getInstance().repaint();
+                                if(EntrancePage.finished==true)break;
                             }
                         }
                     }).start();
