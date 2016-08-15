@@ -110,7 +110,9 @@ public class EntrancePage extends GLJPanel implements ActivityPage
 
         }
 
-        JLabel label=new JLabel("برای انداختن عکس سلفی صفحه را لمس کنید" + "\n" + " عکس شما پس از ارسال به ایمیلتان پاک میشود");
+        String firstLine = "لطفا برای انداختن عکس سلفی صفحه را لمس کنید",
+                secondLine = "عکس شما پس از ارسال به ایمیل پاک خواهد شد";
+        JLabel label=new JLabel("<html>" + firstLine + "<br>" + secondLine + "</html>");
 
 
 
