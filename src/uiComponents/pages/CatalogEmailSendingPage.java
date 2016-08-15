@@ -123,6 +123,7 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
         c.gridwidth = 1;
         c.fill = GridBagConstraints.HORIZONTAL;
         emailInputField = new TouchJTextField("", "example@host.com", parent);
+        emailInputField.setColumns(35);
         add(emailInputField, c);
 
 

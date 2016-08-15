@@ -55,7 +55,7 @@ public class EntrancePage extends GLJPanel implements ActivityPage
         Dimension size = MainFrame.getInstance().getMainPanelSize();
         setSize(size);
         setLocation(0, 0);
-        String pictureAddress="C:\\Users\\Mactabi\\Desktop\\1.jpg";
+        String pictureAddress="icons\\1.jpg";
 
         setLayout(null);
         setBackground(Color.BLUE);
@@ -108,13 +108,13 @@ public class EntrancePage extends GLJPanel implements ActivityPage
         }
         catch(Exception ex)
         {
-
+            ex.printStackTrace();
         }
 
         String firstLine = "لطفا برای انداختن عکس سلفی صفحه را لمس کنید",
                 secondLine = "عکس شما پس از ارسال به ایمیلتان پاک خواهد شد";
         JLabel label=new JLabel("<html>" + firstLine + "<br>" + secondLine + "</html>");
-
+        label.setHorizontalAlignment(JLabel.CENTER);
 
 
 
