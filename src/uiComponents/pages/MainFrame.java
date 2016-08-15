@@ -9,6 +9,8 @@ import uiComponents.uiInterfaces.TouchKeyboardHandler;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.Vector;
@@ -146,7 +148,7 @@ public class MainFrame extends JFrame implements TouchKeyboardHandler
         mainPanel = new JPanel();
         mainPanel.setLayout(null);
         mainPanel.setBackground(Color.WHITE);
-        mainPanel.setSize(getWidth(), getHeight() - navBar.getHeight());
+        mainPanel.setSize(getSize());
         mainPanel.setLocation(0, 0);
 
         keyboardPanel = new JPanel();
@@ -174,8 +176,9 @@ public class MainFrame extends JFrame implements TouchKeyboardHandler
             getKeyboard().setEnterActionPerformListener((EnterActionPerformListener) panels.elementAt(currentPanelIndex));
             getKeyboard().setTextField(textField);
 
+            keyboardPanel.setLocation(0, 2 * getHeight() / 3 - (navBar.isVisible() ? navBar.getHeight() : 0));
             keyboardPanel.setVisible(true);
-            int freeSpace = (getHeight() - keyboardPanel.getHeight() - navBar.getHeight());
+            int freeSpace = (getHeight() - keyboardPanel.getHeight() - (navBar.isVisible() ? navBar.getHeight() : 0));
             int offset = freeSpace / 2 - textField.getY();
             if (offset > 0) // it goes down
             {
@@ -275,11 +278,13 @@ public class MainFrame extends JFrame implements TouchKeyboardHandler
 
     public void hideNavbar()
     {
+        mainPanel.setSize(getSize());
         navBar.setVisible(false);
     }
 
     public void showNavbar()
     {
+        mainPanel.setSize(getWidth(), getHeight() - navBar.getHeight());
         navBar.setVisible(true);
     }
 }
