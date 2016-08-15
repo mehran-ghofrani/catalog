@@ -154,35 +154,6 @@ public class ImageCapturingPage extends JPanel implements ActivityPage
         showCapture = false;
     }
 
-    private void saveImage()
-    {
-        new Thread(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                synchronized (currentImg)
-                {
-                    File outputfile = new File("image.jpg");
-                    if (outputfile.exists())
-                        outputfile.delete();
-                    BufferedImage bufferedImage = new BufferedImage(currentImg.getWidth(null), currentImg.getHeight(null), BufferedImage.TYPE_3BYTE_BGR);
-                    Graphics2D bGr = bufferedImage.createGraphics();
-                    bGr.drawImage(currentImg, 0, 0, null);
-                    bGr.dispose();
-
-                    try
-                    {
-                        ImageIO.write(bufferedImage, "jpg", outputfile);
-                    } catch (IOException e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }).start();
-    }
-
     public BufferedImage MatToBufferedImage(Mat frame)
     {
         //Mat() to BufferedImage
@@ -345,11 +316,13 @@ public class ImageCapturingPage extends JPanel implements ActivityPage
                         return;
                     }
                 }
-                saveImage();
                 showCamera = false;
                 showCapturingEffect();
                 System.out.println("thread timer ended");
-                RetryPage.getInstance().setImage("image.jpg");
+                synchronized (currentImg)
+                {
+                    RetryPage.getInstance().setImage(currentImg);
+                }
                 try
                 {
                     Thread.sleep(500);

@@ -6,7 +6,10 @@ import uiComponents.uiInterfaces.ActivityPage;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 
@@ -14,7 +17,8 @@ import static utilities.Fonts.bodyFont;
 import static utilities.Fonts.headingFont;
 import static utilities.ImageUtilities.framifyImage;
 
-public class RetryPage extends JPanel implements ActivityPage {
+public class RetryPage extends JPanel implements ActivityPage
+{
 
     private JButton submitBtn;
     private JLabel statusLabel;
@@ -31,38 +35,40 @@ public class RetryPage extends JPanel implements ActivityPage {
     private JLabel infoLable;
     static RetryPage instance;
 
-    public static RetryPage getInstance() {
+    public static RetryPage getInstance()
+    {
         if (instance == null)
             instance = new RetryPage();
         return instance;
     }
 
-    private RetryPage() {
+    private RetryPage()
+    {
 
         this.parent = MainFrame.getInstance();
 
-        try {
+        try
+        {
             frameImage = ImageIO.read(new File("icons\\ImageFrame3.png"));
             logoImage = ImageIO.read(new File("icons\\logo.png"));
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             e.printStackTrace();
         }
         initComponents();
     }
 
-    public void setImage(String path) {
-        try {
-            userImg = ImageIO.read(new File(path));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void setImage(Image img)
+    {
+        userImg = img;
 
         double imgAspectRatio = userImg.getWidth(null) / ((double) userImg.getHeight(null));
         int finalHeight = (getHeight()) / 3, finalWidth = (int) (finalHeight * imgAspectRatio);
         ImageIcon imgIcon = framifyImage(userImg, logoImage, frameImage, finalWidth, finalHeight);
 
 
-        if (imagePanel == null) {
+        if (imagePanel == null)
+        {
             GridBagConstraints c = new GridBagConstraints();
             c.ipady = 20;
             c.insets = new Insets(10, 0, 30, 0);
@@ -78,7 +84,8 @@ public class RetryPage extends JPanel implements ActivityPage {
         repaint();
     }
 
-    void initComponents() {
+    void initComponents()
+    {
         setSize(parent.getSize());
         setLocation(0, 0);
         setBackground(Color.WHITE);
@@ -123,17 +130,21 @@ public class RetryPage extends JPanel implements ActivityPage {
         c.gridwidth = 1;
         c.fill = GridBagConstraints.HORIZONTAL;
         add(retryBtn, c);
-        retryBtn.addActionListener(new ActionListener() {
+        retryBtn.addActionListener(new ActionListener()
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)
+            {
                 MainFrame.getInstance().goPreviousPage();
             }
         });
 
-        submitBtn.addMouseListener(new MouseListener() {
+        submitBtn.addMouseListener(new MouseListener()
+        {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                CatalogEmailSendingPage.getInstance().setImage("image.jpg");
+            public void mouseClicked(MouseEvent e)
+            {
+                CatalogEmailSendingPage.getInstance().setImage(userImg);
                 try
                 {
                     Thread.sleep(500);
@@ -146,28 +157,34 @@ public class RetryPage extends JPanel implements ActivityPage {
             }
 
             @Override
-            public void mousePressed(MouseEvent e) {
+            public void mousePressed(MouseEvent e)
+            {
 
             }
 
             @Override
-            public void mouseReleased(MouseEvent e) {
+            public void mouseReleased(MouseEvent e)
+            {
 
             }
 
             @Override
-            public void mouseEntered(MouseEvent e) {
+            public void mouseEntered(MouseEvent e)
+            {
 
             }
 
             @Override
-            public void mouseExited(MouseEvent e) {
+            public void mouseExited(MouseEvent e)
+            {
 
             }
         });
-        submitBtn.addActionListener(new ActionListener() {
+        submitBtn.addActionListener(new ActionListener()
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)
+            {
 
             }
         });
@@ -175,33 +192,39 @@ public class RetryPage extends JPanel implements ActivityPage {
 
         submitBtn.requestFocus();
 
-        setFocusTraversalPolicy(new FocusTraversalPolicy() {
+        setFocusTraversalPolicy(new FocusTraversalPolicy()
+        {
             @Override
-            public Component getComponentAfter(Container aContainer, Component aComponent) {
+            public Component getComponentAfter(Container aContainer, Component aComponent)
+            {
                 if (aComponent.equals(emailInputField))
                     return submitBtn;
                 return emailInputField;
             }
 
             @Override
-            public Component getComponentBefore(Container aContainer, Component aComponent) {
+            public Component getComponentBefore(Container aContainer, Component aComponent)
+            {
                 if (aComponent.equals(emailInputField))
                     return submitBtn;
                 return emailInputField;
             }
 
             @Override
-            public Component getFirstComponent(Container aContainer) {
+            public Component getFirstComponent(Container aContainer)
+            {
                 return submitBtn;
             }
 
             @Override
-            public Component getLastComponent(Container aContainer) {
+            public Component getLastComponent(Container aContainer)
+            {
                 return emailInputField;
             }
 
             @Override
-            public Component getDefaultComponent(Container aContainer) {
+            public Component getDefaultComponent(Container aContainer)
+            {
                 return submitBtn;
             }
         });
@@ -211,18 +234,21 @@ public class RetryPage extends JPanel implements ActivityPage {
 
     }
 
-    private static void initializeLayout(JPanel panel) {/////////////////////////////////////////////////////////////////////
+    private static void initializeLayout(JPanel panel)
+    {/////////////////////////////////////////////////////////////////////
 
         GridBagConstraints c = new GridBagConstraints();
         c.gridy = 0;
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++)
+        {
             c.gridx = i;
             JLabel temp = new JLabel("");
             panel.add(temp, c);
         }
 
         c.gridx = 0;
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i++)
+        {
             c.gridy = i;
             JLabel temp = new JLabel("");
             panel.add(temp, c);
@@ -231,27 +257,32 @@ public class RetryPage extends JPanel implements ActivityPage {
 
 
     @Override
-    public int getPanelIndex() {
+    public int getPanelIndex()
+    {
         return currentIndex;
     }
 
     @Override
-    public void beforeShow() {
+    public void beforeShow()
+    {
 
     }
 
     @Override
-    public void afterShow() {
+    public void afterShow()
+    {
 
     }
 
     @Override
-    public void beforeDispose() {
+    public void beforeDispose()
+    {
 
     }
 
     @Override
-    public void afterDispose() {
+    public void afterDispose()
+    {
 
     }
 }
