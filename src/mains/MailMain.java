@@ -24,7 +24,7 @@ public class MailMain
         CatalogEmailSendingPage.getInstance();
 
         try {
-            RetryPage.getInstance().setImage(ImageIO.read(new File("image.jpg")));
+            RetryPage.getInstance().setImage(ImageIO.read(new File("C:\\Users\\Mactabi\\Desktop\\1.bmp")));
         } catch (IOException e) {
             e.printStackTrace();
         }

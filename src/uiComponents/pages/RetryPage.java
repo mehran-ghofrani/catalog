@@ -72,7 +72,7 @@ public class RetryPage extends JPanel implements ActivityPage
             GridBagConstraints c = new GridBagConstraints();
             c.ipady = 20;
             c.insets = new Insets(10, 0, 30, 0);
-            c.weighty = 1.0;
+            c.weighty = 0.0;
             c.weightx = 1.0;
             c.gridx = 0;
             c.gridy = 0;
@@ -98,7 +98,7 @@ public class RetryPage extends JPanel implements ActivityPage
 
         c.ipady = 20;
         c.insets = new Insets(10, 0, 30, 0);
-        c.weighty = 1.0;
+        c.weighty = 0.0;
         c.weightx = 1.0;
         c.gridx = 0;
         c.gridy = 1;
@@ -106,9 +106,11 @@ public class RetryPage extends JPanel implements ActivityPage
         c.anchor = GridBagConstraints.CENTER;
         c.fill = GridBagConstraints.NONE;
 
+
         String infoMsg = "<html><font color='green'>آیا عکس مورد تایید میباشد؟</font></html>";
         infoLable = new JLabel(infoMsg);
         infoLable.setFont(headingFont.deriveFont(Font.BOLD));
+        c.anchor=c.PAGE_END;
         add(infoLable, c);
 
 
@@ -122,7 +124,7 @@ public class RetryPage extends JPanel implements ActivityPage
         c.gridx = 0;
         c.gridy = 2;
         c.gridwidth = 1;
-        c.anchor = GridBagConstraints.LINE_END;
+        c.anchor = GridBagConstraints.FIRST_LINE_END;
         c.fill = GridBagConstraints.NONE;
         submitBtn.setOpaque(false);
         submitBtn.setContentAreaFilled(false);
@@ -139,7 +141,8 @@ public class RetryPage extends JPanel implements ActivityPage
         c.gridx = 1;
         c.gridy = 2;
         c.gridwidth = 1;
-        c.anchor = GridBagConstraints.LINE_START;
+
+        c.anchor = GridBagConstraints.FIRST_LINE_START;
         c.fill = GridBagConstraints.NONE;
         retryBtn.setOpaque(false);
         retryBtn.setContentAreaFilled(false);
