@@ -32,6 +32,7 @@ import uiComponents.uiInterfaces.ActivityPage;
 public class EntrancePage extends GLJPanel implements ActivityPage
 {
     private int currentIndex;
+    public static boolean finished=false;
     private static EntrancePage instance;
 
     public static EntrancePage getInstance(){
@@ -111,7 +112,7 @@ public class EntrancePage extends GLJPanel implements ActivityPage
         }
 
         String firstLine = "لطفا برای انداختن عکس سلفی صفحه را لمس کنید",
-                secondLine = "عکس شما پس از ارسال به ایمیل پاک خواهد شد";
+                secondLine = "عکس شما پس از ارسال به ایمیلتان پاک خواهد شد";
         JLabel label=new JLabel("<html>" + firstLine + "<br>" + secondLine + "</html>");
         label.setHorizontalAlignment(JLabel.CENTER);
 
@@ -123,8 +124,8 @@ public class EntrancePage extends GLJPanel implements ActivityPage
 
 
 
-        label.setSize(label.getText().length()*12,30);
-        label.setLocation(((int)size.getWidth()-label.getWidth())/2,(int)size.getHeight()-60);
+        label.setSize(label.getText().length()/2*10,60);
+        label.setLocation(((int)size.getWidth()-label.getWidth())/2,(int)size.getHeight()-90);
 
         label.setVisible(true);
         add(label);
@@ -157,24 +158,7 @@ public class EntrancePage extends GLJPanel implements ActivityPage
 
             @Override
             public void init( GLAutoDrawable glautodrawable ) {
-                if(OneTriangle.threadExists==false) {
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            while (true) {
-                                OneTriangle.deg += 0.05;
-                                if (OneTriangle.deg > 359) OneTriangle.deg = 0;
-                                try {
-                                    Thread.sleep(1);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                                EntrancePage.getInstance().repaint();
-                            }
-                        }
-                    }).start();
-                    OneTriangle.threadExists = true;
-                }
+
 
             }
 
@@ -224,6 +208,26 @@ public class EntrancePage extends GLJPanel implements ActivityPage
     public void beforeShow()
     {
         MainFrame.getInstance().hideNavbar();
+        EntrancePage.finished=false;
+
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    while (EntrancePage.finished==false) {
+                        OneTriangle.deg += 0.05;
+                        if (OneTriangle.deg > 359) OneTriangle.deg = 0;
+                        try {
+                            Thread.sleep(1);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        EntrancePage.getInstance().repaint();
+                    }
+                }
+            }).start();
+
+
 
 
 
@@ -233,13 +237,13 @@ public class EntrancePage extends GLJPanel implements ActivityPage
     @Override
     public void afterShow()
     {
-        MainFrame.getInstance().hideNavbar();
+
     }
 
     @Override
     public void beforeDispose()
     {
-
+        EntrancePage.finished=true;
     }
 
     @Override
@@ -252,7 +256,7 @@ public class EntrancePage extends GLJPanel implements ActivityPage
 
 class OneTriangle {
     public static float deg=0;
-    public static boolean threadExists=false;
+
     protected static void setup( GL2 gl2, int width, int height ) {
 
 
