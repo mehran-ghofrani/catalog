@@ -111,7 +111,7 @@ public class RetryPage extends JPanel implements ActivityPage
 
 
         c.insets = new Insets(10, 0, 10, 20);
-        submitBtn = new JButton("            بله بفرست به ایمیلم           ");
+        submitBtn = new JButton("   بله بفرست به ایمیلم    ");
         submitBtn.setFont(bodyFont);
         c.ipadx = 0;
         c.ipady = 0;
@@ -120,16 +120,29 @@ public class RetryPage extends JPanel implements ActivityPage
         c.gridwidth = 1;
         c.fill = GridBagConstraints.HORIZONTAL;
         add(submitBtn, c);
-        ;
 
-        JButton retryBtn = new JButton("نه...از اول میندازم");
-        retryBtn.setFont(bodyFont);
+
+        c.insets = new Insets(10, 0, 10, 20);
+        submitBtn = new JButton("   بله بفرست به ایمیلم    ");
+        submitBtn.setFont(bodyFont);
         c.ipadx = 0;
         c.ipady = 0;
         c.gridx = 1;
         c.gridy = 2;
         c.gridwidth = 1;
         c.fill = GridBagConstraints.HORIZONTAL;
+        add(submitBtn, c);
+
+
+        JButton retryBtn = new JButton("نه...از اول میندازم");
+        retryBtn.setFont(bodyFont);
+        c.ipadx = 0;
+        c.ipady = 0;
+        c.gridx = 2;
+        c.gridy = 2;
+        c.gridwidth = 1;
+        c.fill = GridBagConstraints.HORIZONTAL;
+
         add(retryBtn, c);
         retryBtn.addActionListener(new ActionListener()
         {

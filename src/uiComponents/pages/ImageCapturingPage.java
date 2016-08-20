@@ -381,7 +381,7 @@ public class ImageCapturingPage extends JPanel implements ActivityPage
 
     private void initializeTimer()
     {
-        timer = 8;
+        timer = 1;
     }
 
     @Override
