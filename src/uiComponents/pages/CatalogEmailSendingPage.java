@@ -102,7 +102,7 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
         c.gridwidth = 2;
         c.fill = GridBagConstraints.CENTER;
 
-        String infoMsg = "در صورت تمایل، ایمیل خود را برای دریافت عکس سلفی وارد نمایید";
+        String infoMsg = "لطفا، ایمیل خود را برای دریافت عکس سلفی وارد نمایید";
         infoLable = new JLabel(infoMsg);
         infoLable.setFont(headingFont);
         add(infoLable, c);
@@ -123,7 +123,7 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
         c.gridwidth = 1;
         c.fill = GridBagConstraints.HORIZONTAL;
         emailInputField = new TouchJTextField("", "example@host.com", parent);
-        emailInputField.setColumns(35);
+        emailInputField.setColumns(45);
         add(emailInputField, c);
 
 
@@ -277,7 +277,8 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
                 }
             }).start();
             statusLabel.setFont(headingFont.deriveFont(22.0f));
-            statusLabel.setText("<html>عکس به آدرس " + tempEmail + " <font color='green'>ارسال شد</font></html>");
+            statusLabel.setText("<html>عکس به آدرس " + tempEmail + " <font color='green'>ارسال شد</font><br>عکس شما از روی سرور مرکزی پاک شد</html>");
+            statusLabel.setHorizontalAlignment(JLabel.CENTER);
             new Thread(new Runnable()
             {
                 @Override

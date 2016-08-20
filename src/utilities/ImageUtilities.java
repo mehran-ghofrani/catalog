@@ -32,7 +32,7 @@ public class ImageUtilities
         double logoHeight = mainImage.getHeight(null) / 11.0, logoWidth = logoHeight * logoAspectRatio;
 
         Graphics graphics1 = mainImage.getGraphics();
-        graphics1.drawImage(logoImage, 20, 20, (int) logoWidth, (int) logoHeight, null);
+        graphics1.drawImage(logoImage, 20, 10, (int) logoWidth, (int) logoHeight, null);
 
         return mainImage;
     }

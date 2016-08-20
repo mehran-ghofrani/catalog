@@ -25,6 +25,7 @@ import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.glu.GLU;
 import uiComponents.uiInterfaces.ActivityPage;
+import utilities.Fonts;
 
 /**
  * Created by online on 8/9/2016.
@@ -112,19 +113,15 @@ public class EntrancePage extends GLJPanel implements ActivityPage
         }
 
         String firstLine = "لطفا برای انداختن عکس سلفی صفحه را لمس کنید",
-                secondLine = "عکس شما پس از ارسال به ایمیلتان پاک خواهد شد";
-        JLabel label=new JLabel("<html>" + firstLine + "<br>" + secondLine + "</html>");
+                secondLine = "عکس شما پس از ارسال به ایمیل پاک خواهد شد";
+        JLabel label=new JLabel("<html><font color='rgb(18,66,95)'>" + firstLine + "<br>" + secondLine + "</font></html>");
         label.setHorizontalAlignment(JLabel.CENTER);
+        label.setFont(Fonts.headingFont.deriveFont(Font.BOLD, 30));
 
 
 
 
-        label.setFont(new Font(label.getFont().getName(), Font.PLAIN, 22));
-
-
-
-
-        label.setSize(label.getText().length()/2*10,60);
+        label.setSize(label.getText().length()/2*15,60);
         label.setLocation(((int)size.getWidth()-label.getWidth())/2,(int)size.getHeight()-90);
 
         label.setVisible(true);

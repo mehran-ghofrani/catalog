@@ -15,7 +15,6 @@ import java.io.IOException;
  */
 public class NavigationBar extends JPanel
 {
-//    private static NavigationBar instance = null;
     private JButton homeBtn, backbtn;
     private MainFrame parent;
     private Image homeImg, backImg;
@@ -25,13 +24,6 @@ public class NavigationBar extends JPanel
         this.parent = parent;
         initComponents();
     }
-
-//    public static NavigationBar getInstance()
-//    {
-//        if(instance == null)
-//            instance = new NavigationBar();
-//        return instance;
-//    }
 
     private void initComponents()
     {
@@ -46,7 +38,7 @@ public class NavigationBar extends JPanel
 
 
         setLayout(null);
-        Color backColor = Color.lightGray;
+        Color backColor = new Color(255, 255, 255);
         setBackground(backColor);
         setSize(parent.getWidth(), parent.getHeight()/30);
 
@@ -62,8 +54,20 @@ public class NavigationBar extends JPanel
         homeBtn.setBackground(backColor);
         backbtn.setBackground(backColor);
 
-        homeBtn.setLocation(getWidth()/2, 0);
-        backbtn.setLocation(getWidth()/2 - homeBtn.getWidth(), 0);
+        homeBtn.setLocation(getWidth()/2 + 10, 0);
+        backbtn.setLocation(getWidth()/2 - homeBtn.getWidth() - 10, 0);
+
+        homeBtn.setOpaque(false);
+        backbtn.setOpaque(false);
+
+        homeBtn.setBorderPainted(false);
+        backbtn.setBorderPainted(false);
+
+        homeBtn.setOpaque(false);
+        backbtn.setOpaque(false);
+
+        homeBtn.setContentAreaFilled(false);
+        backbtn.setContentAreaFilled(false);
 
         homeBtn.addActionListener(new ActionListener()
         {
