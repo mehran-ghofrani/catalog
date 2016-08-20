@@ -72,12 +72,13 @@ public class RetryPage extends JPanel implements ActivityPage
             GridBagConstraints c = new GridBagConstraints();
             c.ipady = 20;
             c.insets = new Insets(10, 0, 30, 0);
-            c.weighty = 0;
-            c.weightx = 0;
+            c.weighty = 1.0;
+            c.weightx = 1.0;
             c.gridx = 0;
             c.gridy = 0;
             c.gridwidth = 2;
-            c.fill = GridBagConstraints.CENTER;
+            c.anchor = GridBagConstraints.CENTER;
+            c.fill = GridBagConstraints.NONE;
             imagePanel = new JLabel(imgIcon);
             add(imagePanel, c);
         } else imagePanel.setIcon(imgIcon);
@@ -97,12 +98,13 @@ public class RetryPage extends JPanel implements ActivityPage
 
         c.ipady = 20;
         c.insets = new Insets(10, 0, 30, 0);
-        c.weighty = 0;
-        c.weightx = 0;
+        c.weighty = 1.0;
+        c.weightx = 1.0;
         c.gridx = 0;
         c.gridy = 1;
         c.gridwidth = 2;
-        c.fill = GridBagConstraints.CENTER;
+        c.anchor = GridBagConstraints.CENTER;
+        c.fill = GridBagConstraints.NONE;
 
         String infoMsg = "<html><font color='green'>آیا عکس مورد تایید میباشد؟</font></html>";
         infoLable = new JLabel(infoMsg);
@@ -110,7 +112,7 @@ public class RetryPage extends JPanel implements ActivityPage
         add(infoLable, c);
 
 
-        c.insets = new Insets(10, 0, 10, 20);
+        c.insets = new Insets(10, 0, 10, 0);
         ImageIcon imageIcon = new ImageIcon();
         imageIcon.setImage(new ImageIcon("icons//accept.png").getImage().getScaledInstance(50, 50, 0));
         submitBtn = new JButton(imageIcon);
@@ -120,7 +122,7 @@ public class RetryPage extends JPanel implements ActivityPage
         c.gridx = 0;
         c.gridy = 2;
         c.gridwidth = 1;
-        c.anchor = GridBagConstraints.EAST;
+        c.anchor = GridBagConstraints.LINE_END;
         c.fill = GridBagConstraints.NONE;
         submitBtn.setOpaque(false);
         submitBtn.setContentAreaFilled(false);
@@ -137,13 +139,12 @@ public class RetryPage extends JPanel implements ActivityPage
         c.gridx = 1;
         c.gridy = 2;
         c.gridwidth = 1;
-        c.anchor = GridBagConstraints.WEST;
+        c.anchor = GridBagConstraints.LINE_START;
         c.fill = GridBagConstraints.NONE;
         retryBtn.setOpaque(false);
         retryBtn.setContentAreaFilled(false);
         retryBtn.setBorderPainted(false);
         add(retryBtn, c);
-
 
 
         retryBtn.addActionListener(new ActionListener()
