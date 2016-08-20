@@ -221,7 +221,6 @@ public class EntrancePage extends GLJPanel implements ActivityPage
                         }
                         EntrancePage.getInstance().repaint();
                     }
-                    System.out.print("f2");
                 }
             }).start();
 
@@ -242,7 +241,6 @@ public class EntrancePage extends GLJPanel implements ActivityPage
     public void beforeDispose()
     {
         EntrancePage.finished=true;
-        System.out.print("f");
     }
 
     @Override

@@ -111,28 +111,41 @@ public class RetryPage extends JPanel implements ActivityPage
 
 
         c.insets = new Insets(10, 0, 10, 20);
-        submitBtn = new JButton("بله بفرست به ایمیلم");
+        ImageIcon imageIcon = new ImageIcon();
+        imageIcon.setImage(new ImageIcon("icons//accept.png").getImage().getScaledInstance(50, 50, 0));
+        submitBtn = new JButton(imageIcon);
         submitBtn.setFont(bodyFont);
         c.ipadx = 0;
         c.ipady = 0;
         c.gridx = 0;
         c.gridy = 2;
         c.gridwidth = 1;
-        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.EAST;
+        c.fill = GridBagConstraints.NONE;
+        submitBtn.setOpaque(false);
+        submitBtn.setContentAreaFilled(false);
+        submitBtn.setBorderPainted(false);
         add(submitBtn, c);
 
 
-
-        JButton retryBtn = new JButton("نه...از اول میندازم");
+        imageIcon = new ImageIcon();
+        imageIcon.setImage(new ImageIcon("icons//deny.png").getImage().getScaledInstance(50, 50, 0));
+        JButton retryBtn = new JButton(imageIcon);
         retryBtn.setFont(bodyFont);
-        c.ipadx = 10;
+        c.ipadx = 0;
         c.ipady = 0;
         c.gridx = 1;
         c.gridy = 2;
         c.gridwidth = 1;
-        c.fill = GridBagConstraints.HORIZONTAL;
-
+        c.anchor = GridBagConstraints.WEST;
+        c.fill = GridBagConstraints.NONE;
+        retryBtn.setOpaque(false);
+        retryBtn.setContentAreaFilled(false);
+        retryBtn.setBorderPainted(false);
         add(retryBtn, c);
+
+
+
         retryBtn.addActionListener(new ActionListener()
         {
             @Override

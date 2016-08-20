@@ -6,6 +6,10 @@ import uiComponents.pages.ImageCapturingPage;
 import uiComponents.pages.MainFrame;
 import uiComponents.pages.RetryPage;
 
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.io.IOException;
+
 public class MailMain
 {
     public static void main(String[] args)
@@ -19,9 +23,13 @@ public class MailMain
         RetryPage.getInstance();
         CatalogEmailSendingPage.getInstance();
 
-//        RetryPage.getInstance().setImage("image.jpg");
+        try {
+            RetryPage.getInstance().setImage(ImageIO.read(new File("image.jpg")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        MainFrame.getInstance().showPanel(EntrancePage.getInstance().getPanelIndex());
+        MainFrame.getInstance().showPanel(RetryPage.getInstance().getPanelIndex());
 //        MainFrame.getInstance().showPanel(CatalogEmailSendingPage.getInstance().getPanelIndex());
 //        MainFrame.getInstance().showPanel(RetryPage.getInstance().getPanelIndex());
 
