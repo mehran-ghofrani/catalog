@@ -272,7 +272,7 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
                 {
                     DBManager.getMyInstance().addEmail(tempEmail);
                     ImageUtilities.saveImage(ImageUtilities.logolizeImage(userImg, logoImage), "image.jpg");
-                    new File("image.jpg").delete();
+//                    new File("image.jpg").delete();
                     EmailUtils.send(tempEmail, "image.jpg", "Catalog");
                 }
             }).start();
