@@ -1,5 +1,6 @@
 package mains;
 
+import db.DBManager;
 import uiComponents.pages.CatalogEmailSendingPage;
 import uiComponents.pages.EntrancePage;
 import uiComponents.pages.ImageCapturingPage;
@@ -15,23 +16,14 @@ public class MailMain
     public static void main(String[] args)
 
     {
-//        DBManager.getMyInstance();
-//        ImageCapturingPage.getInstance();
+        DBManager.getMyInstance();
 
         EntrancePage.getInstance();
         ImageCapturingPage.getInstance();
         RetryPage.getInstance();
         CatalogEmailSendingPage.getInstance();
 
-        try {
-            RetryPage.getInstance().setImage(ImageIO.read(new File("C:\\Users\\Mactabi\\Desktop\\1.bmp")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         MainFrame.getInstance().showPanel(EntrancePage.getInstance().getPanelIndex());
-//        MainFrame.getInstance().showPanel(CatalogEmailSendingPage.getInstance().getPanelIndex());
-//        MainFrame.getInstance().showPanel(RetryPage.getInstance().getPanelIndex());
 
     }
 

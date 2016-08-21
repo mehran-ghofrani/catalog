@@ -114,7 +114,7 @@ public class EntrancePage extends GLJPanel implements ActivityPage
 
         String firstLine = "لطفا برای انداختن عکس سلفی صفحه را لمس کنید",
                 secondLine = "عکس شما پس از ارسال به ایمیل پاک خواهد شد";
-        JLabel label=new JLabel("<html><font color='rgb(18,66,95)'>" + firstLine + "<br>" + secondLine + "</font></html>");
+        JLabel label=new JLabel("<html><div style='text-align: center;'><font color='rgb(18,66,95)'>" + firstLine + "<br>" + secondLine + "</font></div></html>");
         label.setHorizontalAlignment(JLabel.CENTER);
         label.setFont(Fonts.headingFont.deriveFont(Font.BOLD, 30));
 
@@ -234,7 +234,7 @@ public class EntrancePage extends GLJPanel implements ActivityPage
     @Override
     public void afterShow()
     {
-
+        MainFrame.getInstance().showLogo();
     }
 
     @Override
@@ -246,6 +246,16 @@ public class EntrancePage extends GLJPanel implements ActivityPage
     @Override
     public void afterDispose()
     {
+
+    }
+
+    @Override
+    public void beforeKeyboardShow() {
+
+    }
+
+    @Override
+    public void afterKeyboardDispose() {
 
     }
 }

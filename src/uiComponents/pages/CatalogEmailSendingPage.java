@@ -100,7 +100,7 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
         c.gridx = 0;
         c.gridy = i++;
         c.gridwidth = 2;
-        c.fill = GridBagConstraints.CENTER;
+        c.fill = GridBagConstraints.NONE;
 
         String infoMsg = "لطفا، ایمیل خود را برای دریافت عکس سلفی وارد نمایید";
         infoLable = new JLabel(infoMsg);
@@ -134,7 +134,7 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
         c.gridx = 0;
         c.gridy = i++;
         c.gridwidth = 2;
-        c.fill = GridBagConstraints.CENTER;
+        c.fill = GridBagConstraints.NONE;
         add(submitBtn, c);
 
         c.insets = new Insets(40, 0, 0, 0);
@@ -142,7 +142,7 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
         c.gridx = 0;
         c.gridy = i++;
         c.gridwidth = 2;
-        c.fill = GridBagConstraints.CENTER;
+        c.fill = GridBagConstraints.NONE;
         statusLabel = new JLabel(" ");
         statusLabel.setFont(bodyFont);
         add(statusLabel, c);
@@ -241,6 +241,13 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
             }
         });
 
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                requestFocusInWindow();
+            }
+        });
         currentIndex = parent.addPanel(this);
     }
 
@@ -272,12 +279,13 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
                 {
                     DBManager.getMyInstance().addEmail(tempEmail);
                     ImageUtilities.saveImage(ImageUtilities.logolizeImage(userImg, logoImage), "image.jpg");
-//                    new File("image.jpg").delete();
-                    EmailUtils.send(tempEmail, "image.jpg", "Catalog");
+                    EmailUtils.send(tempEmail, "image.jpg", "عکس سلفی شما.jpg");
+                    new File("image.jpg").delete();
                 }
             }).start();
             statusLabel.setFont(headingFont.deriveFont(22.0f));
-            statusLabel.setText("<html>عکس به آدرس " + tempEmail + " <font color='green'>ارسال شد</font><br>عکس شما از روی سرور مرکزی پاک شد</html>");
+            String text = "عکس به آدرس " + tempEmail + " <font color='green'>ارسال شد</font> <br> عکس شما از روی سرور مرکزی پاک شد";
+            statusLabel.setText("<html><div style='text-align: center;'>" + text + "</div></html>");
             statusLabel.setHorizontalAlignment(JLabel.CENTER);
             new Thread(new Runnable()
             {
@@ -318,11 +326,13 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
     @Override
     public void afterShow()
     {
+        MainFrame.getInstance().showNavbar();
         setVisibleAll(true);
         submitBtn.setEnabled(true);
+        emailInputField.getGhostText().setEmpty(true);
         emailInputField.requestFocus();
         submitBtn.requestFocus();
-        MainFrame.getInstance().showNavbar();
+        MainFrame.getInstance().showLogo();
     }
 
     @Override
@@ -337,6 +347,22 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
 
     }
 
+    @Override
+    public void beforeKeyboardShow() {
+        if(imagePanel != null) remove(imagePanel);
+        invalidate();
+        updateUI();
+        repaint();
+    }
+
+    @Override
+    public void afterKeyboardDispose() {
+        if(imagePanel != null) addImagePanel();
+        invalidate();
+        updateUI();
+        repaint();
+    }
+
     public void setImage(Image img)
     {
         userImg = img;
@@ -348,18 +374,22 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
 
         if (imagePanel == null)
         {
-            GridBagConstraints c = new GridBagConstraints();
-            c.ipady = 20;
-            c.insets = new Insets(10, 0, 30, 0);
-            c.weighty = 0;
-            c.weightx = 0;
-            c.gridx = 0;
-            c.gridy = 0;
-            c.gridwidth = 2;
-            c.fill = GridBagConstraints.CENTER;
             imagePanel = new JLabel(imgIcon);
-            add(imagePanel, c);
+            addImagePanel();
         } else imagePanel.setIcon(imgIcon);
         repaint();
+    }
+
+    private void addImagePanel() {
+        GridBagConstraints c = new GridBagConstraints();
+        c.ipady = 20;
+        c.insets = new Insets(10, 0, 30, 0);
+        c.weighty = 0;
+        c.weightx = 0;
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridwidth = 2;
+        c.fill = GridBagConstraints.NONE;
+        add(imagePanel, c);
     }
 }
