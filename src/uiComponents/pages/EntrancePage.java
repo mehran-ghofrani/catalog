@@ -374,10 +374,11 @@ class OneTriangle {
         text2.bind(gl2);
 
 
-        double x=-0.8;
-        double y=-0.8;
-        double w=1.8;
-        double h=0.2;
+        double scale=1500;
+        double w=(double)text2.getWidth()/1500;
+        double h=(double)text2.getHeight()/1500;
+        double x=-(EntrancePage.getInstance().getWidth()-w)/(2*1500d);
+        double y=-0.9;
 
         gl2.glLogicOp(gl2.GL_XOR);
         gl2.glEnable(gl2.GL_COLOR_LOGIC_OP );
@@ -398,7 +399,7 @@ class OneTriangle {
         gl2.glDisable(gl2.GL_COLOR_LOGIC_OP );
 
 
-        /////
+
 
 
 
