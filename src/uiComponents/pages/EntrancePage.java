@@ -125,7 +125,7 @@ public class EntrancePage extends GLJPanel implements ActivityPage
         label.setLocation(((int)size.getWidth()-label.getWidth())/2,(int)size.getHeight()-90);
 
         label.setVisible(true);
-        add(label);
+//        add(label);
 
 
 
@@ -263,21 +263,36 @@ public class EntrancePage extends GLJPanel implements ActivityPage
 
 class OneTriangle {
     public static float deg=0;
+    static Texture text2;
+    static Texture text;
 
     protected static void setup( GL2 gl2, int width, int height ) {
 
 
 
 
-        Texture text;
+
+
+
 
         try {
             text = TextureIO.newTexture(new File("icons\\1.png"), true);
-            text.enable(gl2);
-            text.bind(gl2);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
+
+
+
+        try {
+            text2 = TextureIO.newTexture(new File("icons\\welcomeText.png"), true);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         gl2.glMatrixMode( GL2.GL_PROJECTION );
         gl2.glLoadIdentity();
@@ -288,9 +303,34 @@ class OneTriangle {
         gl2.glMatrixMode( GL2.GL_MODELVIEW );
         gl2.glLoadIdentity();
 
+
+
+        gl2.glClear( GL.GL_COLOR_BUFFER_BIT );
+
+        gl2.glBlendFunc (gl2.GL_SRC_ALPHA, gl2.GL_ONE_MINUS_SRC_ALPHA);
+        gl2.glEnable(gl2.GL_BLEND);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
     protected static void render( GL2 gl2, int width, int height ) {
+
+
+
+
         gl2.glClear( GL.GL_COLOR_BUFFER_BIT );
 
 
@@ -302,14 +342,14 @@ class OneTriangle {
         GLU glu=new GLU();
         GLUT glut=new GLUT();
 
-//        glu.gluPerspective(90f,1f,0.1f ,10f);
-        glu.gluOrtho2D(-1,1,-1,1);
+        glu.gluPerspective(90f,1f,0.1f ,10f);
+//        glu.gluOrtho2D(-1,1,-1,1);
         glu.gluLookAt(0,0,0,0,0,-2,0,1,0);
 
 
 
-//        gl2.glTranslated(0,0,-1);
-        gl2.glTranslated(0,0,0);
+        gl2.glTranslated(0,0,-1);
+//        gl2.glTranslated(0,0,0);
         gl2.glDisable(GL.GL_CULL_FACE);
         gl2.glRotatef(deg,0,1,0);
 
@@ -319,6 +359,8 @@ class OneTriangle {
 
 
 
+        text.enable(gl2);
+        text.bind(gl2);
 
 
         gl2.glBegin(GL2.GL_QUADS);
@@ -332,6 +374,68 @@ class OneTriangle {
         gl2.glTexCoord2d(0.0, 1.0);
         gl2.glVertex2d(-1.0, 1);
         gl2.glEnd();
+
+
+
+        gl2.glLoadIdentity();
+        gl2.glTranslated(0,0,-1);
+
+        text2.enable(gl2);
+        text2.bind(gl2);
+
+
+        double x=-0.8;
+        double y=-0.8;
+        double w=1.8;
+        double h=0.2;
+
+        gl2.glLogicOp(gl2.GL_XOR);
+        gl2.glEnable(gl2.GL_COLOR_LOGIC_OP );
+
+
+
+        gl2.glBegin(GL2.GL_QUADS);
+        gl2.glNormal3f(0,0,1);
+        gl2.glTexCoord2d(0.0, 0.0);
+        gl2.glVertex2d(x, y);
+        gl2.glTexCoord2d(1.0, 0.0);
+        gl2.glVertex2d(x+w, y);
+        gl2.glTexCoord2d(1.0, 1.0);
+        gl2.glVertex2d(x+w, y+h);
+        gl2.glTexCoord2d(0.0, 1);
+        gl2.glVertex2d(x, y+h);
+        gl2.glEnd();
+        gl2.glDisable(gl2.GL_COLOR_LOGIC_OP );
+
+
+        /////
+
+
+
+        gl2.glLoadIdentity();
+        gl2.glTranslated(0,0,-1);
+
+
+
+
+
+
+        gl2.glLogicOp(gl2.GL_XOR);
+        gl2.glEnable(gl2.GL_COLOR_LOGIC_OP );
+
+        gl2.glColor3f(1,1,1);
+
+
+
+        gl2.glBegin(GL2.GL_QUADS);
+        gl2.glNormal3f(0,0,1);
+        gl2.glVertex2d(x, y);
+        gl2.glVertex2d(x+w, y);
+        gl2.glVertex2d(x+w, y+h);
+        gl2.glVertex2d(x, y+h);
+        gl2.glEnd();
+        gl2.glDisable(gl2.GL_COLOR_LOGIC_OP );
+
 
 
     }
