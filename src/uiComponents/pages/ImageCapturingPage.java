@@ -203,7 +203,7 @@ public class ImageCapturingPage extends JPanel implements ActivityPage
     public void paint(Graphics g)
     {
         super.paintComponents(g);
-        g.setColor(Color.white);
+        g.setColor(Color.BLACK);
         g.fillRect(0, 0, getWidth(), getHeight());
         if (currentImg != null)
         {
@@ -220,7 +220,7 @@ public class ImageCapturingPage extends JPanel implements ActivityPage
                 g.drawString(timer.toString(), (getWidth() / 2) - 140, (getHeight() / 2) + 100);
             if (showCapture)
             {
-                g.setColor(Color.white);
+                g.setColor(Color.BLACK);
                 float thickness = 10;
                 Graphics2D g2 = (Graphics2D) g;
                 Stroke oldStroke = g2.getStroke();
@@ -262,9 +262,11 @@ public class ImageCapturingPage extends JPanel implements ActivityPage
     @Override
     public void afterShow()
     {
+
         showCamera = true;
         showCapture = false;
         MainFrame.getInstance().hideNavbar();
+        MainFrame.getInstance().hideLogo();
 
         currentImg = null;
         initializeTimer();
@@ -395,6 +397,7 @@ public class ImageCapturingPage extends JPanel implements ActivityPage
     {
         showCamera = false;
         showCapture = false;
+        if(camera != null) camera.release();
 //        if(cameraThread.isAlive())
 //            cameraThread.interrupt();
 //        if(timerThread.isAlive())

@@ -241,6 +241,13 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
             }
         });
 
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                requestFocusInWindow();
+            }
+        });
         currentIndex = parent.addPanel(this);
     }
 
@@ -272,12 +279,13 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
                 {
                     DBManager.getMyInstance().addEmail(tempEmail);
                     ImageUtilities.saveImage(ImageUtilities.logolizeImage(userImg, logoImage), "image.jpg");
-//                    new File("image.jpg").delete();
-                    EmailUtils.send(tempEmail, "image.jpg", "Catalog");
+                    EmailUtils.send(tempEmail, "image.jpg", "عکس سلفی شما.jpg");
+                    new File("image.jpg").delete();
                 }
             }).start();
             statusLabel.setFont(headingFont.deriveFont(22.0f));
-            statusLabel.setText("<html>عکس به آدرس " + tempEmail + " <font color='green'>ارسال شد</font><br>عکس شما از روی سرور مرکزی پاک شد</html>");
+            String text = "عکس به آدرس " + tempEmail + " <font color='green'>ارسال شد</font> <br> عکس شما از روی سرور مرکزی پاک شد";
+            statusLabel.setText("<html><div style='text-align: center;'>" + text + "</div></html>");
             statusLabel.setHorizontalAlignment(JLabel.CENTER);
             new Thread(new Runnable()
             {
@@ -324,6 +332,7 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
         emailInputField.getGhostText().setEmpty(true);
         emailInputField.requestFocus();
         submitBtn.requestFocus();
+        MainFrame.getInstance().showLogo();
     }
 
     @Override
@@ -341,13 +350,17 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
     @Override
     public void beforeKeyboardShow() {
         if(imagePanel != null) remove(imagePanel);
+        invalidate();
         updateUI();
+        repaint();
     }
 
     @Override
     public void afterKeyboardDispose() {
         if(imagePanel != null) addImagePanel();
+        invalidate();
         updateUI();
+        repaint();
     }
 
     public void setImage(Image img)

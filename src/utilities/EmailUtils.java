@@ -4,10 +4,8 @@ import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
 import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
+import javax.mail.internet.*;
+import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
 /**
@@ -39,23 +37,23 @@ public class EmailUtils
         try
         {
 
-            Message message = new MimeMessage(session);
+            MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(username));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(to));
 
 
             // Set Subject: header field
-            message.setSubject("عکس سلفی شما");
+            message.setSubject("عکس سلفی شما", "UTF-8");
 
             // Create the message part
-            BodyPart messageBodyPart = new MimeBodyPart();
+            MimeBodyPart messageBodyPart = new MimeBodyPart();
 
             // Now set the actual message
-            messageBodyPart.setText("از بازدید شما سپاس گزاریم");
+            messageBodyPart.setText("از بازدید شما سپاس گزاریم", "UTF-8");
 
             // Create a multipar message
-            Multipart multipart = new MimeMultipart();
+            MimeMultipart multipart = new MimeMultipart();
 
             // Set text message part
             multipart.addBodyPart(messageBodyPart);
@@ -66,7 +64,11 @@ public class EmailUtils
                 messageBodyPart = new MimeBodyPart();
                 DataSource source = new FileDataSource(attachmentPath);
                 messageBodyPart.setDataHandler(new DataHandler(source));
-                messageBodyPart.setFileName(attachmentName);
+                try {
+                    messageBodyPart.setFileName(MimeUtility.encodeText(attachmentName, "UTF-8", null));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
                 multipart.addBodyPart(messageBodyPart);
             }
             // Send the complete message parts

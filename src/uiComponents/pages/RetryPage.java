@@ -296,6 +296,7 @@ public class RetryPage extends JPanel implements ActivityPage
     public void afterShow()
     {
         MainFrame.getInstance().showNavbar();
+        MainFrame.getInstance().showLogo();
     }
 
     @Override

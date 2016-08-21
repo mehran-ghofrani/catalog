@@ -7,12 +7,15 @@ import uiComponents.uiInterfaces.ActivityPage;
 import uiComponents.uiInterfaces.EnterActionPerformListener;
 import uiComponents.uiInterfaces.TouchKeyboardHandler;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.Vector;
 
 import static java.lang.Math.abs;
@@ -29,6 +32,8 @@ public class MainFrame extends JFrame implements TouchKeyboardHandler
     private boolean listenToKeyboardShow;
     private int currentPanelIndex;
     private boolean isFirstTimeToShow;
+
+    private JLabel logo;
 
     private MainFrame()
     {
@@ -107,6 +112,7 @@ public class MainFrame extends JFrame implements TouchKeyboardHandler
                     ((ActivityPage) page).beforeDispose();
                     ((ActivityPage) page).afterDispose();
                 }
+                System.exit(0);
             }
 
             @Override
@@ -162,10 +168,23 @@ public class MainFrame extends JFrame implements TouchKeyboardHandler
         keyboard.setLocation(0, 0);
         keyboardPanel.add(keyboard);
 
+        Image tmpImg = null;
+        double height = 50;
+        double ratio;
+        try {
+            tmpImg = ImageIO.read(new File("icons//logo.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ratio = tmpImg.getWidth(null) / ((double) tmpImg.getHeight(null));
+        logo = new JLabel(new ImageIcon(tmpImg.getScaledInstance((int) (height * ratio), (int) height, 0)));
+        logo.setSize((int) (height * ratio), (int) height);
+        logo.setLocation(5, 5);
 
         lp.add(mainPanel, new Integer(1));
         lp.add(keyboardPanel, new Integer(2));
         lp.add(navBar, new Integer(3));
+        lp.add(logo, new Integer(4));
     }
 
     @Override
@@ -289,5 +308,15 @@ public class MainFrame extends JFrame implements TouchKeyboardHandler
     {
         mainPanel.setSize(getWidth(), getHeight() - navBar.getHeight());
         navBar.setVisible(true);
+    }
+
+    public void showLogo()
+    {
+        logo.setVisible(true);
+    }
+
+    public void hideLogo()
+    {
+        logo.setVisible(false);
     }
 }
