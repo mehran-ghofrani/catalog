@@ -272,7 +272,7 @@ class OneTriangle {
         Texture text;
 
         try {
-            text = TextureIO.newTexture(new File("icons\\1.jpg"), true);
+            text = TextureIO.newTexture(new File("icons\\1.png"), true);
             text.enable(gl2);
             text.bind(gl2);
         } catch (IOException e) {
@@ -302,13 +302,14 @@ class OneTriangle {
         GLU glu=new GLU();
         GLUT glut=new GLUT();
 
-        glu.gluPerspective(90f,1f,0.1f ,10f);
+//        glu.gluPerspective(90f,1f,0.1f ,10f);
+        glu.gluOrtho2D(-1,1,-1,1);
         glu.gluLookAt(0,0,0,0,0,-2,0,1,0);
 
 
 
-
-        gl2.glTranslated(0,0,-1);
+//        gl2.glTranslated(0,0,-1);
+        gl2.glTranslated(0,0,0);
         gl2.glDisable(GL.GL_CULL_FACE);
         gl2.glRotatef(deg,0,1,0);
 
