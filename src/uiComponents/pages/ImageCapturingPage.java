@@ -381,7 +381,7 @@ public class ImageCapturingPage extends JPanel implements ActivityPage
 
     private void initializeTimer()
     {
-        timer = 1;
+        timer = 8;
     }
 
     @Override
@@ -399,6 +399,16 @@ public class ImageCapturingPage extends JPanel implements ActivityPage
 //            cameraThread.interrupt();
 //        if(timerThread.isAlive())
 //            timerThread.interrupt();
+    }
+
+    @Override
+    public void beforeKeyboardShow() {
+
+    }
+
+    @Override
+    public void afterKeyboardDispose() {
+
     }
 
     public VideoCapture getCamera()

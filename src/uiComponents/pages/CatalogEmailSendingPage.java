@@ -100,7 +100,7 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
         c.gridx = 0;
         c.gridy = i++;
         c.gridwidth = 2;
-        c.fill = GridBagConstraints.CENTER;
+        c.fill = GridBagConstraints.NONE;
 
         String infoMsg = "لطفا، ایمیل خود را برای دریافت عکس سلفی وارد نمایید";
         infoLable = new JLabel(infoMsg);
@@ -134,7 +134,7 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
         c.gridx = 0;
         c.gridy = i++;
         c.gridwidth = 2;
-        c.fill = GridBagConstraints.CENTER;
+        c.fill = GridBagConstraints.NONE;
         add(submitBtn, c);
 
         c.insets = new Insets(40, 0, 0, 0);
@@ -142,7 +142,7 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
         c.gridx = 0;
         c.gridy = i++;
         c.gridwidth = 2;
-        c.fill = GridBagConstraints.CENTER;
+        c.fill = GridBagConstraints.NONE;
         statusLabel = new JLabel(" ");
         statusLabel.setFont(bodyFont);
         add(statusLabel, c);
@@ -318,11 +318,12 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
     @Override
     public void afterShow()
     {
+        MainFrame.getInstance().showNavbar();
         setVisibleAll(true);
         submitBtn.setEnabled(true);
+        emailInputField.getGhostText().setEmpty(true);
         emailInputField.requestFocus();
         submitBtn.requestFocus();
-        MainFrame.getInstance().showNavbar();
     }
 
     @Override
@@ -337,6 +338,18 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
 
     }
 
+    @Override
+    public void beforeKeyboardShow() {
+        if(imagePanel != null) remove(imagePanel);
+        updateUI();
+    }
+
+    @Override
+    public void afterKeyboardDispose() {
+        if(imagePanel != null) addImagePanel();
+        updateUI();
+    }
+
     public void setImage(Image img)
     {
         userImg = img;
@@ -348,18 +361,22 @@ public class CatalogEmailSendingPage extends JPanel implements EnterActionPerfor
 
         if (imagePanel == null)
         {
-            GridBagConstraints c = new GridBagConstraints();
-            c.ipady = 20;
-            c.insets = new Insets(10, 0, 30, 0);
-            c.weighty = 0;
-            c.weightx = 0;
-            c.gridx = 0;
-            c.gridy = 0;
-            c.gridwidth = 2;
-            c.fill = GridBagConstraints.CENTER;
             imagePanel = new JLabel(imgIcon);
-            add(imagePanel, c);
+            addImagePanel();
         } else imagePanel.setIcon(imgIcon);
         repaint();
+    }
+
+    private void addImagePanel() {
+        GridBagConstraints c = new GridBagConstraints();
+        c.ipady = 20;
+        c.insets = new Insets(10, 0, 30, 0);
+        c.weighty = 0;
+        c.weightx = 0;
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridwidth = 2;
+        c.fill = GridBagConstraints.NONE;
+        add(imagePanel, c);
     }
 }

@@ -248,6 +248,16 @@ public class EntrancePage extends GLJPanel implements ActivityPage
     {
 
     }
+
+    @Override
+    public void beforeKeyboardShow() {
+
+    }
+
+    @Override
+    public void afterKeyboardDispose() {
+
+    }
 }
 
 

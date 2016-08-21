@@ -173,6 +173,8 @@ public class MainFrame extends JFrame implements TouchKeyboardHandler
     {
         if (listenToKeyboardShow)
         {
+            ((ActivityPage) panels.elementAt(currentPanelIndex)).beforeKeyboardShow();
+
             getKeyboard().setEnterActionPerformListener((EnterActionPerformListener) panels.elementAt(currentPanelIndex));
             getKeyboard().setTextField(textField);
 
@@ -198,6 +200,7 @@ public class MainFrame extends JFrame implements TouchKeyboardHandler
         {
             keyboardPanel.setVisible(false);
             mainPanel.setLocation(0, 0);
+            ((ActivityPage) panels.elementAt(currentPanelIndex)).afterKeyboardDispose();
         }
     }
 

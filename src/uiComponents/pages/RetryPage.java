@@ -113,10 +113,12 @@ public class RetryPage extends JPanel implements ActivityPage
         c.anchor=c.PAGE_END;
         add(infoLable, c);
 
-
+        double height = 50;
+        double ratio;
         c.insets = new Insets(10, 0, 10, 0);
-        ImageIcon imageIcon = new ImageIcon();
-        imageIcon.setImage(new ImageIcon("icons//accept.png").getImage().getScaledInstance(50, 50, 0));
+        ImageIcon imageIcon = new ImageIcon("icons//accept.png");
+        ratio = ((double) imageIcon.getImage().getWidth(null)) / imageIcon.getImage().getHeight(null);
+        imageIcon.setImage(imageIcon.getImage().getScaledInstance((int) (height*ratio), (int) height, 0));
         submitBtn = new JButton(imageIcon);
         submitBtn.setFont(bodyFont);
         c.ipadx = 0;
@@ -133,7 +135,9 @@ public class RetryPage extends JPanel implements ActivityPage
 
 
         imageIcon = new ImageIcon();
-        imageIcon.setImage(new ImageIcon("icons//deny.png").getImage().getScaledInstance(50, 50, 0));
+        imageIcon = new ImageIcon("icons//deny.png");
+        ratio = ((double) imageIcon.getImage().getWidth(null)) / imageIcon.getImage().getHeight(null);
+        imageIcon.setImage(imageIcon.getImage().getScaledInstance((int) (height*ratio), (int) height, 0));
         JButton retryBtn = new JButton(imageIcon);
         retryBtn.setFont(bodyFont);
         c.ipadx = 0;
@@ -303,6 +307,16 @@ public class RetryPage extends JPanel implements ActivityPage
     @Override
     public void afterDispose()
     {
+
+    }
+
+    @Override
+    public void beforeKeyboardShow() {
+
+    }
+
+    @Override
+    public void afterKeyboardDispose() {
 
     }
 }

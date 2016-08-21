@@ -10,4 +10,6 @@ public interface ActivityPage
     void afterShow();
     void beforeDispose();
     void afterDispose();
+    void beforeKeyboardShow();
+    void afterKeyboardDispose();
 }

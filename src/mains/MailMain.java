@@ -24,12 +24,13 @@ public class MailMain
         CatalogEmailSendingPage.getInstance();
 
         try {
-            RetryPage.getInstance().setImage(ImageIO.read(new File("C:\\Users\\Mactabi\\Desktop\\1.bmp")));
+            RetryPage.getInstance().setImage(ImageIO.read(new File("image.jpg")));
+            CatalogEmailSendingPage.getInstance().setImage(ImageIO.read(new File("image.jpg")));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        MainFrame.getInstance().showPanel(RetryPage.getInstance().getPanelIndex());
+        MainFrame.getInstance().showPanel(CatalogEmailSendingPage.getInstance().getPanelIndex());
 //        MainFrame.getInstance().showPanel(CatalogEmailSendingPage.getInstance().getPanelIndex());
 //        MainFrame.getInstance().showPanel(RetryPage.getInstance().getPanelIndex());
 
