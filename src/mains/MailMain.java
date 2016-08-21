@@ -29,7 +29,7 @@ public class MailMain
             e.printStackTrace();
         }
 
-        MainFrame.getInstance().showPanel(RetryPage.getInstance().getPanelIndex());
+        MainFrame.getInstance().showPanel(EntrancePage.getInstance().getPanelIndex());
 //        MainFrame.getInstance().showPanel(CatalogEmailSendingPage.getInstance().getPanelIndex());
 //        MainFrame.getInstance().showPanel(RetryPage.getInstance().getPanelIndex());
 
