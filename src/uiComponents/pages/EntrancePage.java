@@ -234,7 +234,7 @@ public class EntrancePage extends GLJPanel implements ActivityPage
     @Override
     public void afterShow()
     {
-        MainFrame.getInstance().showLogo();
+        MainFrame.getInstance().hideLogo();
     }
 
     @Override
@@ -351,14 +351,14 @@ class OneTriangle {
         GLU glu=new GLU();
         GLUT glut=new GLUT();
 
-        glu.gluPerspective(90f,1f,0.1f ,10f);
-//        glu.gluOrtho2D(-1,1,-1,1);
+//        glu.gluPerspective(90f,1f,0.1f ,10f);
+        glu.gluOrtho2D(-1,1,-1,1);
         glu.gluLookAt(0,0,0,0,0,-2,0,1,0);
 
 
 
-        gl2.glTranslated(0,0,-1);
-//        gl2.glTranslated(0,0,0);
+//        gl2.glTranslated(0,0,-1);
+        gl2.glTranslated(0,0,0);
         gl2.glDisable(GL.GL_CULL_FACE);
         gl2.glRotatef(deg,0,1,0);
 
@@ -387,7 +387,7 @@ class OneTriangle {
 
 
         gl2.glLoadIdentity();
-        gl2.glTranslated(0,0,-1);
+        gl2.glTranslated(0,0,0);
 
         text2.enable(gl2);
         text2.bind(gl2);
@@ -423,7 +423,7 @@ class OneTriangle {
 
 
         gl2.glLoadIdentity();
-        gl2.glTranslated(0,0,-1);
+        gl2.glTranslated(0,0,-0);
 
 
 
@@ -489,7 +489,7 @@ class OneTriangle {
 
 
         gl2.glLoadIdentity();
-        gl2.glTranslated(0,0,-1);
+        gl2.glTranslated(0,0,0);
 
 
 

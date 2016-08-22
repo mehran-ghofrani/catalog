@@ -184,7 +184,7 @@ public class MainFrame extends JFrame implements TouchKeyboardHandler
         lp.add(mainPanel, new Integer(1));
         lp.add(keyboardPanel, new Integer(2));
         lp.add(navBar, new Integer(3));
-        //lp.add(logo, new Integer(4));
+        lp.add(logo, new Integer(4));
     }
 
     @Override
