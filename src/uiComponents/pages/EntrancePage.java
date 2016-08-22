@@ -263,6 +263,7 @@ public class EntrancePage extends GLJPanel implements ActivityPage
 
 class OneTriangle {
     public static float deg=0;
+    static Texture text3;
     static Texture text2;
     static Texture text;
 
@@ -288,6 +289,14 @@ class OneTriangle {
 
         try {
             text2 = TextureIO.newTexture(new File("icons\\welcomeText.png"), true);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        try {
+            text3 = TextureIO.newTexture(new File("icons\\logo.png"), true);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -436,6 +445,73 @@ class OneTriangle {
         gl2.glVertex2d(x, y+h);
         gl2.glEnd();
         gl2.glDisable(gl2.GL_COLOR_LOGIC_OP );
+
+
+
+
+        ///////////////////////////logo
+
+
+
+        text3.enable(gl2);
+        text3.bind(gl2);
+
+
+
+
+        double scale2=1500;
+        double w2=(double)text3.getWidth()/scale2;
+        double h2=(double)text3.getHeight()/scale2;
+        double x2=-1;
+        double y2=1-h2;
+
+        gl2.glLogicOp(gl2.GL_XOR);
+        gl2.glEnable(gl2.GL_COLOR_LOGIC_OP );
+
+
+
+        gl2.glBegin(GL2.GL_QUADS);
+        gl2.glNormal3f(0,0,1);
+        gl2.glTexCoord2d(0.0, 0.0);
+        gl2.glVertex2d(x2, y2);
+        gl2.glTexCoord2d(1.0, 0.0);
+        gl2.glVertex2d(x2+w2, y2);
+        gl2.glTexCoord2d(1.0, 1.0);
+        gl2.glVertex2d(x2+w2, y2+h2);
+        gl2.glTexCoord2d(0.0, 1);
+        gl2.glVertex2d(x2, y2+h2);
+        gl2.glEnd();
+        gl2.glDisable(gl2.GL_COLOR_LOGIC_OP );
+
+
+
+
+
+
+        gl2.glLoadIdentity();
+        gl2.glTranslated(0,0,-1);
+
+
+
+
+
+
+        gl2.glLogicOp(gl2.GL_XOR);
+        gl2.glEnable(gl2.GL_COLOR_LOGIC_OP );
+
+        gl2.glColor3f(1,1,1);
+
+
+
+        gl2.glBegin(GL2.GL_QUADS);
+        gl2.glNormal3f(0,0,1);
+        gl2.glVertex2d(x2, y2);
+        gl2.glVertex2d(x2+w2, y2);
+        gl2.glVertex2d(x2+w2, y2+h2);
+        gl2.glVertex2d(x2, y2+h2);
+        gl2.glEnd();
+        gl2.glDisable(gl2.GL_COLOR_LOGIC_OP );
+
 
 
 
