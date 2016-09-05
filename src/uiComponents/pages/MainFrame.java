@@ -48,16 +48,10 @@ public class MainFrame extends JFrame implements TouchKeyboardHandler
                 try
                 {
                     UIManager.setLookAndFeel(info.getClassName());
-                } catch (ClassNotFoundException e)
-                {
-                    e.printStackTrace();
-                } catch (InstantiationException e)
+                } catch (ClassNotFoundException | InstantiationException | UnsupportedLookAndFeelException e)
                 {
                     e.printStackTrace();
                 } catch (IllegalAccessException e)
-                {
-                    e.printStackTrace();
-                } catch (UnsupportedLookAndFeelException e)
                 {
                     e.printStackTrace();
                 }

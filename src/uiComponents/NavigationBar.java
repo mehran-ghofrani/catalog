@@ -57,9 +57,6 @@ public class NavigationBar extends JPanel
         homeBtn.setLocation(getWidth()/2 + 10, 0);
         backbtn.setLocation(getWidth()/2 - homeBtn.getWidth() - 10, 0);
 
-        homeBtn.setOpaque(false);
-        backbtn.setOpaque(false);
-
         homeBtn.setBorderPainted(false);
         backbtn.setBorderPainted(false);
 
