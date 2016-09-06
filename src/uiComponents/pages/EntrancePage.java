@@ -296,7 +296,7 @@ class OneTriangle {
 
 
         try {
-            text3 = TextureIO.newTexture(new File("icons\\logo.png"), true);
+            text3 = TextureIO.newTexture(new File("icons\\logo2.png"), true);
 
         } catch (IOException e) {
             e.printStackTrace();
