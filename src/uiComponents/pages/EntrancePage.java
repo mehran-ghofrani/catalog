@@ -459,7 +459,7 @@ class OneTriangle {
 
 
 
-        double scale2=1500;
+        double scale2=500;
         double w2=(double)text3.getWidth()/scale2;
         double h2=(double)text3.getHeight()/scale2;
         double x2=-1;
