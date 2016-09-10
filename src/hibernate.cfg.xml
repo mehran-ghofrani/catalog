@@ -9,9 +9,9 @@
         </property>
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
 
-        <property name="hibernate.connection.url">jdbc:mysql://192.168.1.103:3306/emailcenter</property>
-        <property name="hibernate.connection.username">admin</property>
-        <property name="hibernate.connection.password">12345</property>
+        <property name="hibernate.connection.url">jdbc:mysql://127.0.0.1:3306/emailcenter</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">mmmm</property>
 
         <mapping resource="db/entities/EmailEntity.hbm.xml"/>
         <mapping class="db.entities.EmailEntity"/>
