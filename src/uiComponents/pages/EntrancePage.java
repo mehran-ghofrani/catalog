@@ -25,6 +25,7 @@ import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.glu.GLU;
 import uiComponents.uiInterfaces.ActivityPage;
+import utilities.EmailUtils;
 import utilities.Fonts;
 
 /**
@@ -48,6 +49,7 @@ public class EntrancePage extends GLJPanel implements ActivityPage
     private EntrancePage(){
         super( new GLCapabilities( GLProfile.getDefault() ) );
         init();
+
 
 
     }

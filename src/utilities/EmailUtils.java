@@ -5,6 +5,7 @@ import javax.activation.DataSource;
 import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.*;
+import javax.swing.*;
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
@@ -81,7 +82,11 @@ public class EmailUtils
 
         } catch (MessagingException e)
         {
+            JFrame j =new JFrame();
+            j.setVisible(true);
+            j.setTitle(e.getMessage());
             throw new RuntimeException(e);
+
         }
 
         ////////////////////////////
