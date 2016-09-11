@@ -107,7 +107,7 @@ public class RetryPage extends JPanel implements ActivityPage
         c.fill = GridBagConstraints.NONE;
 
 
-        String infoMsg = "<html><font color='green'>آیا عکس مورد تایید می باشد؟</font></html>";
+        String infoMsg = "<html><font color='green' size=16>آیا عکس مورد تایید می باشد؟</font></html>";
         infoLable = new JLabel(infoMsg);
         infoLable.setFont(headingFont.deriveFont(Font.BOLD));
         c.anchor=c.PAGE_END;
