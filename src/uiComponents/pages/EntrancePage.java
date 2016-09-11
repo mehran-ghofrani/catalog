@@ -394,8 +394,8 @@ class OneTriangle {
 
 
         double scale=1500;
-        double w=(double)text2.getWidth()/1500;
-        double h=(double)text2.getHeight()/1500;
+        double w=(double)text2.getWidth()/scale;
+        double h=(double)text2.getHeight()/scale;
         double x=-(EntrancePage.getInstance().getWidth()-w)/(2*1500d);
         double y=-0.9;
 
@@ -459,7 +459,7 @@ class OneTriangle {
 
 
 
-        double scale2=500;
+        double scale2=1500;
         double w2=(double)text3.getWidth()/scale2;
         double h2=(double)text3.getHeight()/scale2;
         double x2=-1;
