@@ -82,9 +82,9 @@ public class EmailUtils
 
         } catch (MessagingException e)
         {
-            JFrame j =new JFrame();
-            j.setVisible(true);
-            j.setTitle(e.getMessage());
+//            JFrame j =new JFrame();
+//            j.setVisible(true);
+//            j.setTitle(e.getMessage());
             throw new RuntimeException(e);
 
         }

@@ -268,6 +268,8 @@ class OneTriangle {
     static Texture text3;
     static Texture text2;
     static Texture text;
+    static GLU glu=new GLU();
+    static GLUT glut=new GLUT();
 
     protected static void setup( GL2 gl2, int width, int height ) {
 
@@ -323,6 +325,8 @@ class OneTriangle {
 
 
 
+        gl2.glMatrixMode(GL2.GL_PROJECTION);
+        glu.gluOrtho2D(-(double)width/height,(double)width/height,-1,1);
 
 
 
@@ -350,11 +354,11 @@ class OneTriangle {
 
 
         // draw a triangle filling the window
-        GLU glu=new GLU();
-        GLUT glut=new GLUT();
+
+
 
 //        glu.gluPerspective(90f,1f,0.1f ,10f);
-        glu.gluOrtho2D(-1,1,-1,1);
+
         glu.gluLookAt(0,0,0,0,0,-2,0,1,0);
 
 
@@ -398,7 +402,7 @@ class OneTriangle {
         double scale=1500;
         double w=(double)text2.getWidth()/scale;
         double h=(double)text2.getHeight()/scale;
-        double x=-(EntrancePage.getInstance().getWidth()-w)/(2*1500d);
+        double x=-(width-w)/(2*1500d);
         double y=-0.9;
 
         gl2.glLogicOp(gl2.GL_XOR);
@@ -464,7 +468,7 @@ class OneTriangle {
         double scale2=1500;
         double w2=(double)text3.getWidth()/scale2;
         double h2=(double)text3.getHeight()/scale2;
-        double x2=-1;
+        double x2=-(double)width/height;
         double y2=1-h2;
 
         gl2.glLogicOp(gl2.GL_XOR);
