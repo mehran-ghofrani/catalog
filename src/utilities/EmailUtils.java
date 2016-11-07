@@ -22,7 +22,7 @@ public class EmailUtils
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.startssl.enable", "true");
         props.put("mail.smtp.host", "mail.protouch.ir");
         props.put("mail.smtp.port", "25");
 

@@ -23,7 +23,7 @@ public class MailMain
         RetryPage.getInstance();
         CatalogEmailSendingPage.getInstance();
 
-        MainFrame.getInstance().showPanel(RetryPage.getInstance().getPanelIndex());
+        MainFrame.getInstance().showPanel(EntrancePage.getInstance().getPanelIndex());
 
     }
 
